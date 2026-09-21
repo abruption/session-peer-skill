@@ -1,0 +1,31 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  skill-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Discover the skill
+        run: npx -y skills@latest add . --list
+      - name: Verify a clean global installation
+        shell: bash
+        run: |
+          set -euo pipefail
+          skill_home="$(mktemp -d)"
+          HOME="$skill_home" npx -y skills@latest add . \
+            --skill session-peer --global \
+            --agent claude-code --agent codex --agent antigravity \
+            --copy --yes
+          cmp session-peer/SKILL.md "$skill_home/.agents/skills/session-peer/SKILL.md"
+          cmp session-peer/SKILL.md "$skill_home/.claude/skills/session-peer/SKILL.md"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "session-peer"
+  short_description: "Message agent sessions with session-peer"
+  default_prompt: "Use $session-peer to find the target agent session and send this message safely."
