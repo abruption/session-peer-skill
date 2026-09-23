@@ -3,7 +3,7 @@ name: session-peer
 description: Send user-requested messages to Claude Code, Codex, or a live registered Antigravity TUI on this machine, an SSH host, or a paired device using session-peer. Use for cross-session handoffs and notifications when the available native tools do not cover the requested target.
 allowed-tools: Bash, Read
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   runtime-min-version: "0.9.1"
   runtime-full-version: "1.0.0"
 ---

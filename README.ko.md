@@ -42,11 +42,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스를 고정해 설치하려면 해당 태그를 사용합니다(예: `v0.2.0`).
+특정 릴리스를 고정해 설치하려면 해당 태그를 사용합니다(예: `v0.3.0`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
