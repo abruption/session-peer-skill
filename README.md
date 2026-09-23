@@ -2,7 +2,7 @@
 
 [한국어](README.ko.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md)
 
-An agent skill for finding and messaging Claude Code, Codex, and live registered Antigravity sessions with [session-peer](https://github.com/abruption/session-peer), locally or over SSH.
+An agent skill for finding and messaging Claude Code, Codex, and live registered Antigravity sessions with [session-peer](https://github.com/abruption/session-peer), locally, over SSH, or through optional paired devices.
 
 This repository contains instructions for agents. It does **not** install the `session-peer` runtime.
 
@@ -16,6 +16,8 @@ session-peer --version
 ```
 
 See the [session-peer installation options](https://github.com/abruption/session-peer#installation-options) for uv, pip, the POSIX standalone installer, and native Windows setup. Keep using the same package manager for upgrades.
+
+The skill targets the stable 0.9 command set. `--allow-inactive-codex-home` and `--relay-login` require session-peer 1.0.0 or newer, and the optional paired-device transport requires the `session-peer[relay]` extra (Unix, Python 3.11+).
 
 ## Install the skill
 

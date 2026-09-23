@@ -2,7 +2,7 @@
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md)
 
-[session-peer](https://github.com/abruption/session-peer) を使い、ローカルまたは SSH 上の Claude Code、Codex、実行中の Antigravity セッションを検索してメッセージを送るエージェントスキルです。
+[session-peer](https://github.com/abruption/session-peer) を使い、ローカル、SSH、またはオプションのペアリング済みデバイス上の Claude Code、Codex、実行中の Antigravity セッションを検索してメッセージを送るエージェントスキルです。
 
 このリポジトリにはエージェント向けの指示だけが含まれます。`session-peer` ランタイムは別途インストールしてください。
 
@@ -16,6 +16,8 @@ session-peer --version
 ```
 
 uv、pip、POSIX スタンドアロン、および Windows の手順は [session-peer のインストール方法](https://github.com/abruption/session-peer#installation-options)を参照してください。更新時も既存のパッケージマネージャーを使用します。
+
+スキルは安定版 0.9 のコマンド体系を前提とします。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
 
 ## スキルのインストール
 
