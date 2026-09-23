@@ -40,15 +40,27 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.2.0`）。
+特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.3.0`）。
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
 ```
+
+## バージョンメタデータ
+
+`session-peer/SKILL.md` は [Agent Skills 仕様](https://agentskills.io/specification)の frontmatter `metadata` マップに、機械可読なバージョン情報を記録します。
+
+| キー | 意味 |
+|---|---|
+| `version` | スキルのリリースバージョンで、`vX.Y.Z` タグと一致します |
+| `runtime-min-version` | スキルが対応する session-peer ランタイムの最小バージョンです |
+| `runtime-full-version` | スキルが案内するすべてのオプションに必要なランタイムのバージョンです |
+
+ツールはこれらの値を読み取り、古いスキルやランタイムを通知できます。情報提供のみを目的としており、スキルとランタイムのどちらもスキルファイルを自動更新しません。
 
 ## Codex の返信待ち
 

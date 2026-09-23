@@ -42,15 +42,27 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-To pin a release exactly, install its tag, for example `v0.2.0`:
+To pin a release exactly, install its tag, for example `v0.3.0`:
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
 ```
+
+## Version metadata
+
+`session-peer/SKILL.md` records machine-readable versions in its frontmatter `metadata` map, as defined by the [Agent Skills specification](https://agentskills.io/specification):
+
+| Key | Meaning |
+|---|---|
+| `version` | Skill release; matches the `vX.Y.Z` tag |
+| `runtime-min-version` | Minimum session-peer runtime the skill supports |
+| `runtime-full-version` | Runtime required for every option the skill documents |
+
+Tools may read these values to report an outdated skill or runtime. They are informational: neither the skill nor the runtime updates skill files automatically.
 
 ## Waiting for Codex replies
 
@@ -75,6 +87,13 @@ HOME="$home" npx -y skills@1.7.0 add . \
 cmp session-peer/SKILL.md "$home/.agents/skills/session-peer/SKILL.md"
 cmp session-peer/SKILL.md "$home/.claude/skills/session-peer/SKILL.md"
 ```
+
+## Releasing
+
+1. Set `metadata.version` in `session-peer/SKILL.md` and the pinned tag in all four README files to the new version. Update `runtime-min-version`, `runtime-full-version`, and the matching sentences when runtime requirements change.
+2. Run `node scripts/validate-skill.mjs` and merge the change.
+3. Tag the merge commit with `git tag -a vX.Y.Z -m 'session-peer skill vX.Y.Z'`, push the tag, and publish the GitHub release. CI rejects a tag that differs from `metadata.version`.
+4. Sync the runtime repository's compatibility snapshot: copy `session-peer/SKILL.md` to `skills/session-peer/SKILL.md` in [abruption/session-peer](https://github.com/abruption/session-peer), confirm the files are byte-identical with `cmp`, and open a pull request there.
 
 ## License
 

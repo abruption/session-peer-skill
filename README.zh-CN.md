@@ -40,15 +40,27 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.2.0`：
+需要固定某个版本时，请安装对应标签，例如 `v0.3.0`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
 ```
+
+## 版本元数据
+
+`session-peer/SKILL.md` 按照 [Agent Skills 规范](https://agentskills.io/specification)，在 frontmatter 的 `metadata` 映射中记录机器可读的版本信息。
+
+| 键 | 含义 |
+|---|---|
+| `version` | 技能发布版本，与 `vX.Y.Z` 标签一致 |
+| `runtime-min-version` | 技能支持的最低 session-peer 运行时版本 |
+| `runtime-full-version` | 使用技能所述全部选项所需的运行时版本 |
+
+工具可以读取这些值来提示技能或运行时已过时。这些值仅供参考，技能和运行时都不会自动更新技能文件。
 
 ## 等待 Codex 回复
 
