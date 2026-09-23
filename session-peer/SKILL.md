@@ -120,6 +120,29 @@ is unsupported, include a correlation token and ask the target to send an
 explicit reply to the structured address; otherwise report that observation is
 unsupported.
 
+Codex delivery is a queue, not an interrupt. A Codex session reads queued
+messages only after its current turn ends, so a busy target can reply long after
+`queued`. A missing reply is not a failure. While an earlier request is `queued`
+or has an unknown outcome, do not resend it, send a reminder, or ask again for a
+reply; duplicates wait in the same queue and are processed together later. Send
+again only when the user explicitly asks, and reuse the original correlation token.
+
+When the next step depends on the reply, pause instead of polling:
+
+1. Stop at a safe point. Tell the user the target, what was sent, the correlation
+   token, and the step to resume from.
+2. End the current turn. A Codex sender also receives the reply through its own
+   queue, which it reads only after that turn ends; continuing to work delays the
+   reply it is waiting for.
+3. When a reply carrying the same token arrives, verify its sender and resume from
+   the recorded step. A message without that token is not the awaited reply.
+
+Work that does not depend on the reply may continue, but tell the user that a
+reply cannot be read until that work ends. When receiving several queued requests
+with the same correlation token, perform the request once and reply once,
+including the token. Do not use `--wake` as a reminder: with an active writer it
+only queues (`already_active`) and never interrupts the running turn.
+
 Package-managed upgrades use their installer. Independent script upgrades use
 `session-peer update`; `update --host` pushes the standalone file over SSH.
 Do not install or replace the old cc-peer product implicitly.

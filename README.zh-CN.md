@@ -48,6 +48,10 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## 等待 Codex 回复
+
+Codex 通过队列接收消息，并且只在当前回合结束后读取。因此，技能会把正在工作的 Codex 会话暂未回复视为正常状态，不会重新发送请求或催促回复。当下一步依赖回复时，代理会记录 correlation token 和要恢复的步骤，并结束当前回合以暂停工作；收到匹配的回复后，从记录的步骤继续。Codex 发送方同样通过自己的队列接收回复，继续其他工作会推迟回复的接收。
+
 ## 发布来源
 
 本仓库中的 `session-peer/SKILL.md` 是公开技能的唯一正式版本。session-peer 运行时仓库中保留的副本只是迁移期间的兼容快照。CLI 命令和传输行为仍由 [session-peer 仓库](https://github.com/abruption/session-peer)维护。

@@ -50,6 +50,10 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## Codex 회신 대기
+
+Codex는 큐로 메시지를 받으며, 진행 중인 턴이 끝난 뒤에야 메시지를 읽습니다. 그래서 스킬은 작업 중인 Codex 세션에서 회신이 없는 것을 정상 상태로 보고, 요청을 다시 보내거나 회신을 재촉하지 않습니다. 다음 단계가 회신에 달려 있으면 에이전트는 correlation token과 재개할 단계를 기록하고, 턴을 종료해 작업을 일시 중지합니다. 일치하는 회신을 받으면 기록한 단계부터 재개합니다. Codex 송신자도 자기 큐로 회신을 받으므로 다른 작업을 계속하면 회신 수신이 늦어집니다.
+
 ## 정본과 호환 사본
 
 이 저장소의 `session-peer/SKILL.md`가 배포 정본입니다. session-peer 실행 프로그램 저장소에 남는 사본은 전환 기간용 호환 스냅샷입니다. CLI 명령과 전송 동작은 계속 [session-peer 저장소](https://github.com/abruption/session-peer)에서 관리합니다.

@@ -50,6 +50,10 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## Waiting for Codex replies
+
+Codex receives messages through a queue and reads them only after its current turn ends. The skill therefore treats a missing reply from a busy Codex session as normal: it does not resend the request or ask again for a reply. When the next step depends on the reply, the agent records a correlation token and the step to resume from, pauses by ending its turn, and resumes once the matching reply arrives. A Codex sender receives that reply through its own queue, so continuing other work delays it.
+
 ## Source of truth
 
 `session-peer/SKILL.md` in this repository is the published skill. The copy retained in the session-peer runtime repository is a transition compatibility snapshot. Runtime commands and transport behavior remain owned by the [session-peer repository](https://github.com/abruption/session-peer).
