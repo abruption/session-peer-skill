@@ -40,11 +40,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定首个版本时，请安装 `v0.1.0` 标签：
+需要固定某个版本时，请安装对应标签，例如 `v0.2.0`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.1.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

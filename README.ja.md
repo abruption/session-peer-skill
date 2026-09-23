@@ -40,11 +40,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-初回リリースを固定して導入する場合は `v0.1.0` タグを使用します。
+特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.2.0`）。
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.1.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
