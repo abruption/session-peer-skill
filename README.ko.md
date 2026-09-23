@@ -62,10 +62,13 @@ Codex는 큐로 메시지를 받으며, 진행 중인 턴이 끝난 뒤에야 �
 
 ## 개발 검증
 
+PR을 열기 전에 스킬 메타데이터, README 간 일관성, 스킬 탐색, 격리된 설치를 검증합니다. CI는 `.github/workflows/validate.yml`에 고정된 Skills CLI 버전을 사용합니다.
+
 ```bash
-npx -y skills@latest add . --list
+node scripts/validate-skill.mjs
+npx -y skills@1.7.0 add . --list
 home="$(mktemp -d)"
-HOME="$home" npx -y skills@latest add . \
+HOME="$home" npx -y skills@1.7.0 add . \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

@@ -8,22 +8,28 @@ on:
 permissions:
   contents: read
 
+env:
+  # Pinned so upstream Skills CLI releases cannot change results unnoticed.
+  SKILLS_CLI_VERSION: 1.7.0
+
 jobs:
   skill-package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
+      - name: Validate skill metadata and README consistency
+        run: node scripts/validate-skill.mjs
       - name: Discover the skill
-        run: npx -y skills@latest add . --list
+        run: npx -y "skills@${SKILLS_CLI_VERSION}" add . --list
       - name: Verify a clean global installation
         shell: bash
         run: |
           set -euo pipefail
           skill_home="$(mktemp -d)"
-          HOME="$skill_home" npx -y skills@latest add . \
+          HOME="$skill_home" npx -y "skills@${SKILLS_CLI_VERSION}" add . \
             --skill session-peer --global \
             --agent claude-code --agent codex --agent antigravity \
             --copy --yes

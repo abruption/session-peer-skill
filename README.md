@@ -62,12 +62,13 @@ Codex receives messages through a queue and reads them only after its current tu
 
 ## Development
 
-Validate discovery and a clean isolated installation before opening a pull request:
+Validate the skill metadata, README consistency, discovery, and a clean isolated installation before opening a pull request. CI uses the Skills CLI version pinned in `.github/workflows/validate.yml`:
 
 ```bash
-npx -y skills@latest add . --list
+node scripts/validate-skill.mjs
+npx -y skills@1.7.0 add . --list
 home="$(mktemp -d)"
-HOME="$home" npx -y skills@latest add . \
+HOME="$home" npx -y skills@1.7.0 add . \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
