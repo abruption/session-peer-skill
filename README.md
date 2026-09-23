@@ -42,11 +42,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-To reproduce the initial release exactly, install the `v0.1.0` tag:
+To pin a release exactly, install its tag, for example `v0.2.0`:
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.1.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.2.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
