@@ -2,7 +2,7 @@
 
 [한국어](README.ko.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md)
 
-An agent skill for finding and messaging Claude Code, Codex, and live registered Antigravity sessions with [session-peer](https://github.com/abruption/session-peer), locally or over SSH.
+An agent skill for finding and messaging Claude Code, Codex, and live registered Antigravity sessions with [session-peer](https://github.com/abruption/session-peer), locally, over SSH, or through optional paired devices.
 
 This repository contains instructions for agents. It does **not** install the `session-peer` runtime.
 
@@ -16,6 +16,8 @@ session-peer --version
 ```
 
 See the [session-peer installation options](https://github.com/abruption/session-peer#installation-options) for uv, pip, the POSIX standalone installer, and native Windows setup. Keep using the same package manager for upgrades.
+
+The skill targets the stable 0.9 command set. `--allow-inactive-codex-home` and `--relay-login` require session-peer 1.0.0 or newer, and the optional paired-device transport requires the `session-peer[relay]` extra (Unix, Python 3.11+).
 
 ## Install the skill
 
@@ -50,18 +52,23 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## Waiting for Codex replies
+
+Codex receives messages through a queue and reads them only after its current turn ends. The skill therefore treats a missing reply from a busy Codex session as normal: it does not resend the request or ask again for a reply. When the next step depends on the reply, the agent records a correlation token and the step to resume from, pauses by ending its turn, and resumes once the matching reply arrives. A Codex sender receives that reply through its own queue, so continuing other work delays it.
+
 ## Source of truth
 
 `session-peer/SKILL.md` in this repository is the published skill. The copy retained in the session-peer runtime repository is a transition compatibility snapshot. Runtime commands and transport behavior remain owned by the [session-peer repository](https://github.com/abruption/session-peer).
 
 ## Development
 
-Validate discovery and a clean isolated installation before opening a pull request:
+Validate the skill metadata, README consistency, discovery, and a clean isolated installation before opening a pull request. CI uses the Skills CLI version pinned in `.github/workflows/validate.yml`:
 
 ```bash
-npx -y skills@latest add . --list
+node scripts/validate-skill.mjs
+npx -y skills@1.7.0 add . --list
 home="$(mktemp -d)"
-HOME="$home" npx -y skills@latest add . \
+HOME="$home" npx -y skills@1.7.0 add . \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
