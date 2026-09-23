@@ -52,6 +52,18 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## Version metadata
+
+`session-peer/SKILL.md` records machine-readable versions in its frontmatter `metadata` map, as defined by the [Agent Skills specification](https://agentskills.io/specification):
+
+| Key | Meaning |
+|---|---|
+| `version` | Skill release; matches the `vX.Y.Z` tag |
+| `runtime-min-version` | Minimum session-peer runtime the skill supports |
+| `runtime-full-version` | Runtime required for every option the skill documents |
+
+Tools may read these values to report an outdated skill or runtime. They are informational: neither the skill nor the runtime updates skill files automatically.
+
 ## Waiting for Codex replies
 
 Codex receives messages through a queue and reads them only after its current turn ends. The skill therefore treats a missing reply from a busy Codex session as normal: it does not resend the request or ask again for a reply. When the next step depends on the reply, the agent records a correlation token and the step to resume from, pauses by ending its turn, and resumes once the matching reply arrives. A Codex sender receives that reply through its own queue, so continuing other work delays it.
@@ -75,6 +87,13 @@ HOME="$home" npx -y skills@1.7.0 add . \
 cmp session-peer/SKILL.md "$home/.agents/skills/session-peer/SKILL.md"
 cmp session-peer/SKILL.md "$home/.claude/skills/session-peer/SKILL.md"
 ```
+
+## Releasing
+
+1. Set `metadata.version` in `session-peer/SKILL.md` and the pinned tag in all four README files to the new version. Update `runtime-min-version`, `runtime-full-version`, and the matching sentences when runtime requirements change.
+2. Run `node scripts/validate-skill.mjs` and merge the change.
+3. Tag the merge commit with `git tag -a vX.Y.Z -m 'session-peer skill vX.Y.Z'`, push the tag, and publish the GitHub release. CI rejects a tag that differs from `metadata.version`.
+4. Sync the runtime repository's compatibility snapshot: copy `session-peer/SKILL.md` to `skills/session-peer/SKILL.md` in [abruption/session-peer](https://github.com/abruption/session-peer), confirm the files are byte-identical with `cmp`, and open a pull request there.
 
 ## License
 

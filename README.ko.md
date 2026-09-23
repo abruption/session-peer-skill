@@ -52,6 +52,18 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## 버전 메타데이터
+
+`session-peer/SKILL.md`는 [Agent Skills 명세](https://agentskills.io/specification)의 frontmatter `metadata` 맵에 기계가 읽을 수 있는 버전 정보를 기록합니다.
+
+| 키 | 의미 |
+|---|---|
+| `version` | 스킬 릴리스 버전이며 `vX.Y.Z` 태그와 일치합니다 |
+| `runtime-min-version` | 스킬이 지원하는 최소 session-peer runtime 버전입니다 |
+| `runtime-full-version` | 스킬이 안내하는 모든 옵션을 쓰는 데 필요한 runtime 버전입니다 |
+
+도구는 이 값을 읽어 오래된 스킬이나 runtime을 알릴 수 있습니다. 정보 제공용이며, 스킬과 runtime 모두 스킬 파일을 자동으로 업데이트하지 않습니다.
+
 ## Codex 회신 대기
 
 Codex는 큐로 메시지를 받으며, 진행 중인 턴이 끝난 뒤에야 메시지를 읽습니다. 그래서 스킬은 작업 중인 Codex 세션에서 회신이 없는 것을 정상 상태로 보고, 요청을 다시 보내거나 회신을 재촉하지 않습니다. 다음 단계가 회신에 달려 있으면 에이전트는 correlation token과 재개할 단계를 기록하고, 턴을 종료해 작업을 일시 중지합니다. 일치하는 회신을 받으면 기록한 단계부터 재개합니다. Codex 송신자도 자기 큐로 회신을 받으므로 다른 작업을 계속하면 회신 수신이 늦어집니다.
@@ -75,6 +87,13 @@ HOME="$home" npx -y skills@1.7.0 add . \
 cmp session-peer/SKILL.md "$home/.agents/skills/session-peer/SKILL.md"
 cmp session-peer/SKILL.md "$home/.claude/skills/session-peer/SKILL.md"
 ```
+
+## 릴리스 절차
+
+1. `session-peer/SKILL.md`의 `metadata.version`과 README 4개 언어판의 고정 태그를 새 버전으로 바꿉니다. runtime 요구 사항이 바뀌면 `runtime-min-version`, `runtime-full-version`과 해당 본문 문구도 함께 갱신합니다.
+2. `node scripts/validate-skill.mjs`를 실행한 뒤 변경을 병합합니다.
+3. 병합 커밋에 `git tag -a vX.Y.Z -m 'session-peer skill vX.Y.Z'`로 태그를 만들어 push하고 GitHub Release를 게시합니다. 태그가 `metadata.version`과 다르면 CI가 실패합니다.
+4. runtime 저장소의 호환 스냅샷을 동기화합니다. `session-peer/SKILL.md`를 [abruption/session-peer](https://github.com/abruption/session-peer)의 `skills/session-peer/SKILL.md`로 복사하고, `cmp`로 바이트 단위 일치를 확인한 뒤 그 저장소에 PR을 올립니다.
 
 ## 라이선스
 

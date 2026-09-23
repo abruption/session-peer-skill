@@ -50,6 +50,18 @@ npx -y skills@latest add \
   --copy --yes
 ```
 
+## 版本元数据
+
+`session-peer/SKILL.md` 按照 [Agent Skills 规范](https://agentskills.io/specification)，在 frontmatter 的 `metadata` 映射中记录机器可读的版本信息。
+
+| 键 | 含义 |
+|---|---|
+| `version` | 技能发布版本，与 `vX.Y.Z` 标签一致 |
+| `runtime-min-version` | 技能支持的最低 session-peer 运行时版本 |
+| `runtime-full-version` | 使用技能所述全部选项所需的运行时版本 |
+
+工具可以读取这些值来提示技能或运行时已过时。这些值仅供参考，技能和运行时都不会自动更新技能文件。
+
 ## 等待 Codex 回复
 
 Codex 通过队列接收消息，并且只在当前回合结束后读取。因此，技能会把正在工作的 Codex 会话暂未回复视为正常状态，不会重新发送请求或催促回复。当下一步依赖回复时，代理会记录 correlation token 和要恢复的步骤，并结束当前回合以暂停工作；收到匹配的回复后，从记录的步骤继续。Codex 发送方同样通过自己的队列接收回复，继续其他工作会推迟回复的接收。
