@@ -17,7 +17,7 @@ session-peer --version
 
 uv, pip, POSIX 독립 실행형 설치 및 Windows 설치는 [session-peer 설치 안내](https://github.com/abruption/session-peer#installation-options)를 참고하세요. 업데이트할 때도 기존 패키지 관리자를 유지합니다.
 
-스킬은 안정판 0.9 명령 체계를 기준으로 합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(Unix, Python 3.11 이상)가 필요합니다.
+스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(Unix, Python 3.11 이상)가 필요합니다.
 
 ## 스킬 설치
 

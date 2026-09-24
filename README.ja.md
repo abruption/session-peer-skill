@@ -17,7 +17,7 @@ session-peer --version
 
 uv、pip、POSIX スタンドアロン、および Windows の手順は [session-peer のインストール方法](https://github.com/abruption/session-peer#installation-options)を参照してください。更新時も既存のパッケージマネージャーを使用します。
 
-スキルは安定版 0.9 のコマンド体系を前提とします。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
+このスキルは session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
 
 ## スキルのインストール
 

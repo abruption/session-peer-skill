@@ -17,7 +17,7 @@ session-peer --version
 
 uv、pip、POSIX 独立安装程序和原生 Windows 的安装方式请参阅 [session-peer 安装说明](https://github.com/abruption/session-peer#installation-options)。升级时应继续使用原有的包管理器。
 
-本技能以稳定版 0.9 命令集为基准。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本；可选的配对设备传输需要 `session-peer[relay]` extra（Unix、Python 3.11 或更高版本）。
+本技能介绍 session-peer 0.9.1 及更高版本共通支持的基本命令。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本；可选的配对设备传输需要 `session-peer[relay]` extra（Unix、Python 3.11 或更高版本）。
 
 ## 安装技能
 
