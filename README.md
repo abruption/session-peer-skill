@@ -17,7 +17,7 @@ session-peer --version
 
 See the [session-peer installation options](https://github.com/abruption/session-peer#installation-options) for uv, pip, the POSIX standalone installer, and native Windows setup. Keep using the same package manager for upgrades.
 
-The skill targets the stable 0.9 command set. `--allow-inactive-codex-home` and `--relay-login` require session-peer 1.0.0 or newer, and the optional paired-device transport requires the `session-peer[relay]` extra (Unix, Python 3.11+).
+The skill documents basic commands shared by session-peer 0.9.1 and newer. `--allow-inactive-codex-home` and `--relay-login` require session-peer 1.0.0 or newer, and the optional paired-device transport requires the `session-peer[relay]` extra (Unix, Python 3.11+).
 
 ## Install the skill
 
