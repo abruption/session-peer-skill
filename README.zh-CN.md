@@ -17,7 +17,7 @@ session-peer --version
 
 uv、pip、POSIX 独立安装程序和原生 Windows 的安装方式请参阅 [session-peer 安装说明](https://github.com/abruption/session-peer#installation-options)。升级时应继续使用原有的包管理器。
 
-本技能介绍 session-peer 0.9.1 及更高版本共通支持的基本命令。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本；可选的配对设备传输需要 `session-peer[relay]` extra（Unix、Python 3.11 或更高版本）。
+本技能介绍 session-peer 0.9.1 及更高版本共通支持的基本命令。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin` 和按尝试关联的 Relay 诊断需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 `session-peer[relay]` extra（Unix、Python 3.11 或更高版本）。
 
 ## 安装技能
 
@@ -40,11 +40,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.3.0`：
+需要固定某个版本时，请安装对应标签，例如 `v0.3.1`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
@@ -60,7 +60,7 @@ npx -y skills@latest add \
 | `runtime-min-version` | 技能支持的最低 session-peer 运行时版本 |
 | `runtime-full-version` | 使用技能所述全部选项所需的运行时版本 |
 
-工具可以读取这些值来提示技能或运行时已过时。这些值仅供参考，技能和运行时都不会自动更新技能文件。
+工具可以读取这些值来提示技能或运行时已过时。运行时 1.0.1 及更高版本可通过 `skillUpdates` 报告过时技能，并通过 `session-peer doctor` 报告不兼容技能。请使用原来的安装管理工具更新技能；运行时升级不会更新单独管理的技能文件。
 
 ## 等待 Codex 回复
 

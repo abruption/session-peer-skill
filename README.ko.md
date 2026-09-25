@@ -17,7 +17,7 @@ session-peer --version
 
 uv, pip, POSIX 독립 실행형 설치 및 Windows 설치는 [session-peer 설치 안내](https://github.com/abruption/session-peer#installation-options)를 참고하세요. 업데이트할 때도 기존 패키지 관리자를 유지합니다.
 
-스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(Unix, Python 3.11 이상)가 필요합니다.
+스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin`과 시도별 Relay 진단은 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(Unix, Python 3.11 이상)가 필요합니다.
 
 ## 스킬 설치
 
@@ -42,11 +42,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스를 고정해 설치하려면 해당 태그를 사용합니다(예: `v0.3.0`).
+특정 릴리스를 고정해 설치하려면 해당 태그를 사용합니다(예: `v0.3.1`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
@@ -62,7 +62,7 @@ npx -y skills@latest add \
 | `runtime-min-version` | 스킬이 지원하는 최소 session-peer runtime 버전입니다 |
 | `runtime-full-version` | 스킬이 안내하는 모든 옵션을 쓰는 데 필요한 runtime 버전입니다 |
 
-도구는 이 값을 읽어 오래된 스킬이나 runtime을 알릴 수 있습니다. 정보 제공용이며, 스킬과 runtime 모두 스킬 파일을 자동으로 업데이트하지 않습니다.
+도구는 이 값을 읽어 오래된 스킬이나 runtime을 알릴 수 있습니다. runtime 1.0.1 이상은 `skillUpdates`로 오래된 스킬을, `session-peer doctor`로 비호환 스킬을 알릴 수 있습니다. 스킬은 원래 설치에 사용한 관리자로 업데이트해야 하며, runtime 업그레이드는 별도 관리되는 스킬 파일을 갱신하지 않습니다.
 
 ## Codex 회신 대기
 

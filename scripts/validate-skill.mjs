@@ -74,16 +74,21 @@ const statedMinimum = skill.match(/session-peer (\d+\.\d+\.\d+) or newer/)?.[1]
 if (statedMinimum !== minimum) {
   errors.push(`SKILL.md: body minimum runtime ${statedMinimum ?? 'missing'} does not match metadata ${minimum}`)
 }
-const statedFull = skill.match(/exist only in (\d+\.\d+\.\d+) and newer/)?.[1]
+const statedOneZero = skill.match(/exist only in (\d+\.\d+\.\d+) and newer/)?.[1]
+if (statedOneZero !== '1.0.0') {
+  errors.push(`SKILL.md: original 1.0-only options require 1.0.0, got ${statedOneZero ?? 'missing'}`)
+}
+const statedFull = skill.match(/receiver policy `codexBin` requires\s+session-peer (\d+\.\d+\.\d+) or newer/)?.[1]
 if (statedFull !== full) {
-  errors.push(`SKILL.md: body 1.0-only option runtime ${statedFull ?? 'missing'} does not match metadata ${full}`)
+  errors.push(`SKILL.md: receiver codexBin runtime ${statedFull ?? 'missing'} does not match metadata ${full}`)
 }
 
 for (const readme of readmes) {
   const text = read(readme)
   const stated = text.match(/session-peer (\d+\.\d+\.\d+)/)?.[1]
   if (stated !== minimum) errors.push(`${readme}: minimum runtime ${stated ?? 'missing'} does not match metadata ${minimum}`)
-  if (!text.includes(`session-peer ${full}`)) errors.push(`${readme}: runtime ${full} for 1.0-only options not stated`)
+  if (!text.includes('session-peer 1.0.0')) errors.push(`${readme}: original 1.0-only option runtime not stated`)
+  if (!text.includes(`session-peer ${full}`)) errors.push(`${readme}: full runtime ${full} not stated`)
   const tags = [...text.matchAll(/session-peer-skill\/tree\/(v\d+\.\d+\.\d+)\//g)].map(tag => tag[1])
   if (tags.length === 0) errors.push(`${readme}: pinned install tag not found`)
   for (const tag of tags) {

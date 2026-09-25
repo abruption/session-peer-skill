@@ -17,7 +17,7 @@ session-peer --version
 
 uv、pip、POSIX スタンドアロン、および Windows の手順は [session-peer のインストール方法](https://github.com/abruption/session-peer#installation-options)を参照してください。更新時も既存のパッケージマネージャーを使用します。
 
-このスキルは session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
+このスキルは session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。macOS・Linux の受信側ポリシーの `codexBin` と試行単位の Relay 診断には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
 
 ## スキルのインストール
 
@@ -40,11 +40,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.3.0`）。
+特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.3.1`）。
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
@@ -60,7 +60,7 @@ npx -y skills@latest add \
 | `runtime-min-version` | スキルが対応する session-peer ランタイムの最小バージョンです |
 | `runtime-full-version` | スキルが案内するすべてのオプションに必要なランタイムのバージョンです |
 
-ツールはこれらの値を読み取り、古いスキルやランタイムを通知できます。情報提供のみを目的としており、スキルとランタイムのどちらもスキルファイルを自動更新しません。
+ツールはこれらの値を読み取り、古いスキルやランタイムを通知できます。ランタイム 1.0.1 以降は `skillUpdates` で古いスキルを、`session-peer doctor` で互換性のないスキルを報告できます。スキルは元のインストール管理ツールで更新してください。ランタイムの更新は、別途管理されているスキルファイルを更新しません。
 
 ## Codex の返信待ち
 
