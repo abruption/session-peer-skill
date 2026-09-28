@@ -23,10 +23,16 @@ another package manager's launcher. Missing runtime: explain that skills do not
 install runtimes and offer the npm package's documented installation separately.
 Keep using the resolved executable for all following commands.
 
-Capture its `--help` before using optional capabilities. Treat a capability as
+Capture its `--help` before using optional capabilities. If top-level help
+advertises `<command> --help`, also capture `send --help` before selecting send
+options (and the relevant supported command's help for other operations). Older
+baseline help has no such advertisement: use only its affirmatively documented
+flags and do not assume per-command help exists. Newer help can move options out
+of the top-level overview; absence there alone does not prove an option absent.
+Treat a capability as
 supported only when it is affirmatively listed among supported commands/options,
 not when its name occurs in an unsupported-features warning. For example,
-“doctor unsupported” does not enable doctor. If doctor is positively listed,
+“doctor unsupported” does not enable doctor. If doctor is positively listed and per-command help is advertised,
 confirm with `doctor --help` before using it; malformed or contradictory help
 means unknown capability and no diagnostic invocation. Published npm 0.1.0 and
 0.2.0 development builds can both report `0.1.0`; version equality alone does not
