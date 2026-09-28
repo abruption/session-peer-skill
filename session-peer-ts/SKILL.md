@@ -80,7 +80,7 @@ source development, the same build/commit: identical version strings are not
 sufficient. Python bootstrap, Tailscale discovery, repeated hosts, arbitrary SSH
 options, and automatic runtime installation are not TS baseline features.
 For a non-default remote launcher, `--remote-bin` requires an absolute path
-on that host (POSIX `/...`, Windows `C:\\...`, including its `.cmd` shim when
+on that host (POSIX `/...`, a Windows drive-qualified absolute path, including its `.cmd` shim when
 applicable). Native Windows also needs `--remote-platform win32`. Preserve
 host-key checking.
 
