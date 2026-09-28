@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// Validate the published skill metadata and the version facts repeated in each README.
+// Validate skill metadata and version facts in the README files and usage guides.
 // Usage: node scripts/validate-skill.mjs [--tag vX.Y.Z]
 // On a tag push in GitHub Actions, GITHUB_REF_NAME is checked as the tag.
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 
 const skillDir = 'session-peer'
 const readmes = ['README.md', 'README.ko.md', 'README.ja.md', 'README.zh-CN.md']
+const usageGuides = ['docs/usage.md', 'docs/usage.ko.md', 'docs/usage.ja.md', 'docs/usage.zh-CN.md']
 const metadataKeys = ['version', 'runtime-min-version', 'runtime-full-version']
 const semver = /^\d+\.\d+\.\d+$/
 const errors = []
@@ -83,19 +85,32 @@ if (statedFull !== full) {
   errors.push(`SKILL.md: receiver codexBin runtime ${statedFull ?? 'missing'} does not match metadata ${full}`)
 }
 
-for (const readme of readmes) {
+for (const [index, readme] of readmes.entries()) {
   const text = read(readme)
-  const stated = text.match(/session-peer (\d+\.\d+\.\d+)/)?.[1]
-  if (stated !== minimum) errors.push(`${readme}: minimum runtime ${stated ?? 'missing'} does not match metadata ${minimum}`)
-  if (!text.includes('session-peer 1.0.0')) errors.push(`${readme}: original 1.0-only option runtime not stated`)
-  if (!text.includes(`session-peer ${full}`)) errors.push(`${readme}: full runtime ${full} not stated`)
-  const tags = [...text.matchAll(/session-peer-skill\/tree\/(v\d+\.\d+\.\d+)\//g)].map(tag => tag[1])
-  if (tags.length === 0) errors.push(`${readme}: pinned install tag not found`)
-  for (const tag of tags) {
-    if (tag !== `v${version}`) errors.push(`${readme}: pinned tag ${tag} does not match metadata version ${version}`)
+  const guidePath = usageGuides[index]
+  const guide = read(guidePath)
+  for (const [path, body] of [[readme, text], [guidePath, guide]]) {
+    const stated = body.match(/session-peer (\d+\.\d+\.\d+)/)?.[1]
+    if (stated !== minimum) errors.push(`${path}: minimum runtime ${stated ?? 'missing'} does not match metadata ${minimum}`)
+    if (!body.includes(`session-peer ${full}`)) errors.push(`${path}: full runtime ${full} not stated`)
   }
+  if (!guide.includes('session-peer 1.0.0')) errors.push(`${guidePath}: original 1.0-only option runtime not stated`)
+  const tags = [...guide.matchAll(/session-peer-skill\/tree\/(v\d+\.\d+\.\d+)\//g)].map(tag => tag[1])
+  if (tags.length === 0) errors.push(`${guidePath}: pinned install tag not found`)
+  for (const tag of tags) {
+    if (tag !== `v${version}`) errors.push(`${guidePath}: pinned tag ${tag} does not match metadata version ${version}`)
+  }
+  if (!text.includes(`(${guidePath})`)) errors.push(`${readme}: usage guide link missing`)
   for (const other of readmes) {
     if (other !== readme && !text.includes(`(${other})`)) errors.push(`${readme}: missing language link to ${other}`)
+  }
+}
+
+for (const document of [...readmes, ...usageGuides, 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
+  for (const [, target] of read(document).matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+    if (/^[a-z][a-z0-9+.-]*:/i.test(target) || target.startsWith('#')) continue
+    const path = target.split('#')[0]
+    if (!existsSync(resolve(dirname(document), path))) errors.push(`${document}: local link target missing: ${target}`)
   }
 }
 
@@ -111,4 +126,4 @@ if (errors.length > 0) {
   for (const error of errors) console.error(`error: ${error}`)
   process.exit(1)
 }
-console.log(`ok: ${skillDir} ${version} (runtime ${minimum}+, full ${full}+) is consistent across metadata and ${readmes.length} README files`)
+console.log(`ok: ${skillDir} ${version} (runtime ${minimum}+, full ${full}+) is consistent across metadata, ${readmes.length} README files and usage guides; local links exist`)
