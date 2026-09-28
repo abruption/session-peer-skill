@@ -23,7 +23,12 @@ another package manager's launcher. Missing runtime: explain that skills do not
 install runtimes and offer the npm package's documented installation separately.
 Keep using the resolved executable for all following commands.
 
-Capture its `--help` before using optional capabilities. Published npm 0.1.0 and
+Capture its `--help` before using optional capabilities. Treat a capability as
+supported only when it is affirmatively listed among supported commands/options,
+not when its name occurs in an unsupported-features warning. For example,
+“doctor unsupported” does not enable doctor. If doctor is positively listed,
+confirm with `doctor --help` before using it; malformed or contradictory help
+means unknown capability and no diagnostic invocation. Published npm 0.1.0 and
 0.2.0 development builds can both report `0.1.0`; version equality alone does not
 identify their features. This skill's minimum/full metadata describe its baseline
 commands, not a promise that every optional development feature is available.
@@ -89,7 +94,7 @@ does not prove the reverse route. Do not invent an identity or reply address.
 `posted` means a Claude socket write; `queued` means Codex queue registration.
 Neither is consumption or ACK. `queueId` and `codexHomeResolution` are optional
 source-build diagnostics, not delivery receipts. Keep `status`, `submitted`,
-`retrySafe`, and the process exit status together: `refused` has not submitted;
+`retryAllowed`, and the process exit status together: `refused` has not submitted;
 `unknown` has `submitted: null`, so never retry it automatically. Missing replies
 or target exit cannot decide whether a message was consumed. Never implement
 `--wait` by reading transcripts or polling the target.
