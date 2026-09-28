@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session Peer TypeScript"
+  short_description: "Message Claude and Codex with the npm TypeScript CLI"
+  default_prompt: "Use $session-peer-ts to discover the requested session and safely send the requested message with the TypeScript runtime."
