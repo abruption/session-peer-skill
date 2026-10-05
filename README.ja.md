@@ -13,6 +13,7 @@
 ## クイックスタート
 
 session-peer 0.9.1 以降が必要です。記載する全機能には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には Unix、Python 3.11 以降、`session-peer[relay]` が必要です。
+v1.0.3 のセキュリティ修正を含む Python ランタイム 1.0.3 以降を推奨します。上記の互換バージョンは CLI 機能の条件であり、セキュリティ推奨バージョンとは別です。
 
 ### インストール
 
@@ -46,7 +47,7 @@ npx -y skills@latest update session-peer --global --yes
 - [導入方法・固定バージョン・互換性・返信待ち](docs/usage.ja.md)
 - [公開エージェント指示](session-peer/SKILL.md)
 - [開発とリリース手順（英語）](CONTRIBUTING.md)
-- [ランタイム CLI リファレンス](https://github.com/abruption/session-peer/blob/main/docs/cli-reference.md)
+- [ランタイム CLI リファレンス（v1.0.3）](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
 
 ## ライセンス
 

@@ -13,6 +13,7 @@
 ## 빠른 시작
 
 session-peer 0.9.1 이상이 필요하며, 안내하는 모든 기능에는 session-peer 1.0.1 이상이 필요합니다. 선택형 페어링 기기 전송에는 Unix와 Python 3.11 이상 및 `session-peer[relay]`가 필요합니다.
+v1.0.3 보안 수정이 적용된 Python 런타임 1.0.3 이상을 권장합니다. 앞의 호환 버전은 CLI 기능 기준이며 보안 권장 버전과 별개입니다.
 
 ### 설치
 
@@ -46,7 +47,7 @@ npx -y skills@latest update session-peer --global --yes
 - [설치 변형·고정 버전·호환성·회신 대기](docs/usage.ko.md)
 - [배포 정본 에이전트 지침](session-peer/SKILL.md)
 - [개발 검증 및 릴리스 절차](CONTRIBUTING.ko.md)
-- [런타임 CLI 참조](https://github.com/abruption/session-peer/blob/main/docs/cli-reference.md)
+- [런타임 CLI 참조(v1.0.3)](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
 
 ## 라이선스
 

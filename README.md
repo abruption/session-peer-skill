@@ -13,6 +13,7 @@ The runtime demonstration shows Claude Code and Codex messaging; the skill provi
 ## Quick Start
 
 Requires session-peer 0.9.1 or newer; all documented features require session-peer 1.0.1 or newer. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
+For the v1.0.3 security fixes, use Python runtime 1.0.3 or newer. The compatibility versions above are CLI feature thresholds, not security recommendations.
 
 ### Install
 
@@ -46,7 +47,7 @@ Queued or submitted does not confirm consumption. Do not automatically resend af
 - [Installation variants, pinned versions, compatibility, and reply waiting](docs/usage.md)
 - [Published agent instructions](session-peer/SKILL.md)
 - [Development and release procedure](CONTRIBUTING.md)
-- [Runtime CLI reference](https://github.com/abruption/session-peer/blob/main/docs/cli-reference.md)
+- [Runtime CLI reference (v1.0.3)](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
 
 ## License
 

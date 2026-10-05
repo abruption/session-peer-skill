@@ -13,6 +13,7 @@
 ## 快速开始
 
 需要 session-peer 0.9.1 或更高版本；使用文档中的全部功能需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 Unix、Python 3.11 或更高版本以及 `session-peer[relay]`。
+为获得 v1.0.3 安全修复，建议使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能门槛，与安全推荐版本不同。
 
 ### 安装
 
@@ -46,7 +47,7 @@ npx -y skills@latest update session-peer --global --yes
 - [安装方式、固定版本、兼容性与回复等待](docs/usage.zh-CN.md)
 - [正式发布的代理指令](session-peer/SKILL.md)
 - [开发与发布流程（英语）](CONTRIBUTING.md)
-- [运行时 CLI 参考](https://github.com/abruption/session-peer/blob/main/docs/cli-reference.md)
+- [运行时 CLI 参考（v1.0.3）](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
 
 ## 许可证
 

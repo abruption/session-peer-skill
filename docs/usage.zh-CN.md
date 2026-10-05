@@ -15,6 +15,14 @@ uv、pip、POSIX 独立安装程序和原生 Windows 的安装方式请参阅 [s
 
 本技能介绍 session-peer 0.9.1 及更高版本共通支持的基本命令。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin` 和按尝试关联的 Relay 诊断需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 `session-peer[relay]` extra（Unix、Python 3.11 或更高版本）。
 
+## 运行时 1.0.3 的安全与运维
+
+为获得安全修复，建议使用 Python 运行时 1.0.3 或更高版本。元数据中的最低版本和完整功能版本表示 CLI 兼容性，不是安全推荐版本。使用 SSH 前请查看 [v1.0.3 连接选项规则](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)：传入的整组选项会在 SSH 执行前经过允许列表验证。`-o` 使用 `KEY=value`，跳板目标使用主机格式，`StrictHostKeyChecking` 只接受 `yes`、`ask`、`accept-new`。SSH URI 跳板目标、含 `+` 的用户名、空格分隔的 `-o 'Key value'`、命令钩子、替代配置或 control socket 路径、known-hosts 文件改写均会被拒绝。现有用户/系统 SSH 配置仍是运维人员的信任边界，并非 sandbox。
+
+基于发布版的独立安装及本机更新需要不可变的发布资产、来源验证，以及已认证的新版 GitHub CLI（`gh`；已用 2.102.0 验证）。执行下载的 `install.sh` 前，请遵循[已验证安装器的引导步骤](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)。验证失败不会自动回退到未签名的旧资产或开发版 `main`。已验证安装器会在本机或 SSH 目标上同时安装程序及兼容技能副本。本机 `session-peer update` 只下载并验证最新程序；`update --host` 在远端副本不存在或较旧时推送当前本机独立程序，远端不会下载。两者均不会更新单独安装的技能。pipx、uv、pip 安装应继续使用原管理器。[v1.0.3 安装与更新说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)提供详情。
+
+托管的 Node Control 1.0.3 登录会话在创建后 24 小时绝对到期。升级也会对旧的滑动会话设定上限，因此可能需要重新登录。设备撤销与账号登录会话撤销是两项独立操作。更新 Python wheel 不会部署 Node Control；运维人员需另行判断托管服务更新。现有配对 binding 不会被追溯审计或删除；若信任存疑，应由运维人员检查并 revoke 或 re-pair。不要自动部署服务、重置状态、撤销会话或重新配对。参见 [v1.0.3 发布说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)。`queued` 或 `submitted` 不代表消息已被消费或 ACK；不要自动重发 `unknown` 结果。
+
 ## 安装技能
 
 ```bash
@@ -36,11 +44,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.3.1`：
+需要固定某个版本时，请安装对应标签，例如 `v0.3.2`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.1/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.2/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
