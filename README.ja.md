@@ -4,102 +4,59 @@
 
 [session-peer](https://github.com/abruption/session-peer) を使い、ローカル、SSH、またはオプションのペアリング済みデバイス上の Claude Code、Codex、実行中の Antigravity セッションを検索してメッセージを送るエージェントスキルです。
 
-このリポジトリにはエージェント向けの指示だけが含まれます。`session-peer` ランタイムは別途インストールしてください。
+## デモ
 
-## 前提条件
+![Claude Code と Codex 間でメッセージを交換する session-peer ランタイム](https://raw.githubusercontent.com/abruption/session-peer/v1.0.1/docs/assets/session-peer-live-codex-claude.gif)
 
-session-peer 0.9.1 以降をインストールして確認します。
+ランタイムのデモは Claude Code と Codex 間の通信を示します。スキルはエージェント向けの指示を提供します。
+
+## クイックスタート
+
+session-peer 0.9.1 以降が必要です。記載する全機能には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には Unix、Python 3.11 以降、`session-peer[relay]` が必要です。
+
+### インストール
+
+ランタイムとスキルを別々にインストールします。
 
 ```bash
 pipx install session-peer
 session-peer --version
-```
-
-uv、pip、POSIX スタンドアロン、および Windows の手順は [session-peer のインストール方法](https://github.com/abruption/session-peer#installation-options)を参照してください。更新時も既存のパッケージマネージャーを使用します。
-
-このスキルは session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。macOS・Linux の受信側ポリシーの `codexBin` と試行単位の Relay 診断には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
-
-## スキルのインストール
-
-```bash
 npx -y skills@latest add abruption/session-peer-skill \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
-```
-
-Skills CLI は Claude Code 用のコピーと、Codex・Antigravity が使う共通 agents ディレクトリのコピーをインストールします。現在のセッションがスキル一覧を自動更新しない場合は、新しいセッションを開始してください。
-
-```bash
 npx -y skills@latest list --global --json
 ```
 
-## 更新
+Skills CLI は Claude Code 用と Codex・Antigravity 共通のコピーを作成します。スキル一覧がキャッシュされている場合は、新しいエージェントセッションを開いてください。
+
+### 更新
 
 ```bash
+pipx upgrade session-peer
 npx -y skills@latest update session-peer --global --yes
 ```
 
-特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.3.1`）。
+上記のランタイム更新コマンドは pipx 用です。既存のランタイムパッケージマネージャーを使い続けてください。ランタイムの更新はスキルを更新しません。他の導入方法と固定バージョンは利用ガイドを参照してください。
 
-```bash
-npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.1/session-peer \
-  --skill session-peer --global \
-  --agent claude-code --agent codex --agent antigravity \
-  --copy --yes
-```
+キュー登録や送信完了は読み込みの確認ではありません。送信結果が不明な場合は自動再送しないでください。Codex の返信待ちは利用ガイドで説明しています。
 
-## バージョンメタデータ
+npm TypeScript ランタイムには別の `session-peer-ts` スキルを使います。エージェント、プロジェクト/グローバル範囲、確認済みコミットを指定する手順は [TypeScript 設定ガイド](docs/typescript.md)を参照してください。
 
-`session-peer/SKILL.md` は [Agent Skills 仕様](https://agentskills.io/specification)の frontmatter `metadata` マップに、機械可読なバージョン情報を記録します。
+## ドキュメント
 
-| キー | 意味 |
-|---|---|
-| `version` | スキルのリリースバージョンで、`vX.Y.Z` タグと一致します |
-| `runtime-min-version` | スキルが対応する session-peer ランタイムの最小バージョンです |
-| `runtime-full-version` | スキルが案内するすべてのオプションに必要なランタイムのバージョンです |
-
-ツールはこれらの値を読み取り、古いスキルやランタイムを通知できます。ランタイム 1.0.1 以降は `skillUpdates` で古いスキルを、`session-peer doctor` で互換性のないスキルを報告できます。スキルは元のインストール管理ツールで更新してください。ランタイムの更新は、別途管理されているスキルファイルを更新しません。
-
-## Codex の返信待ち
-
-Codex はキューでメッセージを受け取り、進行中のターンが終わってから読み込みます。そのためスキルは、作業中の Codex セッションから返信がないことを正常な状態として扱い、依頼の再送や返信の催促をしません。次の手順が返信に依存する場合、エージェントは correlation token と再開する手順を記録し、ターンを終了して作業を一時停止します。一致する返信を受け取ったら、記録した手順から再開します。Codex の送信側も自身のキューで返信を受け取るため、別の作業を続けると返信の受信が遅れます。
-
-## 正式な配布元
-
-このリポジトリの `session-peer/SKILL.md` が公開スキルの正本です。session-peer ランタイムリポジトリに残るコピーは移行期間向けの互換スナップショットです。CLI と通信機能は引き続き [session-peer リポジトリ](https://github.com/abruption/session-peer)で管理します。
+- [TypeScript スキルの導入・固定更新・削除](docs/typescript.md)
+- [導入方法・固定バージョン・互換性・返信待ち](docs/usage.ja.md)
+- [公開エージェント指示](session-peer/SKILL.md)
+- [開発とリリース手順（英語）](CONTRIBUTING.md)
+- [ランタイム CLI リファレンス](https://github.com/abruption/session-peer/blob/main/docs/cli-reference.md)
 
 ## ライセンス
 
-MIT
+[MIT](LICENSE)
 
-## TypeScript ランタイムのスキル
+## サポートとセキュリティ
 
-別の `session-peer-ts` スキルは npm TypeScript 0.1.0 の基本機能に対応し、開発機能はヘルプを確認して利用します。Python `session-peer` スキルは維持します。ソースの準備であり、新しいタグや npm 公開ではありません。
+スキルの文書やインストールの問題は [Issue](https://github.com/abruption/session-peer-skill/issues/new) に報告してください。CLI・通信の問題は [ランタイムの Issue](https://github.com/abruption/session-peer/issues) を利用してください。
 
-Choose a reviewed **40-character commit SHA**, agent (`codex` or `claude-code`),
-and scope explicitly. Run in the intended project; omitting `--global` selects
-project scope. Inspect existing files before accepting an overwrite. For global
-scope add `--global` consistently to add/list/remove. Codex uses the shared
-`.agents/skills` directory, so agent selection is not an isolation boundary from
-other clients that discover that directory.
-
-```sh
-npx -y skills@1.7.0 add https://github.com/abruption/session-peer-skill/tree/REVIEWED_COMMIT/session-peer-ts \
-  --skill session-peer-ts --agent codex --copy --yes
-npx -y skills@1.7.0 list --agent codex --json
-npx -y skills@1.7.0 remove session-peer-ts --agent codex --yes
-```
-
-Replace `REVIEWED_COMMIT` before running. To update, review another exact commit
-and repeat `add` with the same scope/agent; `update` follows a moving source and
-is not the pinned update workflow. Review your installed copy for local edits
-first. Installation choices never authorize sending a message or modifying
-runtime/service configuration. Restart the agent if its catalog is cached.
-
-`session-peer-ts/SKILL.md` declares `runtime-implementation: "typescript"` and
-`runtime-capability-policy: "probe-help"`; its independent skill version is 0.1.0.
-The existing `vX.Y.Z` tag workflow still belongs to the Python skill. No TS release
-tag is created by this change. Run `node scripts/test-ts-skill.mjs` for isolated
-install, pinned-source replacement, and removal evidence.
+脆弱性は、メールの代替連絡先も記載された [管理者のセキュリティ方針](https://github.com/abruption/session-peer/blob/main/SECURITY.md) に従って非公開で報告してください。公開 Issue に秘密情報、会話本文、セッション識別子を投稿しないでください。
