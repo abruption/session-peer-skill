@@ -42,8 +42,11 @@ npx -y skills@latest update session-peer --global --yes
 
 排队或提交不代表接收方已读取。提交结果不确定时不要自动重发。Codex 回复等待流程见使用指南。
 
+npm TypeScript 运行时使用独立的 `session-peer-ts` 技能。指定代理、项目/全局范围及已审查提交的安装步骤请参阅 [TypeScript 设置指南](docs/typescript.md)。
+
 ## 文档
 
+- [TypeScript 技能安装、固定更新与移除](docs/typescript.md)
 - [安装方式、固定版本、兼容性与回复等待](docs/usage.zh-CN.md)
 - [正式发布的代理指令](session-peer/SKILL.md)
 - [开发与发布流程（英语）](CONTRIBUTING.md)

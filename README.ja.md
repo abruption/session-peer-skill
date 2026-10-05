@@ -42,8 +42,11 @@ npx -y skills@latest update session-peer --global --yes
 
 キュー登録や送信完了は読み込みの確認ではありません。送信結果が不明な場合は自動再送しないでください。Codex の返信待ちは利用ガイドで説明しています。
 
+npm TypeScript ランタイムには別の `session-peer-ts` スキルを使います。エージェント、プロジェクト/グローバル範囲、確認済みコミットを指定する手順は [TypeScript 設定ガイド](docs/typescript.md)を参照してください。
+
 ## ドキュメント
 
+- [TypeScript スキルの導入・固定更新・削除](docs/typescript.md)
 - [導入方法・固定バージョン・互換性・返信待ち](docs/usage.ja.md)
 - [公開エージェント指示](session-peer/SKILL.md)
 - [開発とリリース手順（英語）](CONTRIBUTING.md)

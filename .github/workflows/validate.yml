@@ -36,3 +36,5 @@ jobs:
             --copy --yes
           cmp session-peer/SKILL.md "$skill_home/.agents/skills/session-peer/SKILL.md"
           cmp session-peer/SKILL.md "$skill_home/.claude/skills/session-peer/SKILL.md"
+      - name: Validate TypeScript skill and isolated lifecycle
+        run: node scripts/test-ts-skill.mjs

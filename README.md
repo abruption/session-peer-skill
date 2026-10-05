@@ -42,8 +42,11 @@ The runtime command above is for pipx installations; keep using your existing ru
 
 Queued or submitted does not confirm consumption. Do not automatically resend after an uncertain submission; see the usage guide for Codex reply waiting.
 
+The separate `session-peer-ts` skill supports the npm TypeScript runtime. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
+
 ## Docs
 
+- [TypeScript skill setup, pinned updates, and removal](docs/typescript.md)
 - [Installation variants, pinned versions, compatibility, and reply waiting](docs/usage.md)
 - [Published agent instructions](session-peer/SKILL.md)
 - [Development and release procedure](CONTRIBUTING.md)

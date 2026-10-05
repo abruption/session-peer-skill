@@ -42,8 +42,11 @@ npx -y skills@latest update session-peer --global --yes
 
 큐 등록이나 제출은 수신 확인이 아닙니다. 제출 결과가 미확정이면 자동 재전송하지 마세요. Codex 회신 대기 절차는 사용 안내에 있습니다.
 
+npm TypeScript 런타임에는 별도 `session-peer-ts` 스킬을 사용합니다. 에이전트·프로젝트/전역 범위·검토된 커밋을 지정하는 설치는 [TypeScript 설정 안내](docs/typescript.md)를 참고하세요.
+
 ## 문서
 
+- [TypeScript 스킬 설치·고정 업데이트·삭제](docs/typescript.md)
 - [설치 변형·고정 버전·호환성·회신 대기](docs/usage.ko.md)
 - [배포 정본 에이전트 지침](session-peer/SKILL.md)
 - [개발 검증 및 릴리스 절차](CONTRIBUTING.ko.md)
