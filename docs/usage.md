@@ -15,6 +15,14 @@ See the [session-peer installation options](https://github.com/abruption/session
 
 The skill documents basic commands shared by session-peer 0.9.1 and newer. `--allow-inactive-codex-home` and `--relay-login` require session-peer 1.0.0 or newer. macOS/Linux receiver policy `codexBin` and correlated Relay diagnostics require session-peer 1.0.1 or newer. The optional paired-device transport requires the `session-peer[relay]` extra (Unix, Python 3.11+).
 
+## Runtime 1.0.3 security and operations
+
+Use Python runtime 1.0.3 or newer for its security fixes. The metadata minimum and full versions describe CLI compatibility, not the version recommended for security. Before using SSH, review the [v1.0.3 connection-option rules](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits): the complete supplied option list is allowlisted before SSH runs. Use `KEY=value` for `-o`, host-style jump targets, and only `yes`, `ask`, or `accept-new` for `StrictHostKeyChecking`; SSH URI jumps, `+` in usernames, spaced `-o 'Key value'`, command hooks, alternate config/control socket paths, and known-hosts file overrides are refused. Existing user/system SSH config remains an operator trust boundary, not a sandbox.
+
+Release-backed standalone installation and local updates require immutable release assets, provenance verification, and a recent authenticated GitHub CLI (`gh`; 2.102.0 was tested). Follow the [verified installer bootstrap](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md) before executing downloaded `install.sh`. Verification failure does not fall back to unsigned older assets or development `main`. The verified installer installs the program and compatibility skill copy locally or over SSH. Local `session-peer update` downloads and verifies the latest program only; `update --host` pushes the current local standalone program when the remote copy is older or absent, without downloading on that host. Neither updates an independently installed skill. Keep pipx, uv, and pip installations under their original manager. See the [v1.0.3 install and update reference](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating).
+
+Hosted Node Control 1.0.3 login sessions expire 24 hours after creation. An upgrade also caps earlier sliding sessions, so users may need to sign in again. Device revocation and account login-session revocation are separate. A Python wheel update does not deploy Node Control; operators assess hosted service updates separately. Existing pairing bindings are not retroactively audited or removed: an operator should review and revoke or re-pair a binding if its trust is in doubt. Do not automatically deploy, reset state, revoke sessions, or re-pair. See the [v1.0.3 release notes](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md). A queued or submitted message is not consumption or ACK; never automatically resend an unknown outcome.
+
 ## Install the skill
 
 ```bash
@@ -38,11 +46,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-To pin a release exactly, install its tag, for example `v0.3.1`:
+To pin a release exactly, install its tag, for example `v0.3.2`:
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.1/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.2/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
