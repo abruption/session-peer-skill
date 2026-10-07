@@ -4,7 +4,7 @@
 
 **Draft for coordination with [TS issue #118](https://github.com/abruption/session-peer-ts/issues/118), 2026-10-07.** This document incorporates the Python owner's planning boundaries and proposes an agreement on contract semantics and rollout order. Planning agreement does not authorize runtime implementation, experiments, merge, installation, pin changes, or publication. Candidate metadata numbers and any new schema remain unapproved.
 
-**Coordination status:** the owners agree on rollout order and min/full meanings at planning level, with fixture details still open. Earlier-head reviews do not freeze this exact candidate. The manifest below is a documentation proposal for the next contract review, not an implemented or executed test suite.
+**Coordination status:** the owners agree on rollout order and min/full meanings at planning level. The TS owner accepted the fixture direction at exact head `4ec8b69f4f2dd97b25b8e67e473042d76e9e0453`, with no further planning blocker and exact expectations still open in TS issue #118. That review does not freeze later edits, profile numbers, parser/envelope details, or reader design. The manifest is a documentation proposal, not an implemented or executed test suite.
 
 ## Current published contract
 
@@ -89,7 +89,7 @@ Preserve path, status/code, and inspection scope in the result so users can dist
 
 ## Fixture manifest for review
 
-Use the exact published legacy and candidate successor tuples above as distinct inputs. Each parameter listed below is a separate fixture instance, not a combined mutation. These are source-derived legacy expectations and **unapproved successor expectations**, not test results. Proposed guard runtime identities are supplied as internal fixture inputs; no executable, installation, or hypothetical runtime below the minimum is invoked by this document work.
+Use the exact published legacy and candidate successor tuples above as distinct inputs. Each parameter listed below is a separate fixture instance, not a combined mutation; in L07/L08 all other fields and sections remain valid. These are source-derived legacy expectations and **unapproved successor expectations**, not test results. Guard identity means verifiable version/profile evidence for the runtime performing the inspection itself, supplied without launching an external executable. Future fixtures model that evidence internally; no executable, installation, or hypothetical runtime below the minimum is invoked by this document work.
 
 ### Published behavior fixtures
 
@@ -121,12 +121,14 @@ The default proposed envelope retains current `path`, status/code, and `verifica
 | G04 | Runtime identity unavailable, ambiguous, or malformed | `unknown`; do not infer compatibility or execute a runtime to obtain inspection evidence |
 | G05 | Each valid but unreviewed skill version/profile, minimum value, full value, or policy value | `incompatible`, `metadata_only` |
 | G06 | Different valid top-level name; different valid implementation | `incompatible`, `metadata_only`; name validation is a new check |
-| G07 | Missing, malformed, or duplicate/conflicting required name/scalar; unsupported scalar/map shape | `unknown`; intentional change from L07 for required metadata scalars |
+| G07 | Missing, malformed, or duplicate/conflicting required name/scalar; structurally invalid scalar/map shape | `unknown`; intentional change from L07 for required metadata scalars |
 | G08 | L03/L04 missing or raw permission errors | Preserve `missing` / `skill_missing` and `permission_denied` / `permission_denied` respectively |
 | G09 | L05/L06 input failures and structure failures | Preserve `unknown` with separately reviewed reason codes; no raw permission-error merging |
 | G10 | Valid profile plus unmet optional platform/native/permission/writer prerequisites | Structural verdict stays within the reviewed matrix; no verdict permits the optional operation or proves delivery/ACK |
 
 G02/G03 are profile-support rejection cases, distinct from G04's unavailable runtime evidence. Full coverage does not substitute for matrix membership. G07's scalar classification and name check are deliberate future changes, not assertions about public 0.3.2. The exact accepted runtime identities, final profile tuple, reason codes for changed failures, and parser/envelope details remain open review items.
+
+Before freezing G05/G07, agree on actual input bytes under the final parser grammar: a well-formed but unsupported scalar value is distinct from structurally invalid scalars/maps or duplicates. A line rejected by the published regex is not automatically semantically malformed under a future parser. Each case needs its own status, reason code, and explicit presence/absence of `verification`. G01–G04 also require reviewed provenance for the inspecting runtime's identity, the exact accepted matrix, and conditions for unavailable identity evidence; candidate numbers alone do not settle these cases.
 
 ### Future reader and side-effect acceptance
 
@@ -142,6 +144,8 @@ Reader acceptance must be agreed and demonstrated in separately authorized #118 
 | B06 | Demonstrate no body instruction/reference execution, network requests, runtime/native-agent execution, installation, update, send, or user-state writes during skill inspection; reading body bytes is not prohibited by `metadata_only` |
 
 These are proposed acceptance conditions, not a frozen reader design, a deadline guarantee for arbitrary filesystem I/O, or a reproduced bug. Exact byte/race bounds and cleanup assertions need TS review before implementation; current CI does not exercise this proposed reader.
+
+The TS #118 design must define whether the budget counts the entire file's UTF-8 bytes, including BOM, newlines, and body; overflow allowance and maximum allocation; descriptor/path identity check points; deterministic expected statuses for growth, truncation, and replacement; and descriptor cleanup assertions. Incomplete or conflicting read evidence must not be reduced to a tuple mismatch. These exact conditions remain open for implementation design review, with no promise of an enforced deadline for arbitrary filesystem I/O.
 
 ## Rollout order and gates
 
