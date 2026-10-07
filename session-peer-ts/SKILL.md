@@ -163,6 +163,7 @@ hooks do not download or overwrite skills.
 `posted` means a Claude native inbox write; `queued` means Codex queue registration.
 Neither is consumption or ACK. `consumptionConfirmed` remains false. Diagnostic
 fields such as `queueId` or `codexHomeResolution` are not delivery receipts.
+Inspect optional fields when present; do not require them because Python emits them.
 Keep `status`, `submitted`, `retryAllowed` when present, and the exit status together:
 `refused` has not submitted; `unknown` has `submitted:null` and must never be
 retried automatically. Missing replies or a target exit cannot establish
