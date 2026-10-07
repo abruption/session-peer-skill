@@ -4,24 +4,24 @@
 
 ## 前提条件
 
-session-peer 0.9.1 以降をインストールして確認します。
+スキルをインストールする前に、session-peer 0.9.1 以降をインストールし、バージョンを確認してください。
 
 ```bash
 pipx install session-peer
 session-peer --version
 ```
 
-uv、pip、POSIX スタンドアロン、および Windows の手順は [session-peer のインストール方法](https://github.com/abruption/session-peer#installation-options)を参照してください。更新時も既存のパッケージマネージャーを使用します。
+uv、pip、POSIX 向けスタンドアロンインストーラー、およびネイティブ Windows 環境での設定方法は [session-peer のインストール方法](https://github.com/abruption/session-peer#installation-options)を参照してください。アップグレードにも同じパッケージマネージャーを使ってください。
 
-このスキルは session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。macOS・Linux の受信側ポリシーの `codexBin` と試行単位の Relay 診断には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
+このスキルでは、session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。macOS/Linux の受信側ポリシーで使う `codexBin` と、試行 ID を関連付けた Relay 診断には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス経由の通信には `session-peer[relay]` の追加依存（extra）が必要です（Unix、Python 3.11 以降）。
 
 ## ランタイム 1.0.3 のセキュリティと運用
 
-セキュリティ修正のため、Python ランタイム 1.0.3 以降を推奨します。メタデータの最小・全機能バージョンは CLI の互換性を示し、セキュリティ推奨バージョンではありません。SSH の使用前に [v1.0.3 の接続オプション規則](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)を確認してください。渡されたオプション全体が SSH 実行前に許可リストで検証されます。`-o` には `KEY=value`、ジャンプ先にはホスト形式を使い、`StrictHostKeyChecking` は `yes`、`ask`、`accept-new` のみ指定してください。SSH URI 形式のジャンプ先、`+` を含むユーザー名、空白区切りの `-o 'Key value'`、コマンドフック、代替設定・control socket のパス、known-hosts ファイルの変更は拒否されます。既存のユーザー・システム SSH 設定は運用者の信頼境界であり、sandbox ではありません。
+セキュリティ修正を利用するには、Python ランタイム 1.0.3 以降を使用してください。メタデータの最小・全機能バージョンは CLI の互換性を示し、セキュリティ推奨バージョンではありません。SSH の使用前に [v1.0.3 の接続オプション規則](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)を確認してください。渡されたオプション全体が SSH 実行前に許可リストで検証されます。`-o` には `KEY=value`、ジャンプ先にはホスト形式を使い、`StrictHostKeyChecking` は `yes`、`ask`、`accept-new` のみ指定してください。SSH URI 形式のジャンプ先、`+` を含むユーザー名、空白区切りの `-o 'Key value'`、コマンドフック、別の設定ファイルや制御用ソケット（control socket）のパス指定、known-hosts ファイルの上書き指定は拒否されます。既存のユーザーまたはシステムの SSH 設定は運用者が信頼する範囲であり、安全な隔離環境（サンドボックス）ではありません。
 
-リリース版のスタンドアロン導入とローカル更新には、不変のリリース資産と来歴の検証、認証済みの新しい GitHub CLI（`gh`、2.102.0 で検証）が必要です。取得した `install.sh` を実行する前に [検証済みインストーラーのブートストラップ](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)に従ってください。検証失敗時に、署名のない古い資産や開発版 `main` へ自動的に切り替わることはありません。検証済みインストーラーは、ローカルまたは SSH の接続先にプログラムと互換用スキルのコピーを一緒に入れます。ローカルの `session-peer update` は最新プログラムのみを取得・検証します。`update --host` は接続先のコピーがないか古い場合、現在のローカルのスタンドアロンプログラムを転送し、接続先ではダウンロードしません。どちらも別途導入したスキルは更新しません。pipx・uv・pip で導入した場合は元の管理ツールを使ってください。[v1.0.3 の導入・更新説明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)を参照してください。
+リリース資産を使うスタンドアロンの導入とローカル更新には、不変のリリース資産とその来歴（provenance）の検証、認証済みで比較的新しい GitHub CLI（`gh`、2.102.0 で動作確認済み）が必要です。取得した `install.sh` を実行する前に [検証済みインストーラーのブートストラップ](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)に従ってください。検証失敗時に、署名のない古い資産や開発版 `main` へ自動的に切り替わることはありません。検証済みインストーラーは、ローカルまたは SSH 接続先にプログラムと互換用スキルのコピーをインストールします。ローカルの `session-peer update` は最新プログラムのみを取得・検証します。`update --host` は接続先のコピーがないか古い場合、現在のローカルのスタンドアロンプログラムを転送し、接続先ではダウンロードしません。どちらも別途導入したスキルは更新しません。pipx・uv・pip で導入したランタイムの更新には、引き続き元の管理ツールを使ってください。[v1.0.3 の導入・更新説明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)を参照してください。
 
-ホストされた Node Control 1.0.3 のログインセッションは作成から 24 時間で失効します。アップグレード時には従来の sliding セッションにも上限が適用され、再ログインが必要な場合があります。デバイスの失効とアカウントのログインセッション失効は別々です。Python wheel の更新だけでは Node Control は配備されず、運用者がホストサービスの更新を別途判断します。既存のペアリング binding は遡って監査・削除されないため、信頼性に疑いがあれば運用者が確認して revoke または re-pair してください。サービス配備、状態の初期化、セッション失効、再ペアリングを自動実行しないでください。[v1.0.3 リリースノート](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)を参照してください。`queued` や `submitted` は消費や ACK を意味しません。`unknown` の結果を自動で再送しないでください。
+ホスト型 Node Control 1.0.3 のログインセッションは、作成から 24 時間後に失効します。アップグレード後は、従来のスライディング方式（利用中に期限が延長される方式）のセッションにも上限が適用されるため、再ログインが必要になる場合があります。デバイスの取り消しとアカウントのログインセッションの取り消しは別の操作です。Python wheel を更新しても Node Control は配備されず、ホストサービスの更新は運用者が別途評価します。既存のペアリング関係（binding）は遡って監査・削除されません。信頼性に疑いがあれば、運用者が確認し、必要に応じて取り消すか再ペアリングしてください。サービスの配備、状態の初期化、セッションの取り消し、再ペアリングを自動実行しないでください。[v1.0.3 リリースノート](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)を参照してください。`queued`（キュー登録済み）や `submitted`（送信済み）の状態でも、受信側でメッセージが消費されたことや ACK（確認応答）が返ったことは保証されません。`unknown`（結果不明）を自動で再送しないでください。
 
 ## スキルのインストール
 
@@ -33,6 +33,8 @@ npx -y skills@latest add abruption/session-peer-skill \
 ```
 
 Skills CLI は Claude Code 用のコピーと、Codex・Antigravity が使う共通 agents ディレクトリのコピーをインストールします。現在のセッションがスキル一覧を自動更新しない場合は、新しいセッションを開始してください。
+
+インストールを確認します。
 
 ```bash
 npx -y skills@latest list --global --json
@@ -56,7 +58,7 @@ npx -y skills@latest add \
 
 ## バージョンメタデータ
 
-[session-peer/SKILL.md](../session-peer/SKILL.md) は [Agent Skills 仕様](https://agentskills.io/specification)の frontmatter `metadata` マップに、機械可読なバージョン情報を記録します。
+[session-peer/SKILL.md](../session-peer/SKILL.md) は、[Agent Skills 仕様](https://agentskills.io/specification)で定義された frontmatter（文書冒頭のメタデータ領域）の `metadata` マップに、機械可読なバージョン情報を記録しています。
 
 | キー | 意味 |
 |---|---|
@@ -68,8 +70,8 @@ npx -y skills@latest add \
 
 ## Codex の返信待ち
 
-Codex はキューでメッセージを受け取り、進行中のターンが終わってから読み込みます。そのためスキルは、作業中の Codex セッションから返信がないことを正常な状態として扱い、依頼の再送や返信の催促をしません。次の手順が返信に依存する場合、エージェントは correlation token と再開する手順を記録し、ターンを終了して作業を一時停止します。一致する返信を受け取ったら、記録した手順から再開します。Codex の送信側も自身のキューで返信を受け取るため、別の作業を続けると返信の受信が遅れます。
+Codex はキューでメッセージを受け取り、進行中のターンが終わってから読み込みます。そのためスキルは、作業中の Codex セッションから返信がないことを正常な状態として扱い、依頼の再送や返信の催促をしません。次の手順が返信に依存する場合、エージェントは返信と再開手順を対応付ける相関トークン（correlation token）を記録し、ターンを終了して作業を一時停止します。一致する返信を受け取ったら、記録した手順から再開します。Codex の送信側も自身のキューで返信を受け取るため、別の作業を続けると返信の受信が遅れます。
 
 ## 正式な配布元
 
-このリポジトリの [session-peer/SKILL.md](../session-peer/SKILL.md) が公開スキルの正本です。session-peer ランタイムリポジトリに残るコピーは移行期間向けの互換スナップショットです。CLI と通信機能は引き続き [session-peer リポジトリ](https://github.com/abruption/session-peer)で管理します。
+このリポジトリの [session-peer/SKILL.md](../session-peer/SKILL.md) が公開スキルの正本です。session-peer ランタイムリポジトリに残るコピーは移行期間向けの互換スナップショットです。ランタイムのコマンドと通信動作は引き続き [session-peer リポジトリ](https://github.com/abruption/session-peer)で管理します。
