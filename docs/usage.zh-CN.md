@@ -21,7 +21,7 @@ uv、pip、POSIX 独立安装程序以及 Windows 原生环境的安装方式，
 
 使用正式发布资产进行独立安装或本机更新，需要不可变的发布资产及其来源证明（provenance）验证，以及已完成身份认证且版本较新的 GitHub CLI（`gh`；已在 2.102.0 版本上测试）。执行下载的 `install.sh` 前，请遵循[已验证安装器的引导步骤](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)。验证失败不会自动回退到未签名的旧资产或开发版 `main`。已验证安装器会在本机或 SSH 目标上同时安装程序及兼容技能副本。本机 `session-peer update` 只下载并验证最新程序；`update --host` 在远端副本不存在或较旧时推送当前本机独立程序，远端不会下载。两者均不会更新单独安装的技能。通过 pipx、uv 或 pip 安装的运行时，请继续使用原来的包管理器进行更新。[v1.0.3 安装与更新说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)提供详情。
 
-托管版 Node Control 1.0.3 登录会话会在创建后 24 小时到期。升级后，之前会随活动延长有效期的会话也会受到期限上限约束，因此可能需要重新登录。撤销设备访问权限和撤销账号登录会话是两项不同操作。更新 Python wheel 不会部署 Node Control，托管服务的更新由运维人员另行评估。现有配对绑定不会被追溯审计或删除。如对其可信度有疑虑，应由运维人员检查，必要时撤销绑定或重新配对。不要自动部署服务、重置状态、撤销会话或重新配对。参见 [v1.0.3 发布说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)。`queued`（已排队）或 `submitted`（已提交）不代表接收方已消费消息或已收到 ACK（确认响应）；结果为 `unknown`（结果未知）时不要自动重发。
+托管版 Node Control 1.0.3 登录会话会在创建后 24 小时到期。升级后，之前会随活动延长有效期的会话也会受到期限上限约束，因此可能需要重新登录。撤销设备访问权限和撤销账号登录会话是两项不同操作。更新 Python wheel 不会部署 Node Control，托管服务的更新由运维人员另行评估。现有配对绑定不会被追溯审计或删除。如对其可信度有疑虑，应由运维人员检查，必要时撤销绑定或重新配对。不要自动部署服务、重置状态、撤销会话或重新配对。参见 [v1.0.3 发布说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)。消息处于 `queued`（已排队）或 `submitted`（已提交）状态，不代表接收方已消费消息，也不代表发送方已收到 ACK（确认响应）。结果为 `unknown`（结果未知）时，绝不要自动重发。
 
 ## 安装技能
 
