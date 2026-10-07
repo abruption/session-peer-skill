@@ -35,6 +35,15 @@ help. A supported command or flag must appear affirmatively in supported help:
 “doctor unsupported” does not enable doctor. Version checks alone do not resolve
 unreleased builds that reuse a version string. See the [reviewed npm 0.3.2 CLI help](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/src/help.ts).
 
+Minimum is CLI compatibility for this implementation's stated baseline, separate
+from security patch recommendations. Full is this revision's published-feature
+coverage reference, not every runtime feature, a latest version, or a guarantee
+of platform/native prerequisites, provisioning, security fixes, delivery, or ACK.
+Unsupported and future features do not count toward coverage. Gate each optional
+operation by its feature version and affirmative help, even at or above full.
+Help establishes option presence only; permissions, allowlists, native/platform
+requirements, and unique-writer guards still govern execution.
+
 | Operation | Published 0.1.0 baseline | Published additions present in 0.3.2; verify help |
 |---|---|---|
 | Output | Explicit JSON required | 0.2.0+: explicit JSON or text; still no default output format |
