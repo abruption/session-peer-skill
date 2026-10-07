@@ -4,6 +4,8 @@
 
 **Draft for coordination with [TS issue #118](https://github.com/abruption/session-peer-ts/issues/118), 2026-10-07.** This document incorporates the Python owner's planning boundaries and proposes an agreement on contract semantics and rollout order. Planning agreement does not authorize runtime implementation, experiments, merge, installation, pin changes, or publication. Candidate metadata numbers and any new schema remain unapproved.
 
+**Coordination status:** the owners agree on rollout order and min/full meanings at planning level, with fixture details still open. Earlier-head reviews do not freeze this exact candidate. The manifest below is a documentation proposal for the next contract review, not an implemented or executed test suite.
+
 ## Current published contract
 
 The npm 0.3.2 publication source is [`f335f07352c842f2f6ceb12bd2ca6274b52f69f7`](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/RELEASING.md). Its [`inspectSkills`](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/src/diagnostics.ts) requires these exact values:
@@ -84,6 +86,62 @@ These outcomes are proposed policy, not a description of every published result.
 | Explicitly reviewed profile and runtime combination | `compatible`, limited to `metadata_only` |
 
 Preserve path, status/code, and inspection scope in the result so users can distinguish unsupported metadata from unavailable evidence. Additional result fields or a new schema/policy need separate review; a verdict must not imply an unperformed capability test. Skill inspection must not invoke runtime executables, make network requests, read instruction bodies for execution, install/update anything, or authorize discovery/delivery. Source provenance and content review remain separate.
+
+## Fixture manifest for review
+
+Use the exact published legacy and candidate successor tuples above as distinct inputs. Each parameter listed below is a separate fixture instance, not a combined mutation. These are source-derived legacy expectations and **unapproved successor expectations**, not test results. Proposed guard runtime identities are supplied as internal fixture inputs; no executable, installation, or hypothetical runtime below the minimum is invoked by this document work.
+
+### Published behavior fixtures
+
+These cases anchor public source `f335f07352c842f2f6ceb12bd2ca6274b52f69f7`. Status/code/verification expectations are the published table above, including absent `verification` on missing/permission/unknown results.
+
+| ID | Independent input case | Public 0.3.2 expectation |
+|---|---|---|
+| L01 | Exact legacy tuple | `compatible` / `skill_contract_compatible`, `metadata_only` |
+| L02 | Candidate successor tuple | `incompatible` / `skill_contract_mismatch`, `metadata_only` |
+| L03 | Raw `ENOENT`; raw `ENOTDIR`, each reaching catch | `missing` / `skill_missing` |
+| L04 | Raw `EACCES`; raw `EPERM`, each reaching catch | `permission_denied` / `permission_denied` |
+| L05 | Other caught error; wrapped path-resolution refusal; non-regular file; pre-read size over 65,536 bytes | `unknown` / `skill_metadata_unreadable` |
+| L06 | No frontmatter; empty frontmatter; zero metadata sections; multiple metadata sections | `unknown` / `skill_metadata_missing` |
+| L07 | For each required scalar: omit it; duplicate it with equal values; duplicate it with conflicting values; use a value whose scalar line fails the published regex | `incompatible` / `skill_contract_mismatch`, `metadata_only` |
+| L08 | For each required scalar: one parseable but unsupported value | `incompatible` / `skill_contract_mismatch`, `metadata_only` |
+| L09 | Legacy tuple with missing or different top-level `name` | Current tuple still matches: `compatible`, `metadata_only`; name is not checked |
+
+The required scalars in L07/L08 are `version`, `runtime-implementation`, `runtime-min-version`, `runtime-full-version`, and `runtime-capability-policy`. These legacy cases must retain their current expected results in the published-source fixture group; a future checker uses a separate group to show intentional changes.
+
+### Proposed guard fixtures
+
+The default proposed envelope retains current `path`, status/code, and `verification` placement: compatible/incompatible structural results carry `metadata_only`; missing/permission/unknown results do not gain a verification field automatically. Reusing the current codes for a changed classification, or adding any new field/code, still requires explicit #118 acceptance. No proposed `compatible` expectation below is a claim that a supporting guard is implemented, tested, approved, or public.
+
+| ID | Independent input case | Proposed expected status and inspection scope |
+|---|---|---|
+| G01 | Explicitly reviewed guard identity × exact legacy profile; separately, that guard × agreed successor profile | Proposed `compatible`, `metadata_only`, only after the exact combinations are agreed and guard tests pass; currently unconfirmed |
+| G02 | Valid runtime identity below the profile's declared minimum | `incompatible`, `metadata_only`; baseline must not be used |
+| G03 | Valid but unreviewed runtime identity, including a later/future version outside the finite matrix | `incompatible`, `metadata_only`; no wildcard or arithmetic acceptance |
+| G04 | Runtime identity unavailable, ambiguous, or malformed | `unknown`; do not infer compatibility or execute a runtime to obtain inspection evidence |
+| G05 | Each valid but unreviewed skill version/profile, minimum value, full value, or policy value | `incompatible`, `metadata_only` |
+| G06 | Different valid top-level name; different valid implementation | `incompatible`, `metadata_only`; name validation is a new check |
+| G07 | Missing, malformed, or duplicate/conflicting required name/scalar; unsupported scalar/map shape | `unknown`; intentional change from L07 for required metadata scalars |
+| G08 | L03/L04 missing or raw permission errors | Preserve `missing` / `skill_missing` and `permission_denied` / `permission_denied` respectively |
+| G09 | L05/L06 input failures and structure failures | Preserve `unknown` with separately reviewed reason codes; no raw permission-error merging |
+| G10 | Valid profile plus unmet optional platform/native/permission/writer prerequisites | Structural verdict stays within the reviewed matrix; no verdict permits the optional operation or proves delivery/ACK |
+
+G02/G03 are profile-support rejection cases, distinct from G04's unavailable runtime evidence. Full coverage does not substitute for matrix membership. G07's scalar classification and name check are deliberate future changes, not assertions about public 0.3.2. The exact accepted runtime identities, final profile tuple, reason codes for changed failures, and parser/envelope details remain open review items.
+
+### Future reader and side-effect acceptance
+
+Reader acceptance must be agreed and demonstrated in separately authorized #118 work. The proposed starting budget is the existing 65,536-byte size threshold, still subject to review; a pre-read stat alone does not establish it.
+
+| ID | Future acceptance evidence required |
+|---|---|
+| B01 | Reject non-regular input without blocking on special files; test the exact size boundary and oversize input |
+| B02 | Enforce an actual read-byte budget, including a bounded overflow-detection allowance if agreed, when a file grows after stat; specify allocation/read bounds independently of parser behavior |
+| B03 | Verify the opened descriptor's regular-file status and identity against inspected evidence; replacement, symlink changes, or conflicting evidence must not produce compatibility for different bytes |
+| B04 | Test growth, truncation, replacement, and malformed-input races using bounded controlled fixtures; agree on failure statuses rather than treating a race as a tuple match |
+| B05 | Close every opened descriptor on success and each error/early return and clean only the test-owned temporary files; demonstrate resource cleanup without modifying installed skills |
+| B06 | Demonstrate no body instruction/reference execution, network requests, runtime/native-agent execution, installation, update, send, or user-state writes during skill inspection; reading body bytes is not prohibited by `metadata_only` |
+
+These are proposed acceptance conditions, not a frozen reader design, a deadline guarantee for arbitrary filesystem I/O, or a reproduced bug. Exact byte/race bounds and cleanup assertions need TS review before implementation; current CI does not exercise this proposed reader.
 
 ## Rollout order and gates
 
