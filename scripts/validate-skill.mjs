@@ -106,7 +106,7 @@ for (const [index, readme] of readmes.entries()) {
   }
 }
 
-for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
+for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'docs/typescript-compatibility.md', 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
   for (const [, target] of read(document).matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(target) || target.startsWith('#')) continue
     const path = target.split('#')[0]
