@@ -101,9 +101,9 @@ inspection. Inspect `returnRoute`, never assume it from a successful send.
 Add `--host user@host` to supported list/send/doctor commands. Both endpoints
 need the same exact TypeScript runtime version; for development builds also
 verify the same build/commit. Remote home/binary paths belong to that host.
-For a non-default launcher, `--remote-bin` requires an absolute remote path,
-including a Windows `.cmd` shim when applicable; native Windows also requires
-`--remote-platform win32`. Do not bootstrap Python, provision a remote runtime,
+For a non-default launcher, `--remote-bin` requires an absolute remote path.
+For a Windows SSH destination, add `--remote-platform win32` and use its Windows
+`.cmd` shim when applicable. Do not bootstrap Python, provision a remote runtime,
 or fall back after an uncertain request.
 
 In published 0.3.0+, repeated `--host` returns ordered per-host JSON results.
@@ -160,10 +160,10 @@ hooks do not download or overwrite skills.
 
 ## Interpret results and wait safely
 
-`posted` means a Claude socket write; `queued` means Codex queue registration.
+`posted` means a Claude native inbox write; `queued` means Codex queue registration.
 Neither is consumption or ACK. `consumptionConfirmed` remains false. Diagnostic
 fields such as `queueId` or `codexHomeResolution` are not delivery receipts.
-Keep `status`, `submitted`, `retryAllowed`, and the exit status together:
+Keep `status`, `submitted`, `retryAllowed` when present, and the exit status together:
 `refused` has not submitted; `unknown` has `submitted:null` and must never be
 retried automatically. Missing replies or a target exit cannot establish
 consumption or failure. Do not implement wait by transcript reads or polling.
