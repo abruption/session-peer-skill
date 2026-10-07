@@ -12,7 +12,7 @@
 
 ## クイックスタート
 
-session-peer 0.9.1 以降が必要です。記載されているすべての機能を使うには session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス経由の通信には Unix、Python 3.11 以降、`session-peer[relay]` が必要です。
+基本的な Python CLI コマンドには session-peer 0.9.1 以降が必要です。スキルで案内する Python CLI 機能をすべて使うには session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には、Unix 上で Python 3.11 以降と `session-peer[relay]` が必要です。
 v1.0.3 のセキュリティ修正を利用するには、Python ランタイム 1.0.3 以降を使用してください。上記の互換バージョンは CLI 機能の条件であり、セキュリティ上の推奨バージョンではありません。
 
 ### インストール
@@ -40,7 +40,7 @@ npx -y skills@latest update session-peer --global --yes
 
 上記のランタイム更新コマンドは pipx でインストールした場合のものです。ランタイムは導入時と同じパッケージマネージャーで更新してください。ランタイムの更新はスキルを更新しません。他の導入方法と固定バージョンは利用ガイドを参照してください。
 
-キューに登録済み、または送信済みであっても、受信側でメッセージが消費されたことは確認できません。送信結果が不明な場合は自動再送しないでください。Codex の返信待ちは利用ガイドで説明しています。
+状態が `queued`（キュー登録済み）または `submitted`（送信済み）でも、受信側がメッセージを消費したことは確認できません。送信結果が不明な場合は自動で再送しないでください。Codex の返信待ちは利用ガイドを参照してください。
 
 npm 版 TypeScript ランタイムには、別の `session-peer-ts` スキルを使います。エージェント、プロジェクト/グローバルの適用範囲、レビュー済みコミットを指定したインストール手順は [TypeScript 設定ガイド](docs/typescript.md)を参照してください。
 
@@ -50,7 +50,7 @@ npm 版 TypeScript ランタイムには、別の `session-peer-ts` スキルを
 - [導入方法・固定バージョン・互換性・返信待ち](docs/usage.ja.md)
 - [公開済みスキルの指示](session-peer/SKILL.md)
 - [開発とリリース手順（英語）](CONTRIBUTING.md)
-- [ランタイム CLI リファレンス（v1.0.3）](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
+- [ランタイム CLI リファレンス（v1.0.4）](https://github.com/abruption/session-peer/blob/v1.0.4/docs/cli-reference.md)
 
 ## ライセンス
 

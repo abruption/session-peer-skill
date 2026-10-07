@@ -2,7 +2,7 @@
 
 [English](README.md) · [한국어](README.ko.md) · [日本語](README.ja.md)
 
-这是一项智能体技能，可借助 [session-peer](https://github.com/abruption/session-peer) 在本机、SSH 主机或可选的配对设备上查找 Claude Code、Codex 和已注册且正在运行的 Antigravity 会话，并向这些会话发送消息。
+这是一项智能体技能，使用 [session-peer](https://github.com/abruption/session-peer) 查找 Claude Code、Codex 和已注册且正在运行的 Antigravity 会话并向其发送消息。可在本机或通过 SSH 使用，也可选择使用配对设备传输。
 
 ## 演示
 
@@ -12,8 +12,8 @@
 
 ## 快速开始
 
-需要 session-peer 0.9.1 或更高版本；如需使用文档所述的全部功能，则需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要安装附加依赖项 `session-peer[relay]`（Unix、Python 3.11 或更高版本）。
-如需获得 v1.0.3 中的安全修复，请使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能兼容门槛，并非安全建议版本。
+基本 Python CLI 命令需要 session-peer 0.9.1 或更高版本。本技能介绍的全部 Python CLI 功能需要 session-peer 1.0.1 或更高版本。配对设备传输为可选功能，需要 `session-peer[relay]` 附加依赖项（Unix、Python 3.11 或更高版本）。
+如需获得 v1.0.3 安全修复，请使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能门槛，并非安全建议版本。
 
 ### 安装
 
@@ -40,7 +40,7 @@ npx -y skills@latest update session-peer --global --yes
 
 上面的运行时更新命令适用于通过 pipx 安装的情况；请继续使用安装运行时所用的包管理器。运行时升级不会更新技能。其他安装方式和固定版本安装请参阅使用指南。
 
-消息已排队或已提交，不代表接收方已消费该消息。提交结果不确定时不要自动重发。Codex 回复等待流程见使用指南。
+`queued` 或 `submitted` 状态不代表接收方已消费该消息。提交结果不确定时不要自动重发。Codex 回复等待流程请参阅使用指南。
 
 npm TypeScript 运行时使用独立的 `session-peer-ts` 技能。指定智能体、项目/全局适用范围和经审查提交版本的安装步骤，请参阅 [TypeScript 设置指南](docs/typescript.md)。
 
@@ -50,7 +50,7 @@ npm TypeScript 运行时使用独立的 `session-peer-ts` 技能。指定智能�
 - [安装方式、固定版本、兼容性与回复等待](docs/usage.zh-CN.md)
 - [已发布的智能体指令](session-peer/SKILL.md)
 - [开发与发布流程（英文）](CONTRIBUTING.md)
-- [运行时 CLI 参考（v1.0.3）](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
+- [运行时 CLI 参考（v1.0.4）](https://github.com/abruption/session-peer/blob/v1.0.4/docs/cli-reference.md)
 
 ## 许可证
 

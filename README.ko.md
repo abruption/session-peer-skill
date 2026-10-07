@@ -12,8 +12,8 @@
 
 ## 빠른 시작
 
-session-peer 0.9.1 이상이 필요하며, 안내하는 모든 기능을 사용하려면 session-peer 1.0.1 이상이 필요합니다. 페어링 기기 전송은 선택 기능이며, Unix 환경에서 Python 3.11 이상과 `session-peer[relay]`가 필요합니다.
-v1.0.3 보안 수정을 적용하려면 Python 런타임 1.0.3 이상을 사용합니다. 앞의 호환 버전은 CLI(명령줄 인터페이스)의 기능 지원 기준이며, 보안 권장 버전과 별개입니다.
+기본 Python CLI 명령에는 session-peer 0.9.1 이상이 필요합니다. 스킬에 문서화된 Python CLI 기능 전체를 사용하려면 session-peer 1.0.1 이상이 필요합니다. 페어링 기기 전송은 선택 기능이며, Unix 환경에서 Python 3.11 이상과 `session-peer[relay]`가 필요합니다.
+v1.0.3 보안 수정을 적용하려면 Python 런타임 1.0.3 이상을 사용합니다. 위 호환 버전은 CLI(명령줄 인터페이스) 기능 지원 기준이며 보안 권장 버전과 별개입니다.
 
 ### 설치
 
@@ -40,7 +40,7 @@ npx -y skills@latest update session-peer --global --yes
 
 위 런타임 명령은 pipx로 설치한 경우에 사용합니다. 런타임은 기존에 사용한 패키지 관리자로 계속 관리합니다. 런타임을 업그레이드해도 스킬은 업데이트되지 않습니다. 다른 설치 방식과 고정 버전 설치 방법은 사용 안내를 참고합니다.
 
-메시지가 큐(대기열)에 등록되거나 제출되었다는 결과만으로는 수신자가 메시지를 읽어들였는지 확인할 수 없습니다. 제출 결과가 불확실한 경우 자동으로 재전송해서는 안 됩니다. Codex 회신 대기 절차는 사용 안내를 참고합니다.
+`queued` 또는 `submitted` 상태는 수신자가 메시지를 처리했다는 확인이 아닙니다. 제출 결과가 불확실한 경우 자동으로 재전송하지 마세요. Codex 회신 대기 절차는 사용 안내를 참고하세요.
 
 npm TypeScript 런타임에는 별도의 `session-peer-ts` 스킬을 사용합니다. 에이전트, 프로젝트 또는 전역 설치 범위, 검토된 커밋을 명시하는 설치 방법은 [TypeScript 설정 안내](docs/typescript.md)를 참고합니다.
 
@@ -50,7 +50,7 @@ npm TypeScript 런타임에는 별도의 `session-peer-ts` 스킬을 사용합�
 - [설치 방식별 안내·고정 버전·호환성·회신 대기](docs/usage.ko.md)
 - [배포된 에이전트 지침](session-peer/SKILL.md)
 - [개발 검증 및 릴리스 절차](CONTRIBUTING.ko.md)
-- [런타임 CLI 참조(v1.0.3)](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
+- [런타임 CLI 참조(v1.0.4)](https://github.com/abruption/session-peer/blob/v1.0.4/docs/cli-reference.md)
 
 ## 라이선스
 
