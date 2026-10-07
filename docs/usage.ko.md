@@ -4,7 +4,7 @@
 
 ## 사전 요구 사항
 
-스킬을 설치하기 전에 session-peer 0.9.1 이상을 설치하고 버전을 확인합니다.
+스킬을 설치하기 전에 session-peer 0.9.1 이상이 설치되어 있는지 확인합니다. 아래는 pipx 설치 예시입니다. 런타임이 이미 설치되어 있다면 설치 명령은 건너뛰고 버전만 확인합니다.
 
 ```bash
 pipx install session-peer
@@ -13,7 +13,7 @@ session-peer --version
 
 uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windows에서 직접 설치하는 방법은 [session-peer 설치 안내](https://github.com/abruption/session-peer#installation-options)를 참고합니다. 독립 실행형은 프로그램 파일을 직접 설치하는 방식입니다. 업그레이드할 때도 기존에 사용한 패키지 관리자를 유지합니다.
 
-스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin`과 관련 이벤트를 연결해 살펴보는 Relay 진단에는 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(추가 설치 옵션, Unix·Python 3.11 이상)가 필요합니다.
+스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin` 기능과 `attemptId`로 이벤트를 연결하는 Relay 진단에는 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(추가 설치 옵션, Unix·Python 3.11 이상)가 필요합니다.
 
 ## 런타임 1.0.3 보안 및 운영
 
@@ -21,7 +21,7 @@ uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windo
 
 SSH를 사용하기 전에 [v1.0.3 연결 옵션 규칙](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)을 확인합니다. 전달된 옵션 목록 전체를 SSH 실행 전에 허용 목록과 대조합니다. `-o`에는 `KEY=value` 형식을, 점프 대상에는 호스트 형식을 사용하고, `StrictHostKeyChecking`에는 `yes`, `ask`, `accept-new`만 지정할 수 있습니다. SSH URI 형식의 점프 대상, `+`가 포함된 사용자명, 공백으로 구분한 `-o 'Key value'` 형식, 외부 명령을 실행하는 훅, 대체 설정 파일·연결 공유용 소켓(control socket) 경로, known-hosts 파일 재지정은 거부됩니다. 기존 사용자·시스템 SSH 설정은 운영자가 신뢰해야 하는 설정 영역이며, 실행 환경을 격리하는 샌드박스가 아닙니다.
 
-릴리스 기반 독립 실행형 설치와 로컬 업데이트에는 게시 후 변경할 수 없는 릴리스 파일(불변 릴리스 자산), 출처(provenance) 검증, 인증된 최근 버전의 GitHub CLI(`gh`; 2.102.0에서 검증)가 필요합니다. 내려받은 `install.sh`를 실행하기 전에 [설치 스크립트를 검증하는 초기 절차(부트스트랩)](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)를 따릅니다. 검증에 실패하면 서명되지 않은 이전 자산이나 개발용 `main`으로 대체하지 않습니다.
+릴리스 기반 독립 실행형 설치(`install.sh`)와 로컬 `session-peer update`는 게시 후 변경할 수 없는 GitHub 릴리스 자산과 출처(provenance)를 검증합니다. 이 검증에는 설치 스크립트 안내에 따라 인증된 GitHub CLI(`gh`) 2.102.0 이상이 필요하며, `gh auth login` 또는 `GH_TOKEN`으로 인증합니다. 2.102.0은 검증한 기준 버전이며, 필요한 모든 검증 플래그를 지원하는 가장 이른 버전은 확인되지 않았습니다. 내려받은 `install.sh`를 실행하기 전에 [설치 스크립트를 검증하는 초기 절차(부트스트랩)](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)를 따릅니다. 검증에 실패하면 서명되지 않은 이전 자산이나 개발용 `main`으로 자동 대체하지 않습니다.
 
 검증된 설치 스크립트는 로컬 또는 SSH 대상에 프로그램과 호환 스킬 사본을 함께 설치합니다. 로컬 `session-peer update`는 최신 프로그램만 내려받아 검증합니다. `update --host`는 원격 사본이 없거나 더 오래된 경우 현재 로컬의 독립 실행형 프로그램을 전송하며, 원격 호스트에서는 내려받지 않습니다. 두 업데이트 모두 별도로 설치된 스킬은 갱신하지 않습니다. pipx·uv·pip로 설치한 경우에는 원래 사용한 관리자로 계속 관리합니다. [v1.0.3 설치·업데이트 안내](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)를 참고합니다.
 

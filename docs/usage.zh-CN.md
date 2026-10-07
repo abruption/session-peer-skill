@@ -4,7 +4,7 @@
 
 ## 前置条件
 
-安装技能前，请先安装 session-peer 0.9.1 或更高版本并确认版本：
+安装技能前，请确认已安装 session-peer 0.9.1 或更高版本并核对版本号。下面以 pipx 为例；如果运行时已安装，请跳过安装命令，只运行版本检查：
 
 ```bash
 pipx install session-peer
@@ -13,15 +13,15 @@ session-peer --version
 
 uv、pip、POSIX 独立安装程序以及 Windows 原生环境的安装方式，请参阅 [session-peer 安装说明](https://github.com/abruption/session-peer#installation-options)。升级时也请使用安装运行时所用的包管理器。
 
-本技能介绍的基本命令由 session-peer 0.9.1 及更高版本共同支持。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin` 和带尝试关联信息的 Relay 诊断需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要附加依赖项（extra）`session-peer[relay]`（Unix、Python 3.11 或更高版本）。
+本技能介绍的基本命令由 session-peer 0.9.1 及更高版本共同支持。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin`，以及使用 `attemptId` 关联连接尝试的 Relay 诊断，需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 `session-peer[relay]` 附加依赖项（extra）（Unix、Python 3.11 或更高版本）。
 
 ## 运行时 1.0.3 的安全与运维
 
-如需获得安全修复，请使用 Python 运行时 1.0.3 或更高版本。元数据中的最低版本和完整功能版本表示 CLI 兼容性，不是安全推荐版本。使用 SSH 前请查看 [v1.0.3 连接选项规则](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)：传入的整组选项会在 SSH 执行前经过允许列表验证。`-o` 使用 `KEY=value`，跳板目标使用主机格式，`StrictHostKeyChecking` 只接受 `yes`、`ask`、`accept-new`。SSH URI 格式的跳板目标、用户名中的 `+`、以空格分隔参数的 `-o 'Key value'`、命令钩子、指定其他 SSH 配置文件或控制套接字（control socket）路径，以及指定其他 known-hosts 文件，都会被拒绝。现有的用户级或系统级 SSH 配置仍属于运维人员需要信任的配置范围，并不是安全沙箱。
+如需获得安全修复，请使用 Python 运行时 1.0.3 或更高版本。元数据中的最低版本和完整功能版本表示 CLI 兼容性，不是安全推荐版本。使用 SSH 前请查看 [v1.0.3 连接选项规则](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)：传入的完整选项列表会在执行 SSH 前经过允许列表校验。`-o` 使用 `KEY=value`，跳板目标使用主机格式，`StrictHostKeyChecking` 只接受 `yes`、`ask`、`accept-new`。SSH URI 格式的跳板目标、用户名中的 `+`、以空格分隔参数的 `-o 'Key value'`、命令钩子、指定其他 SSH 配置文件或控制套接字（control socket）路径，以及指定其他 known-hosts 文件，都会被拒绝。现有的用户级或系统级 SSH 配置仍属于运维人员需要信任的配置范围，并不是安全沙箱。
 
-使用正式发布资产进行独立安装或本机更新，需要不可变的发布资产及其来源证明（provenance）验证，以及已完成身份认证且版本较新的 GitHub CLI（`gh`；已在 2.102.0 版本上测试）。执行下载的 `install.sh` 前，请遵循[已验证安装器的引导步骤](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)。验证失败不会自动回退到未签名的旧资产或开发版 `main`。已验证安装器会在本机或 SSH 目标上同时安装程序及兼容技能副本。本机 `session-peer update` 只下载并验证最新程序；`update --host` 在远端副本不存在或较旧时推送当前本机独立程序，远端不会下载。两者均不会更新单独安装的技能。通过 pipx、uv 或 pip 安装的运行时，请继续使用原来的包管理器进行更新。[v1.0.3 安装与更新说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)提供详情。
+基于正式发布资产的独立安装（`install.sh`）和本机 `session-peer update` 会验证不可变的 GitHub 发布资产及其来源证明（provenance）。进行这些验证时，请按照安装器说明使用已认证的 GitHub CLI（`gh`）2.102.0 或更高版本，并通过 `gh auth login` 或 `GH_TOKEN` 完成身份验证。2.102.0 是已测试的基准版本；目前尚未确定支持全部验证标志的最低版本。执行下载的 `install.sh` 前，请遵循[已验证安装器的引导步骤](https://github.com/abruption/session-peer/blob/v1.0.3/RELEASING.md)。验证失败不会自动回退到未签名的旧资产或开发版 `main`。已验证安装器会在本机或 SSH 目标上同时安装程序及兼容技能副本。本机 `session-peer update` 只下载并验证最新程序；`update --host` 在远端副本不存在或较旧时推送当前本机独立程序，远端不会下载。两者均不会更新单独安装的技能。通过 pipx、uv 或 pip 安装的运行时，请继续使用原来的包管理器进行更新。[v1.0.3 安装与更新说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#updating)提供详情。
 
-托管版 Node Control 1.0.3 登录会话会在创建后 24 小时到期。升级后，之前会随活动延长有效期的会话也会受到期限上限约束，因此可能需要重新登录。撤销设备访问权限和撤销账号登录会话是两项不同操作。更新 Python wheel 不会部署 Node Control，托管服务的更新由运维人员另行评估。现有配对绑定不会被追溯审计或删除。如对其可信度有疑虑，应由运维人员检查，必要时撤销绑定或重新配对。不要自动部署服务、重置状态、撤销会话或重新配对。参见 [v1.0.3 发布说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)。消息处于 `queued`（已排队）或 `submitted`（已提交）状态，不代表接收方已消费消息，也不代表发送方已收到 ACK（确认响应）。结果为 `unknown`（结果未知）时，绝不要自动重发。
+托管版 Node Control 1.0.3 登录会话自创建起 24 小时后绝对到期。升级后，先前会随活动延长有效期的会话也会受此时限约束，因此可能需要重新登录。撤销设备访问权限和撤销账号登录会话是两项不同操作。更新 Python wheel 不会部署 Node Control；托管服务的更新由运维人员另行评估。现有配对绑定不会被追溯审计或删除。如对其可信度有疑虑，应由运维人员检查，必要时撤销绑定或重新配对。不要自动部署服务、重置状态、撤销会话或重新配对。参见 [v1.0.3 发布说明](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)。消息处于 `queued`（已排队）或 `submitted`（已提交）状态，不代表接收方已消费或已确认该消息（ACK）。`unknown`（结果未知）时绝不要自动重发。
 
 ## 安装技能
 

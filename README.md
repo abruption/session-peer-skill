@@ -2,7 +2,7 @@
 
 [한국어](README.ko.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md)
 
-An agent skill for finding and messaging Claude Code, Codex, and live registered Antigravity sessions with [session-peer](https://github.com/abruption/session-peer), locally, over SSH, or through optional paired devices.
+An agent skill for finding and messaging Claude Code, Codex, and live registered Antigravity sessions with [session-peer](https://github.com/abruption/session-peer). You can use session-peer locally, over SSH, or through the optional paired-device transport.
 
 ## Demo
 
@@ -12,7 +12,7 @@ The runtime demonstration shows Claude Code and Codex messaging; the skill provi
 
 ## Quick Start
 
-Requires session-peer 0.9.1 or newer; all documented features require session-peer 1.0.1 or newer. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
+Basic Python CLI commands require session-peer 0.9.1 or newer; the full set of Python CLI features documented in the skill requires session-peer 1.0.1 or newer. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
 For the v1.0.3 security fixes, use Python runtime 1.0.3 or newer. The compatibility versions above are CLI feature thresholds, not security recommendations.
 
 ### Install
@@ -40,7 +40,7 @@ npx -y skills@latest update session-peer --global --yes
 
 The runtime command above is for pipx installations; keep using your existing runtime package manager. Runtime upgrades do not update the skill. See the usage guide for other installation methods and pinned versions.
 
-Queued or submitted does not confirm consumption. Do not automatically resend after an uncertain submission; see the usage guide for Codex reply waiting.
+A `queued` or `submitted` status does not confirm that the recipient consumed the message. Do not automatically resend after an uncertain submission; see the usage guide for Codex reply waiting.
 
 The separate `session-peer-ts` skill supports the npm TypeScript runtime. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
 
@@ -50,7 +50,7 @@ The separate `session-peer-ts` skill supports the npm TypeScript runtime. See th
 - [Installation variants, pinned versions, compatibility, and reply waiting](docs/usage.md)
 - [Published agent instructions](session-peer/SKILL.md)
 - [Development and release procedure](CONTRIBUTING.md)
-- [Runtime CLI reference (v1.0.3)](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
+- [Runtime CLI reference (v1.0.4)](https://github.com/abruption/session-peer/blob/v1.0.4/docs/cli-reference.md)
 
 ## License
 
