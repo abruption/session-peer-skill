@@ -16,8 +16,11 @@ metadata:
 
 Resolve the executable (`command -v session-peer` on POSIX, `Get-Command session-peer -All`
 in PowerShell), inspect PATH conflicts, and run that exact command with `--version`.
-Require the stable `session-peer X.Y.Z (typescript)` version marker. Python uses
-that command name too: if the marker is absent, select the Python skill or ask
+Require the stable `session-peer X.Y.Z (typescript)` version marker and a runtime
+at or above this skill's declared `runtime-min-version` (current baseline `0.1.0`).
+Check this explicitly; skill metadata is not assumed to be enforced by the agent
+framework. A runtime below the minimum does not support this skill's baseline.
+Python uses that command name too: if the marker is absent, select the Python skill or ask
 which installation the user intends. Keep the resolved executable for every
 following command; do not replace another manager's launcher.
 
@@ -97,7 +100,10 @@ Exit 0 and `ok:true` can coexist with `ready:false`; inspect readiness and error
 Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
-not install, update, or make network requests.
+not install, update, or make network requests. It is not a privacy guarantee
+that body bytes are unread: published inspection reads the file after a 64 KiB
+pre-read stat size check. That check does not prove a read-time byte budget or
+descriptor identity guarantee.
 
 A working forward SSH route does not establish the reverse route. Only when
 needed and requested, use `doctor --host DEST --check-return-route
