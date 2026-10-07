@@ -2,18 +2,18 @@
 
 [English](README.md) · [한국어](README.ko.md) · [日本語](README.ja.md)
 
-这是一个使用 [session-peer](https://github.com/abruption/session-peer) 查找本机、SSH 主机或可选配对设备上的 Claude Code、Codex 和正在运行的 Antigravity 会话并发送消息的代理技能。
+这是一项智能体技能，可借助 [session-peer](https://github.com/abruption/session-peer) 在本机、SSH 主机或可选的配对设备上查找 Claude Code、Codex 和已注册且正在运行的 Antigravity 会话，并向这些会话发送消息。
 
 ## 演示
 
 ![在 Claude Code 和 Codex 之间交换消息的 session-peer 运行时](https://raw.githubusercontent.com/abruption/session-peer/v1.0.1/docs/assets/session-peer-live-codex-claude.gif)
 
-运行时演示展示 Claude Code 与 Codex 的消息传输；技能提供代理指令。
+运行时演示展示 Claude Code 与 Codex 之间的消息传递；技能提供智能体指令。
 
 ## 快速开始
 
-需要 session-peer 0.9.1 或更高版本；使用文档中的全部功能需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 Unix、Python 3.11 或更高版本以及 `session-peer[relay]`。
-为获得 v1.0.3 安全修复，建议使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能门槛，与安全推荐版本不同。
+需要 session-peer 0.9.1 或更高版本；如需使用文档所述的全部功能，则需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要安装附加依赖项 `session-peer[relay]`（Unix、Python 3.11 或更高版本）。
+如需获得 v1.0.3 中的安全修复，请使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能兼容门槛，并非安全建议版本。
 
 ### 安装
 
@@ -29,7 +29,7 @@ npx -y skills@latest add abruption/session-peer-skill \
 npx -y skills@latest list --global --json
 ```
 
-Skills CLI 创建 Claude Code 副本和 Codex/Antigravity 共用副本。如果技能列表已被缓存，请打开新的代理会话。
+Skills CLI 会创建 Claude Code 专用副本，以及供 Codex 和 Antigravity 共用的副本。如果技能目录使用了缓存，请开启新的智能体会话。
 
 ### 更新
 
@@ -38,18 +38,18 @@ pipx upgrade session-peer
 npx -y skills@latest update session-peer --global --yes
 ```
 
-上面的运行时更新命令适用于 pipx 安装。请继续使用原来的运行时包管理器。运行时升级不会更新技能。其他安装方式和固定版本安装请参阅使用指南。
+上面的运行时更新命令适用于通过 pipx 安装的情况；请继续使用安装运行时所用的包管理器。运行时升级不会更新技能。其他安装方式和固定版本安装请参阅使用指南。
 
-排队或提交不代表接收方已读取。提交结果不确定时不要自动重发。Codex 回复等待流程见使用指南。
+消息已排队或已提交，不代表接收方已消费该消息。提交结果不确定时不要自动重发。Codex 回复等待流程见使用指南。
 
-npm TypeScript 运行时使用独立的 `session-peer-ts` 技能。指定代理、项目/全局范围及已审查提交的安装步骤请参阅 [TypeScript 设置指南](docs/typescript.md)。
+npm TypeScript 运行时使用独立的 `session-peer-ts` 技能。指定智能体、项目/全局适用范围和经审查提交版本的安装步骤，请参阅 [TypeScript 设置指南](docs/typescript.md)。
 
 ## 文档
 
-- [TypeScript 技能安装、固定更新与移除](docs/typescript.md)
+- [TypeScript 技能的安装、固定版本更新与移除](docs/typescript.md)
 - [安装方式、固定版本、兼容性与回复等待](docs/usage.zh-CN.md)
-- [正式发布的代理指令](session-peer/SKILL.md)
-- [开发与发布流程（英语）](CONTRIBUTING.md)
+- [已发布的智能体指令](session-peer/SKILL.md)
+- [开发与发布流程（英文）](CONTRIBUTING.md)
 - [运行时 CLI 参考（v1.0.3）](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md)
 
 ## 许可证
@@ -58,6 +58,6 @@ npm TypeScript 运行时使用独立的 `session-peer-ts` 技能。指定代理�
 
 ## 支持与安全
 
-技能文档或安装问题请提交 [Issue](https://github.com/abruption/session-peer-skill/issues/new)。CLI 或传输问题请使用 [运行时 Issue](https://github.com/abruption/session-peer/issues)。
+技能文档或安装问题请通过[问题反馈页](https://github.com/abruption/session-peer-skill/issues/new)提交。CLI 或传输问题请使用[运行时问题跟踪页](https://github.com/abruption/session-peer/issues)。
 
-请按照包含邮件备用联系方式的 [维护者安全政策](https://github.com/abruption/session-peer/blob/main/SECURITY.md) 私下报告漏洞。不要在公开 Issue 中发布秘密信息、对话内容或会话标识符。
+请按照包含邮件备用联系方式的[维护者安全策略](https://github.com/abruption/session-peer/blob/main/SECURITY.md)私下报告漏洞。不要在公开 Issue 中发布机密信息、对话内容或会话标识符。
