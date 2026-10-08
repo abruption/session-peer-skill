@@ -1,8 +1,12 @@
+<div align="center">
+
 # session-peer スキル
 
 [English](README.md) · [한국어](README.ko.md) · [简体中文](README.zh-CN.md)
 
 [session-peer](https://github.com/abruption/session-peer) を使い、ローカル、SSH 経由、またはオプションのペアリング済みデバイス経由で、Claude Code、Codex、および登録済みで、現在実行中の Antigravity セッションを検索し、メッセージを送るエージェントスキルです。
+
+</div>
 
 ## デモ
 

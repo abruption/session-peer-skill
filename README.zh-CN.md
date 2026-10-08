@@ -1,8 +1,12 @@
+<div align="center">
+
 # session-peer 技能
 
 [English](README.md) · [한국어](README.ko.md) · [日本語](README.ja.md)
 
 这是一项智能体技能，使用 [session-peer](https://github.com/abruption/session-peer) 查找 Claude Code、Codex 和已注册且正在运行的 Antigravity 会话并向其发送消息。可在本机或通过 SSH 使用，也可选择使用配对设备传输。
+
+</div>
 
 ## 演示
 
