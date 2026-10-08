@@ -1,8 +1,12 @@
+<div align="center">
+
 # session-peer 스킬
 
 [English](README.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md)
 
 [session-peer](https://github.com/abruption/session-peer)를 사용하여 Claude Code, Codex, 실행 중이며 등록된 Antigravity 세션을 찾고 메시지를 보내는 에이전트 스킬입니다. 로컬 환경, SSH 연결, 또는 선택 기능인 페어링 기기 전송을 통해 사용할 수 있습니다. 페어링은 기기 사이의 연결을 등록하는 절차입니다.
+
+</div>
 
 ## 데모
 
