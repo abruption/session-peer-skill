@@ -46,7 +46,7 @@ The runtime command above is for pipx installations; keep using your existing ru
 
 A `queued` or `submitted` status does not confirm that the recipient consumed the message. Do not automatically resend after an uncertain submission; see the usage guide for Codex reply waiting.
 
-The separate `session-peer-ts` skill supports the npm TypeScript runtime. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
+The separate `session-peer-ts` skill 0.2.0 supports the npm TypeScript runtime; runtime 0.3.3 accepts its metadata profile. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
 
 ## Docs
 
