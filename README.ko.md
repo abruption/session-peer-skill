@@ -46,7 +46,7 @@ npx -y skills@latest update session-peer --global --yes
 
 `queued` 또는 `submitted` 상태는 수신자가 메시지를 처리했다는 확인이 아닙니다. 제출 결과가 불확실한 경우 자동으로 재전송하지 마세요. Codex 회신 대기 절차는 사용 안내를 참고하세요.
 
-npm TypeScript 런타임에는 별도의 `session-peer-ts` 스킬을 사용합니다. 에이전트, 프로젝트 또는 전역 설치 범위, 검토된 커밋을 명시하는 설치 방법은 [TypeScript 설정 안내](docs/typescript.md)를 참고합니다.
+npm TypeScript 런타임에는 별도의 `session-peer-ts` 스킬 0.2.0을 사용합니다. 런타임 0.3.3은 이 스킬의 메타데이터를 인식합니다. 에이전트, 프로젝트 또는 전역 설치 범위, 검토된 커밋을 명시하는 설치 방법은 [TypeScript 설정 안내](docs/typescript.md)를 참고합니다.
 
 ## 문서
 

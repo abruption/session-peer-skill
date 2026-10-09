@@ -3,10 +3,10 @@ name: session-peer-ts
 description: Discover and message Claude Code or Codex sessions using the npm TypeScript session-peer CLI, locally or over SSH. Use for user-requested cross-session messaging with the TypeScript runtime; Python runtime guidance belongs to the separate session-peer skill.
 allowed-tools: Bash, Read
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
   runtime-implementation: "typescript"
   runtime-min-version: "0.1.0"
-  runtime-full-version: "0.1.0"
+  runtime-full-version: "0.3.2"
   runtime-capability-policy: "probe-help"
 ---
 
@@ -24,10 +24,13 @@ Python uses that command name too: if the marker is absent, select the Python sk
 which installation the user intends. Keep the resolved executable for every
 following command; do not replace another manager's launcher.
 
-This guidance covers the published npm 0.3.2 runtime. The original 0.1.0 supports
-only the historical baseline below. The current frontmatter min/full values
-retain that baseline contract with `probe-help`; they do not declare every newer
-feature available. The skill version, npm version, and Python skill/repository
+This skill revision is 0.2.0 and covers the published npm 0.3.3 runtime. Its CLI
+minimum is 0.1.0; its full-feature coverage reference is 0.3.2. The original 0.1.0
+supports only the historical baseline below. Runtime 0.3.3 doctor accepts this
+exact successor metadata profile; public 0.3.2 doctor rejects it even though the
+baseline CLI commands work. For supported doctor metadata inspection, use 0.3.3;
+an upgrade still requires the user's request and the existing package manager.
+Do not change metadata to silence an incompatibility. The skill version, npm version, and Python skill/repository
 tag are independent. Unknown versions or contradictory help require review
 before using an unverified operation; do not infer features from Python's
 `referenceVersion` or from an unreleased design.
@@ -36,7 +39,7 @@ Capture `--help`. If it advertises `<command> --help`, capture that command's he
 before selecting options. Older baseline help does not promise per-command
 help. A supported command or flag must appear affirmatively in supported help:
 “doctor unsupported” does not enable doctor. Version checks alone do not resolve
-unreleased builds that reuse a version string. See the [reviewed npm 0.3.2 CLI help](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/src/help.ts).
+unreleased builds that reuse a version string. See the [published npm 0.3.3 CLI help](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/src/help.ts).
 
 Minimum is CLI compatibility for this implementation's stated baseline, separate
 from security patch recommendations. Full is this revision's published-feature
@@ -101,9 +104,14 @@ Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
 not install, update, or make network requests. It is not a privacy guarantee
-that body bytes are unread: published inspection reads the file after a 64 KiB
-pre-read stat size check. That check does not prove a read-time byte budget or
-descriptor identity guarantee.
+that body bytes are unread. Runtime 0.3.3 bounds whole-file UTF-8 reads to 65,536
+bytes, with a 65,537-byte overflow-detection buffer, and checks regular-file,
+descriptor/path, and observable stability evidence before interpreting metadata.
+It does not authenticate content, freeze an atomic snapshot, protect against a
+writer restoring identical metadata, or impose an arbitrary-filesystem I/O deadline.
+Public 0.3.2 used only a 64 KiB pre-read size check. Metadata compatibility follows
+a finite runtime/profile matrix; meeting min/full numerically does not establish
+that an unknown or future doctor accepts this profile.
 
 A working forward SSH route does not establish the reverse route. Only when
 needed and requested, use `doctor --host DEST --check-return-route
@@ -134,7 +142,7 @@ refused. For a requested single hop on a POSIX client, use the supported
 `--ssh-control-path` selects an existing socket for one host and cannot be
 combined with that jump. Existing user/system SSH config is trusted and may
 execute commands; the CLI option filter is not a sandbox for it. Preserve
-host-key checking. See the [reviewed SSH rules](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/docs/guide.md#several-hosts-and-connection-options).
+host-key checking. See the [published SSH rules](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/docs/guide.md#several-hosts-and-connection-options).
 
 Tailscale discovery is a routing hint, not authentication. Known online peers
 can resolve to MagicDNS while preserving the supplied SSH alias; known offline
@@ -165,7 +173,7 @@ Cached notices on other commands are opt-in via `SESSION_PEER_UPDATE_NOTICE=1`;
 just because one is available. The optional `sp` is an explicitly sourced shell
 alias, not a globally installed npm binary: set it up only if requested, then
 check that it forwards to the intended runtime. Keep the canonical resolved
-command for scripts, SSH, and reply instructions. See the [reviewed alias setup](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/docs/shorthand.md).
+command for scripts, SSH, and reply instructions. See the [published alias setup](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/docs/shorthand.md).
 
 This `session-peer-ts` skill is separate from the Python skill and npm runtime.
 Install/update/remove it only when requested, with the explicit agent, scope,

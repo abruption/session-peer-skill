@@ -46,7 +46,7 @@ npx -y skills@latest update session-peer --global --yes
 
 状態が `queued`（キュー登録済み）または `submitted`（送信済み）でも、受信側がメッセージを消費したことは確認できません。送信結果が不明な場合は自動で再送しないでください。Codex の返信待ちは利用ガイドを参照してください。
 
-npm 版 TypeScript ランタイムには、別の `session-peer-ts` スキルを使います。エージェント、プロジェクト/グローバルの適用範囲、レビュー済みコミットを指定したインストール手順は [TypeScript 設定ガイド](docs/typescript.md)を参照してください。
+npm 版 TypeScript ランタイムには、別の `session-peer-ts` スキル 0.2.0 を使います。ランタイム 0.3.3 は、このスキルのメタデータを認識します。エージェント、プロジェクト/グローバルの適用範囲、レビュー済みコミットを指定したインストール手順は [TypeScript 設定ガイド](docs/typescript.md)を参照してください。
 
 ## ドキュメント
 

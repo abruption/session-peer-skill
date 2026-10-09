@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Validate skill metadata and version facts in the README files and usage guides.
-// Usage: node scripts/validate-skill.mjs [--tag vX.Y.Z]
+// Usage: node scripts/validate-skill.mjs [--tag vX.Y.Z|session-peer-ts-vX.Y.Z]
 // On a tag push in GitHub Actions, GITHUB_REF_NAME is checked as the tag.
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -72,6 +72,24 @@ if (!meta) {
 
 const { version, 'runtime-min-version': minimum, 'runtime-full-version': full } = metadata
 
+const tsSkill = read('session-peer-ts/SKILL.md')
+const tsMeta = parseFrontmatter(tsSkill)
+const tsMetadata = tsMeta?.metadata ?? {}
+if (tsMeta?.name !== 'session-peer-ts') errors.push('TS SKILL.md: name must be session-peer-ts')
+if (!tsMeta?.description || !tsMeta?.['allowed-tools']) errors.push('TS SKILL.md: description and allowed-tools are required')
+for (const key of metadataKeys) {
+  if (!semver.test(tsMetadata[key] ?? '')) errors.push(`TS SKILL.md: metadata.${key} must be an X.Y.Z version`)
+}
+if (tsMetadata['runtime-implementation'] !== 'typescript') errors.push('TS SKILL.md: implementation must be typescript')
+if (tsMetadata['runtime-capability-policy'] !== 'probe-help') errors.push('TS SKILL.md: policy must be probe-help')
+const tsVersion = tsMetadata.version
+const tsGuide = read('docs/typescript.md')
+if (!tsGuide.includes(`TS skill \`${tsVersion}\``)) errors.push('TS setup guide: skill version differs from metadata')
+if (!tsGuide.includes(`session-peer-ts-v${tsVersion}`)) errors.push('TS setup guide: release tag differs from metadata')
+for (const key of ['runtime-min-version', 'runtime-full-version']) {
+  if (!tsGuide.includes(`\`${key}\` = \`${tsMetadata[key]}\``)) errors.push(`TS setup guide: ${key} differs from metadata`)
+}
+
 const statedMinimum = skill.match(/session-peer (\d+\.\d+\.\d+) or newer/)?.[1]
 if (statedMinimum !== minimum) {
   errors.push(`SKILL.md: body minimum runtime ${statedMinimum ?? 'missing'} does not match metadata ${minimum}`)
@@ -89,6 +107,10 @@ for (const [index, readme] of readmes.entries()) {
   const text = read(readme)
   const guidePath = usageGuides[index]
   const guide = read(guidePath)
+  if (!text.includes(`\`session-peer-ts\` skill ${tsVersion}`) &&
+      !text.includes(`\`session-peer-ts\` 스킬 ${tsVersion}`) &&
+      !text.includes(`\`session-peer-ts\` スキル ${tsVersion}`) &&
+      !text.includes(`\`session-peer-ts\` 技能 ${tsVersion}`)) errors.push(`${readme}: TS skill version differs from metadata`)
   for (const [path, body] of [[readme, text], [guidePath, guide]]) {
     const stated = body.match(/session-peer (\d+\.\d+\.\d+)/)?.[1]
     if (stated !== minimum) errors.push(`${path}: minimum runtime ${stated ?? 'missing'} does not match metadata ${minimum}`)
@@ -115,7 +137,10 @@ for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'docs/
 }
 
 const tag = releaseTag()
-if (tag !== null && tag !== `v${version}`) errors.push(`release tag ${tag} does not match metadata version ${version}`)
+if (tag !== null) {
+  const expected = tag.startsWith('session-peer-ts-') ? `session-peer-ts-v${tsVersion}` : `v${version}`
+  if (tag !== expected) errors.push(`release tag ${tag} does not match expected ${expected}`)
+}
 
 const agentYaml = read(`${skillDir}/agents/openai.yaml`)
 for (const key of ['display_name', 'short_description', 'default_prompt']) {
@@ -127,3 +152,4 @@ if (errors.length > 0) {
   process.exit(1)
 }
 console.log(`ok: ${skillDir} ${version} (runtime ${minimum}+, full ${full}+) is consistent across metadata, ${readmes.length} README files and usage guides; local links exist`)
+console.log(`ok: session-peer-ts ${tsVersion} (runtime ${tsMetadata['runtime-min-version']}+, full ${tsMetadata['runtime-full-version']}+) and its separate release tag are consistent`)

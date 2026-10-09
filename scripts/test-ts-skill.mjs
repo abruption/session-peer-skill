@@ -10,7 +10,7 @@ const source = resolve('session-peer-ts');
 const expected = readFileSync(join(source, 'SKILL.md'), 'utf8');
 const metadata = expected.match(/^---\n([\s\S]*?)\n---/)?.[1];
 assert.ok(metadata?.includes('name: session-peer-ts'));
-for (const [key, value] of Object.entries({ version: '0.1.0', 'runtime-implementation': 'typescript', 'runtime-min-version': '0.1.0', 'runtime-full-version': '0.1.0', 'runtime-capability-policy': 'probe-help' })) {
+for (const [key, value] of Object.entries({ version: '0.2.0', 'runtime-implementation': 'typescript', 'runtime-min-version': '0.1.0', 'runtime-full-version': '0.3.2', 'runtime-capability-policy': 'probe-help' })) {
   assert.ok(metadata.includes(`  ${key}: "${value}"`), key);
 }
 try {
