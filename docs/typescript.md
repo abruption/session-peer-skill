@@ -2,7 +2,7 @@
 
 [Back to README](../README.md)
 
-The separate `session-peer-ts` skill 0.2.0 describes the published npm TypeScript runtime 0.3.3. Its publication source is [`c0ed30273b9e9c0049df86ae3c38486a94289527`](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/RELEASING.md). The runtime runs without Python. Both runtimes use the command name `session-peer`, so resolve the intended executable and inspect its version and help before use.
+The separate `session-peer-ts` skill 0.2.0 describes the published npm TypeScript runtimes 0.3.3 and 0.3.4. The 0.3.4 publication source is [`afed4a5a8945012faf1b23d52cffecb70470a5b3`](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/RELEASING.md). The runtime runs without Python. Both runtimes use the command name `session-peer`, so resolve the intended executable and inspect its version and help before use.
 
 ## Published support and independent versions
 
@@ -14,14 +14,14 @@ Published 0.2.0 added combined listing, bounded known Codex homes, guarded live-
 | Python skill `0.3.2` | Version of `session-peer/SKILL.md` |
 | TS skill `0.2.0` | Version of `session-peer-ts/SKILL.md` |
 | TS skill tag `session-peer-ts-v0.2.0` | Separate TS skill release; resolve its annotated tag to the exact commit recorded in the release |
-| TS runtime `0.3.3` | Published npm package `session-peer`; independent of both skill versions |
+| TS runtimes `0.3.3` and `0.3.4` | Published npm package `session-peer`; independent of both skill versions |
 | `runtime-min-version` = `0.1.0` | CLI compatibility floor for the explicit baseline commands |
 | `runtime-full-version` = `0.3.2` | Coverage reference for this revision's published CLI features |
-| Successor doctor acceptance | Runtime `0.3.3` accepts this exact metadata profile; public `0.3.2` rejects it |
+| Successor doctor acceptance | Runtimes `0.3.3` and `0.3.4` accept this exact metadata profile; public `0.3.2` rejects it |
 
 The minimum and full values are distinct from security recommendations, latest-version markers, doctor support, and delivery/ACK. Help establishes option presence only; platform/native prerequisites, permissions, allowlists, and writer guards still apply. See the [normative min/full definitions and separate doctor acceptance table](typescript-compatibility.md#minimum-full-features-and-guard-acceptance).
 
-Use runtime 0.3.3 for reviewed doctor metadata compatibility with TS skill 0.2.0. Public 0.3.2 rejects the successor even though it meets the baseline CLI minimum and feature coverage values. Keep the existing package manager and obtain authorization before upgrading; do not edit metadata to hide a mismatch. Unknown future runtime/profile combinations are not automatically accepted. A compatible metadata check is not a content review, source authentication, freshness check, or delivery authorization.
+Use reviewed runtime 0.3.3 or 0.3.4 for doctor metadata compatibility with TS skill 0.2.0. Public 0.3.2 rejects the successor even though it meets the baseline CLI minimum and feature coverage values. Keep the existing package manager and obtain authorization before upgrading; do not edit metadata to hide a mismatch. Unknown future runtime/profile combinations are not automatically accepted. A compatible metadata check is not a content review, source authentication, freshness check, or delivery authorization.
 
 ## Install, update, and remove the skill
 
@@ -40,10 +40,16 @@ The TS metadata uses `runtime-implementation: "typescript"` and `runtime-capabil
 
 ## Runtime checks and ownership
 
-Resolve the executable before discovery. Explicit JSON remains a safe baseline; operations have no default output format. See the [agent instructions](../session-peer-ts/SKILL.md) for discovery, dry-run, SSH, and reply boundaries, and the [published CLI help](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/src/help.ts) for supported flags.
+Resolve the executable before discovery. Explicit JSON remains a safe baseline; operations have no default output format. See the [agent instructions](../session-peer-ts/SKILL.md) for discovery, dry-run, SSH, and reply boundaries, and the [published CLI help](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/help.ts) for supported flags.
 
-`doctor --json` performs read-only diagnostics; `ok:true` can coexist with `ready:false`. Runtime 0.3.3 skill inspection bounds whole-file UTF-8 reads to 65,536 bytes, with at most 65,537 bytes for overflow detection, and checks regular-file, descriptor/path, and observable stability evidence. It reads body bytes but interprets only frontmatter; `metadata_only` does not execute instructions, install, update, or make network requests. It does not authenticate content, freeze an atomic snapshot, or impose a deadline on arbitrary filesystem I/O. Public 0.3.2 had only a 64 KiB pre-read size check. See the [published compatibility contract and status table](typescript-compatibility.md); permission errors remain distinct from unknown input.
+`doctor --json` performs read-only diagnostics; `ok:true` can coexist with `ready:false`. Skill inspection in runtimes 0.3.3 and 0.3.4 bounds whole-file UTF-8 reads to 65,536 bytes, with at most 65,537 bytes for overflow detection, and checks regular-file, descriptor/path, and observable stability evidence. It reads body bytes but interprets only frontmatter; `metadata_only` does not execute instructions, install, update, or make network requests. It does not authenticate content, freeze an atomic snapshot, or impose a deadline on arbitrary filesystem I/O. Public 0.3.2 had only a 64 KiB pre-read size check. See the [published compatibility contract and status table](typescript-compatibility.md); permission errors remain distinct from unknown input.
 
 `doctor --check-return-route` is a separate, explicitly requested SSH probe. Metadata compatibility and forward SSH reachability do not prove that a send is authorized or that a return route works.
 
 `update --check --json` reads the npm registry without installing anything. Keep upgrades under the original manager; the CLI refuses self-update without `--check`. Cached notices require the user's opt-in `SESSION_PEER_UPDATE_NOTICE=1`. The optional `sp` is a sourced shell alias, not an automatically installed global binary. Runtime checks and upgrades do not change separately managed skills, Python installations, or remote hosts. A queued or posted message is not consumption or ACK; never automatically resend an unknown outcome.
+
+## Windows SSH results in runtime 0.3.4
+
+[Runtime 0.3.4](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.4) forwards the native exit code from Windows PowerShell SSH version preflight and request execution; a missing native exit code fails with exit 1. Complete validated submission evidence is retained after an abnormal transport exit. Partial or malformed output remains uncertain, so inspect the structured submission result and never automatically resend. Neither submission evidence nor a successful exit establishes consumption or ACK.
+
+Coordinate any requested runtime upgrade through the existing package manager on each endpoint: SSH still requires the same exact TS runtime version at both ends. The upgrade does not update the companion skill or provision remote runtimes automatically. This guidance reflects published source and release evidence; it does not claim a new live-agent delivery or ACK test.

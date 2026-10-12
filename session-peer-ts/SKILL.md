@@ -24,11 +24,11 @@ Python uses that command name too: if the marker is absent, select the Python sk
 which installation the user intends. Keep the resolved executable for every
 following command; do not replace another manager's launcher.
 
-This skill revision is 0.2.0 and covers the published npm 0.3.3 runtime. Its CLI
+This skill revision is 0.2.0 and covers the published npm 0.3.3 and 0.3.4 runtimes. Its CLI
 minimum is 0.1.0; its full-feature coverage reference is 0.3.2. The original 0.1.0
-supports only the historical baseline below. Runtime 0.3.3 doctor accepts this
+supports only the historical baseline below. Runtimes 0.3.3 and 0.3.4 doctor accept this
 exact successor metadata profile; public 0.3.2 doctor rejects it even though the
-baseline CLI commands work. For supported doctor metadata inspection, use 0.3.3;
+baseline CLI commands work. For supported doctor metadata inspection, use reviewed 0.3.3 or 0.3.4;
 an upgrade still requires the user's request and the existing package manager.
 Do not change metadata to silence an incompatibility. The skill version, npm version, and Python skill/repository
 tag are independent. Unknown versions or contradictory help require review
@@ -39,7 +39,7 @@ Capture `--help`. If it advertises `<command> --help`, capture that command's he
 before selecting options. Older baseline help does not promise per-command
 help. A supported command or flag must appear affirmatively in supported help:
 “doctor unsupported” does not enable doctor. Version checks alone do not resolve
-unreleased builds that reuse a version string. See the [published npm 0.3.3 CLI help](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/src/help.ts).
+unreleased builds that reuse a version string. See the [published npm 0.3.4 CLI help](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/help.ts).
 
 Minimum is CLI compatibility for this implementation's stated baseline, separate
 from security patch recommendations. Full is this revision's published-feature
@@ -104,8 +104,8 @@ Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
 not install, update, or make network requests. It is not a privacy guarantee
-that body bytes are unread. Runtime 0.3.3 bounds whole-file UTF-8 reads to 65,536
-bytes, with a 65,537-byte overflow-detection buffer, and checks regular-file,
+that body bytes are unread. Runtimes 0.3.3 and 0.3.4 bound whole-file UTF-8 reads to 65,536
+bytes, with a 65,537-byte overflow-detection buffer, and check regular-file,
 descriptor/path, and observable stability evidence before interpreting metadata.
 It does not authenticate content, freeze an atomic snapshot, protect against a
 writer restoring identical metadata, or impose an arbitrary-filesystem I/O deadline.
@@ -128,6 +128,14 @@ For a non-default launcher, `--remote-bin` requires an absolute remote path.
 For a Windows SSH destination, add `--remote-platform win32` and use its Windows
 `.cmd` shim when applicable. Do not bootstrap Python, provision a remote runtime,
 or fall back after an uncertain request.
+
+Runtime 0.3.4 fixes Windows PowerShell SSH native exit-code forwarding.
+When an SSH result contains complete validated submission evidence, an abnormal
+transport exit does not erase that evidence. Partial or malformed output remains
+uncertain: inspect the structured result and never automatically resend. This
+does not establish consumption or ACK. Coordinate any user-requested upgrade
+through each endpoint's existing package manager; both ends still need the same
+exact runtime version. See the [0.3.4 release](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.4).
 
 In published 0.3.0+, repeated `--host` returns ordered per-host JSON results.
 Inspect each `ok`, submission state, and exit status. A failure on one host does
