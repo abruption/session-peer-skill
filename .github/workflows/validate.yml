@@ -3,7 +3,7 @@ name: validate
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ['v*', 'session-peer-ts-v*']
   pull_request:
 
 permissions:
