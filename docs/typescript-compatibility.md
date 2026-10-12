@@ -2,7 +2,9 @@
 
 [Back to TS setup](typescript.md)
 
-TS skill 0.2.0 uses the successor profile supported by the published npm runtime 0.3.3. Runtime source: [`c0ed30273b9e9c0049df86ae3c38486a94289527`](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/src/skill-metadata.ts). The npm artifact has SHA-256 `3469cda6a7b2c89d42ed2a250d2e7b5b774293fee090968a4b261e824be4c075`; its verified provenance identifies that source and [publication workflow run 37907833518](https://github.com/abruption/session-peer-ts/actions/runs/37907833518).
+TS skill 0.2.0 uses the successor profile supported by the published npm runtimes 0.3.3 and 0.3.4. Runtime 0.3.3 source: [`c0ed30273b9e9c0049df86ae3c38486a94289527`](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/src/skill-metadata.ts). The 0.3.3 npm artifact has SHA-256 `3469cda6a7b2c89d42ed2a250d2e7b5b774293fee090968a4b261e824be4c075`; its verified provenance identifies that source and [publication workflow run 37907833518](https://github.com/abruption/session-peer-ts/actions/runs/37907833518).
+
+Published runtime 0.3.4 explicitly retains the same two reviewed profiles; source: [`afed4a5a8945012faf1b23d52cffecb70470a5b3`](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/skill-metadata.ts). Its [release record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.4) records the npm artifact SHA-256 `6c8cb114485e067ac3e7f5792de7febf3680cb14dcda6e2c67df6cab773ca03c` and [publication workflow run 38194048045](https://github.com/abruption/session-peer-ts/actions/runs/38194048045). These are separate publication records, not a new property of doctor.
 
 The Python skill, TS skill, skill release tags, and npm runtime have independent versions. TS skill publication follows the separate `session-peer-ts-vX.Y.Z` tag scheme. A runtime publication does not install or update either skill.
 
@@ -17,11 +19,12 @@ The Python skill, TS skill, skill release tags, and npm runtime have independent
 |---|---|---|---|
 | Public `0.3.2` | `compatible` | `incompatible` | Exact legacy metadata tuple; top-level name is not checked |
 | Public `0.3.3` | `compatible` | `compatible` | Exact supported profile plus valid root `name: session-peer-ts` and bounded readable/stable input |
+| Public `0.3.4` | `compatible` | `compatible` | Explicit finite legacy/successor row; same root-name, parser and bounded input requirements |
 | Unknown or future combination | No automatic guarantee | No automatic guarantee | Review the actual runtime and profile; no wildcard or arithmetic acceptance |
 
 Compatible and incompatible structural results carry `verification: metadata_only`. This checks metadata structure/profile support; it does not verify source provenance, content SHA, installation integrity, freshness, CLI feature coverage, permission to send, consumption, or ACK. The npm provenance verification above is separate release evidence, not a property of doctor.
 
-Runtime 0.3.3's pure validator rejects a valid but unreviewed runtime identity such as `0.3.4` as `incompatible / skill_contract_mismatch / metadata_only`. This describes the released 0.3.3 guard, not the behavior of hypothetical future code. Use runtime 0.3.3 for the reviewed successor doctor check. An older CLI can meet the minimum while its doctor rejects this newer metadata profile; do not edit metadata to hide that result. Runtime adoption remains a user-authorized operation under the existing package manager.
+Runtime 0.3.3's pure validator rejects a valid but unreviewed runtime identity such as `0.3.4` as `incompatible / skill_contract_mismatch / metadata_only`. This describes the released 0.3.3 validator supplied with identity `0.3.4`, not the published 0.3.4 guard: 0.3.4 explicitly adds that reviewed runtime row. Use reviewed runtime 0.3.3 or 0.3.4 for the successor doctor check; no other future identity is accepted by inference. An older CLI can meet the minimum while its doctor rejects this newer metadata profile; do not edit metadata to hide that result. Runtime adoption remains a user-authorized operation under the existing package manager.
 
 ## Minimum, full features, and guard acceptance
 
@@ -33,6 +36,8 @@ Runtime 0.3.3's pure validator rejects a valid but unreviewed runtime identity s
 The independent Python contract remains skill 0.3.2, minimum 0.9.1, full 1.0.1, and the security patch recommendation documented in its own instructions. TS versioning does not change the Python canonical skill, compatibility snapshot, or runtime/reference/parity pins.
 
 ## Runtime 0.3.3 input and result contract
+
+The same input/result contract applies to published 0.3.4, with its explicit additional runtime-identity row shown above.
 
 The [published limited grammar](https://github.com/abruption/session-peer-ts/blob/c0ed30273b9e9c0049df86ae3c38486a94289527/docs/design/typescript-skill-compatibility.md#limited-grammar-and-results) requires one root name scalar and one metadata map with the required quoted/plain string scalars. This is not a general YAML parser. A root name has no indented non-comment continuation, even across blank/comment lines; orphan indentation is malformed. Unrelated root fields can own ignored indented content. Plain and quoted names work before or after metadata. A literal ASCII space is required after `name:`; following whitespace is removed with `trimStart()`, so a space followed by a tab is accepted, while a tab immediately after the colon is rejected. Metadata separators retain their spaces-only grammar.
 
@@ -46,13 +51,13 @@ The [published limited grammar](https://github.com/abruption/session-peer-ts/blo
 | Well-formed but unsupported name, profile, or valid runtime identity | `incompatible / skill_contract_mismatch` | `metadata_only` |
 | Exact supported name/profile/runtime and healthy bounded input | `compatible / skill_contract_compatible` | `metadata_only` |
 
-The outer inspection result preserves `path`. Absent verification means the property is omitted, not `null`. An omitted or explicitly `undefined` pure-helper runtime argument uses compiled VERSION 0.3.3 and is not an unavailable-identity fixture. Reader failures precede metadata verdicts. Canonicalization can wrap an earlier path error as `home_resolution_failed`, producing unknown/unreadable instead of the raw errno result; do not collapse all permission errors into unknown.
+The outer inspection result preserves `path`. Absent verification means the property is omitted, not `null`. An omitted or explicitly `undefined` pure-helper runtime argument uses the inspecting runtime's compiled VERSION (0.3.3 or 0.3.4) and is not an unavailable-identity fixture. Reader failures precede metadata verdicts. Canonicalization can wrap an earlier path error as `home_resolution_failed`, producing unknown/unreadable instead of the raw errno result; do not collapse all permission errors into unknown.
 
 For historical comparison, public [0.3.2 source](https://github.com/abruption/session-peer-ts/blob/f335f07352c842f2f6ceb12bd2ca6274b52f69f7/src/diagnostics.ts) does not check root name and classifies missing/duplicate/regex-nonmatching required scalars in a single metadata section as incompatible. Its empty/absent frontmatter and zero/multiple maps are unknown. The 0.3.3 parser classification is an intentional change, not a restatement of the older checker.
 
 ## Reader bounds and evidence limits
 
-Runtime 0.3.3 counts **65,536 whole-file raw UTF-8 bytes**, including BOM, whitespace, line endings, and body. Read requests and allocation are capped at **65,537 bytes**, including one overflow-detection byte. Pre-read stat is an early check; fatal UTF-8 decoding follows bounded reading and stability checks.
+Runtimes 0.3.3 and 0.3.4 count **65,536 whole-file raw UTF-8 bytes**, including BOM, whitespace, line endings, and body. Read requests and allocation are capped at **65,537 bytes**, including one overflow-detection byte. Pre-read stat is an early check; fatal UTF-8 decoding follows bounded reading and stability checks.
 
 The reader canonicalizes managed symlinks, verifies regular-file evidence on the opened descriptor, and compares device/inode/size/mtime/ctime and path/alias evidence around the read. Observable growth, truncation, replacement, alias changes, or same-size timestamp changes produce unknown/unreadable. Every opened descriptor is closed. These checks detect observed changes; they do not authenticate content, create an atomic snapshot, protect against a writer restoring identical metadata, or impose a deadline on arbitrary filesystem I/O.
 
