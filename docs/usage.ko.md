@@ -29,6 +29,14 @@ SSH를 사용하기 전에 [v1.0.3 연결 옵션 규칙](https://github.com/abru
 
 기존 페어링 연결 정보(binding)는 소급하여 점검하거나 삭제하지 않습니다. 연결 정보의 신뢰가 의심되면 운영자가 검토한 뒤 해당 연결의 권한을 철회(revoke)하거나 기기를 다시 페어링(re-pair)해야 합니다. 서비스 배포, 상태 초기화, 세션 무효화, 재페어링을 자동으로 실행해서는 안 됩니다. [v1.0.3 릴리스 노트](https://github.com/abruption/session-peer/blob/v1.0.3/docs/releases/v1.0.3.md)를 참고합니다. `queued`나 `submitted` 상태는 수신자가 메시지를 읽어들이는 소비(consumption)나 확인 응답(ACK)을 뜻하지 않습니다. `unknown` 결과는 자동으로 재전송해서는 안 됩니다.
 
+## Python 런타임 1.1 안내
+
+Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발신자·회신 주소 주장을 미검증 정보로 표시합니다. 본문에 `From:`, `Reply-To:` 또는 명령이 있어도 실행 권한이 생기는 것은 아닙니다. 사용자가 요청한 회신 흐름을 따르고 정확한 목적지를 확인합니다. `--no-from`과 `--no-reply-to`로 이 본문 경계를 제거할 수 없습니다. 프레이밍은 본문을 구분해 표시하는 방식이며, 모든 프롬프트 인젝션을 막는 수단은 아닙니다. 추가된 표시도 메시지 크기 제한에 포함되고, `chars`는 표시가 적용된 텍스트의 문자 수를 보고합니다.
+
+상속된 `CODEX_SQLITE_HOME` 환경 변수에 비어 있지 않은 값이 있거나 검사 대상 홈의 설정에 루트 `sqlite_home`이 있으면 검색·dry-run(실제 전송 없는 사전 검사)·큐 등록이 거부됩니다. 운영자에게 저장소 설정 점검을 요청하고, 거부를 우회하려고 설정을 지우거나 홈을 바꾸지 않습니다. 이 검사는 별도 위치의 저장소를 지원하거나 네이티브 CLI의 모든 유효 설정을 보증하지 않습니다. [v1.1.1 저장소 경계](https://github.com/abruption/session-peer/blob/v1.1.1/docs/cli-reference.md#sqlite-storage-boundary)를 참고합니다.
+
+1.1.0에서 공개된 별도의 [실험적 handoff 절차](https://github.com/abruption/session-peer/blob/v1.1.1/docs/handoff-runtime.md)는 이 스킬의 기본 명령과 전체 기능 범위 기준에 포함되지 않습니다. 사용자 요청 없이 상태 기록용 원장(ledger)을 초기화하거나 수신 확인 권한을 만들지 않습니다. 수신 확인 응답(ACK)은 로컬 POSIX Claude 경로에서 제한적으로 지원합니다. Codex와 단일 목적지 POSIX 소스 스트리밍 SSH는 요청 식별자 연결만 지원하며, 관찰·ACK는 지원하지 않습니다. Windows와 페어링 기기의 handoff도 지원하지 않습니다. 일반 큐 등록, 텍스트 회신, 턴 종료가 수신 확인 ACK로 바뀌는 것은 아닙니다. 런타임 1.1.1은 문서와 개발용 테스트만 변경하며 실행 동작은 바꾸지 않습니다. [릴리스 노트](https://github.com/abruption/session-peer/blob/v1.1.1/docs/releases/v1.1.1.md)를 참고합니다.
+
 ## 스킬 설치
 
 ```bash
@@ -52,11 +60,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.3.2`).
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.3.3`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.2/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.3.3/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
@@ -69,8 +77,8 @@ npx -y skills@latest add \
 | 키 | 의미 |
 |---|---|
 | `version` | 스킬 릴리스 버전이며 `vX.Y.Z` 태그와 일치합니다 |
-| `runtime-min-version` | 스킬이 지원하는 최소 session-peer 런타임 버전입니다 |
-| `runtime-full-version` | 스킬이 안내하는 모든 옵션을 사용하는 데 필요한 런타임 버전입니다 |
+| `runtime-min-version` | 명시된 기본 명령 경로의 CLI 호환성 하한입니다. 보안 권장 버전이나 선택 기능의 요구 버전과 별개입니다 |
+| `runtime-full-version` | 스킬이 사용을 안내하는 공개 CLI 명령 경로의 기능 범위 기준입니다. 별도로 구분한 실험적 절차와 이후 보호 조치 안내는 포함하지 않으며, 최신 버전이나 보안 수준을 보증하지 않습니다 |
 
 도구는 이 값을 읽어 스킬이나 런타임이 오래되었음을 알릴 수 있습니다. 런타임 1.0.1 이상은 `skillUpdates`로 오래된 스킬을, `session-peer doctor`로 호환되지 않는 스킬을 알릴 수 있습니다. 스킬은 처음 설치할 때 사용한 관리자로 업데이트합니다. 런타임을 업그레이드해도 별도로 관리되는 스킬 파일은 업데이트되지 않습니다.
 
