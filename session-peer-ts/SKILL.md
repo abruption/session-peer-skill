@@ -33,9 +33,10 @@ accepts it; use that reviewed runtime for doctor inspection, without inferring
 support from a larger version number. Its [exact guard source](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/src/skill-metadata.ts)
 and [publication record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.5)
 are separate from this skill's release and do not authorize installation or
-sending. Adopt only a separately approved immutable skill release; until it is
-published, keep the existing skill 0.2.0 pin. Any upgrade still requires the
-user's request and the existing package manager.
+sending. Adopt only a separately approved immutable skill release and its
+recorded source pin. Runtime publication does not publish or install this
+skill. Any upgrade still requires the user's request and the existing package
+manager.
 Do not change metadata to silence an incompatibility. The skill version, npm version, and Python skill/repository
 tag are independent. Unknown versions or contradictory help require review
 before using an unverified operation; do not infer features from Python's

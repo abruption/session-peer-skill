@@ -46,7 +46,7 @@ npx -y skills@latest update session-peer --global --yes
 
 `queued` 或 `submitted` 状态不代表接收方已消费该消息。提交结果不确定时不要自动重发。Codex 回复等待流程请参阅使用指南。
 
-npm TypeScript 运行时目前使用已发布的独立 `session-peer-ts` 技能 0.2.0；运行时 0.3.3、0.3.4 和 0.3.5 可识别此元数据。本分支的 `session-peer-ts` 技能 0.2.1 尚未发布，正在等待人工批准。已发布运行时 0.3.5 的 doctor 支持该配置，但技能本身仍未发布。在另行获得批准并发布技能之前，请继续使用已发布 0.2.0 的固定安装提交。指定智能体、项目/全局适用范围和经审查提交版本的安装步骤，请参阅 [TypeScript 设置指南](docs/typescript.md)。
+独立的 `session-peer-ts` 技能 0.2.1 元数据配置由已发布的 npm 运行时 0.3.5 支持。请选择已发布且不可变的技能版本，并核对其记录的源码提交和内容哈希。发布运行时不会发布或更新技能，也不代表获准安装技能。指定智能体、项目/全局适用范围和经审查提交版本的安装步骤，请参阅 [TypeScript 设置指南](docs/typescript.md)。
 
 ## 文档
 

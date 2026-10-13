@@ -6,7 +6,7 @@ TS skill 0.2.0 uses the successor profile supported by the published npm runtime
 
 Published runtime 0.3.4 explicitly retains the same two reviewed profiles; source: [`afed4a5a8945012faf1b23d52cffecb70470a5b3`](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/skill-metadata.ts). Its [release record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.4) records the npm artifact SHA-256 `6c8cb114485e067ac3e7f5792de7febf3680cb14dcda6e2c67df6cab773ca03c` and [publication workflow run 38194048045](https://github.com/abruption/session-peer-ts/actions/runs/38194048045). These are separate publication records, not a new property of doctor.
 
-Published runtime 0.3.5 adds the explicit finite profile for skill 0.2.1 while retaining 0.1.0 and 0.2.0; source: [`a2057940ba19056fcaaa5551a7820f7414bd3bfa`](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/src/skill-metadata.ts). Its [release record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.5) identifies the published runtime; the npm tarball SHA-256 is `46f4a01f9570034fca49cfa5fad620f3f45b5f33b1a6714f29ea0a3c1e751ac0`, with registry integrity checked separately. This runtime publication does not publish the companion skill 0.2.1, which remains an unreleased preparation for human approval.
+Published runtime 0.3.5 adds the explicit finite profile for skill 0.2.1 while retaining 0.1.0 and 0.2.0; source: [`a2057940ba19056fcaaa5551a7820f7414bd3bfa`](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/src/skill-metadata.ts). Its [release record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.5) identifies the published runtime; the npm tarball SHA-256 is `46f4a01f9570034fca49cfa5fad620f3f45b5f33b1a6714f29ea0a3c1e751ac0`, with registry integrity checked separately. Runtime publication does not publish or update a companion skill or authorize its installation; select a published skill release using its recorded immutable source and content hash.
 
 The Python skill, TS skill, skill release tags, and npm runtime have independent versions. TS skill publication follows the separate `session-peer-ts-vX.Y.Z` tag scheme. A runtime publication does not install or update either skill.
 
@@ -22,36 +22,38 @@ The Python skill, TS skill, skill release tags, and npm runtime have independent
 | Public `0.3.2` | `compatible` | `incompatible` | Exact legacy metadata tuple; top-level name is not checked |
 | Public `0.3.3` | `compatible` | `compatible` | Exact supported profile plus valid root `name: session-peer-ts` and bounded readable/stable input |
 | Public `0.3.4` | `compatible` | `compatible` | Explicit finite legacy/successor row; same root-name, parser and bounded input requirements |
-| Public `0.3.5` | `compatible` | `compatible` | Explicit finite row; also accepts the unreleased 0.2.1 profile as shown below |
+| Public `0.3.5` | `compatible` | `compatible` | Explicit finite row; also accepts the 0.2.1 profile as shown below |
 | Unknown or future combination | No automatic guarantee | No automatic guarantee | Review the actual runtime and profile; no wildcard or arithmetic acceptance |
 
 Compatible and incompatible structural results carry `verification: metadata_only`. This checks metadata structure/profile support; it does not verify source provenance, content SHA, installation integrity, freshness, CLI feature coverage, permission to send, consumption, or ACK. The npm provenance verification above is separate release evidence, not a property of doctor.
 
 Runtime 0.3.3's pure validator rejects a valid but unreviewed runtime identity such as `0.3.4` as `incompatible / skill_contract_mismatch / metadata_only`. This describes the released 0.3.3 validator supplied with identity `0.3.4`, not the published 0.3.4 guard: 0.3.4 explicitly adds that reviewed runtime row. Use an explicitly reviewed runtime row (0.3.3, 0.3.4, or 0.3.5) for the published 0.2.0 successor doctor check; no other future identity is accepted by inference. An older CLI can meet the minimum while its doctor rejects this newer metadata profile; do not edit metadata to hide that result. Runtime adoption remains a user-authorized operation under the existing package manager.
 
-## Unreleased skill 0.2.1 and published runtime 0.3.5
+## Skill 0.2.1 and published runtime 0.3.5
 
-This worktree prepares TS skill `0.2.1` for human approval; it is not a published replacement for skill `0.2.0`. Runtime 0.3.5 has published its support for this profile, but the existing published skill release remains 0.2.0. Public runtimes 0.3.2, 0.3.3, and 0.3.4 reject the proposed 0.2.1 profile as `incompatible / skill_contract_mismatch / metadata_only`, even though its CLI minimum and coverage reference are unchanged.
+Runtime 0.3.5 explicitly supports the TS skill `0.2.1` metadata profile. Profile support alone does not establish that particular skill bytes are published or approved for installation. Public runtimes 0.3.2, 0.3.3, and 0.3.4 reject the 0.2.1 profile as `incompatible / skill_contract_mismatch / metadata_only`, even though its CLI minimum and coverage reference are unchanged.
 
-| Proposed profile | Skill version | Implementation | CLI minimum | Full coverage reference | Policy |
+| Profile | Skill version | Implementation | CLI minimum | Full coverage reference | Policy |
 |---|---|---|---|---|---|
-| Draft successor revision | `0.2.1` | `typescript` | `0.1.0` | `0.3.2` | `probe-help` |
+| Successor revision | `0.2.1` | `typescript` | `0.1.0` | `0.3.2` | `probe-help` |
 
-| Inspecting runtime | Legacy `0.1.0` | Published successor `0.2.0` | Draft successor `0.2.1` | Evidence scope |
+| Inspecting runtime | Legacy `0.1.0` | Published successor `0.2.0` | Successor revision `0.2.1` | Evidence scope |
 |---|---|---|---|---|
 | Public `0.3.2` | `compatible` | `incompatible` | `incompatible` | Published exact legacy tuple checker |
 | Public `0.3.3` | `compatible` | `compatible` | `incompatible` | Published finite row |
 | Public `0.3.4` | `compatible` | `compatible` | `incompatible` | Published finite row |
-| Public `0.3.5` | `compatible` | `compatible` | `compatible` | Explicit published guard row; valid protected fields and healthy bounded input required; skill 0.2.1 itself remains unreleased |
+| Public `0.3.5` | `compatible` | `compatible` | `compatible` | Explicit published guard row; valid protected fields and healthy bounded input required; separate skill-release evidence required for installation |
 | Unknown or future combination | No automatic guarantee | No automatic guarantee | No automatic guarantee | No wildcard or arithmetic acceptance |
 
 The [published 0.3.5 design](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/docs/design/typescript-skill-compatibility.md) and [metadata fixtures](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/test/skill-metadata.test.ts) cover the three finite profiles using the compiled VERSION `0.3.5` helper default, explicit `undefined`, and outer `inspectSkill`. Static source and fixture review remains separate from executing those tests or proving live message consumption or ACK.
 
-Historical review evidence: the 2026-10-13 Draft #144 review used exact source `08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb`; its design document SHA-256 was `251ba89481297891eab480344d5df556fd0d0fb94a3451f4bb69f01bf5989761` and `src/skill-metadata.ts` SHA-256 was `bd396f92992fcd84f7cea3c690443cba28f4ee09069d2eccdbbcfd21f35bc3f2`. The companion candidate at `9db5420b45568dd08fc43d406dbf9ad1952f7891` contained a 13,930-byte SKILL with SHA-256 `96d5a0d049f8a4d193703af3583b198a91079d44ae373de34e94a54e2296a4d6`. These are dated candidate review records, not the current final skill bytes, a release record, or an installation pin.
+Historical review evidence: the 2026-10-13 Draft #144 review used exact source `08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb`; its design document SHA-256 was `251ba89481297891eab480344d5df556fd0d0fb94a3451f4bb69f01bf5989761` and `src/skill-metadata.ts` SHA-256 was `bd396f92992fcd84f7cea3c690443cba28f4ee09069d2eccdbbcfd21f35bc3f2`. The companion candidate at `9db5420b45568dd08fc43d406dbf9ad1952f7891` contained a 13,930-byte SKILL with SHA-256 `96d5a0d049f8a4d193703af3583b198a91079d44ae373de34e94a54e2296a4d6`. These are dated candidate review records, not evidence for any later final skill bytes, a release record, or an installation pin.
 
-The doctor requirement for the prepared skill 0.2.1 is the explicitly reviewed and published runtime 0.3.5 row, not the CLI minimum `0.1.0` or full coverage reference `0.3.2`. Optional operations still require the resolved executable's stable TypeScript version marker, affirmative help, and actual platform/native/security/permission prerequisites. Do not alter metadata to conceal an older doctor's rejection.
+The doctor requirement for skill 0.2.1 is the explicitly reviewed and published runtime 0.3.5 row, not the CLI minimum `0.1.0` or full coverage reference `0.3.2`. Optional operations still require the resolved executable's stable TypeScript version marker, affirmative help, and actual platform/native/security/permission prerequisites. Do not alter metadata to conceal an older doctor's rejection.
 
-The supporting runtime publication gate is complete. Before skill 0.2.1 can be published, review the final complete skill bytes and finite profile and obtain separate approval to finalize and publish its metadata/content/immutable pin. The published skill installation pin remains `8482cf644507c682915e35c85aa3384c53864906` and its release tag remains `session-peer-ts-v0.2.0`. This preparation head is not an installation pin. Four-language runtime guidance and PARITY pin adoption follow the separately approved skill publication. Python skill/reference pins and 0.4 handoff designs remain independent. This document does not authorize installation, operations, merge, or publication.
+For a skill release, review the exact complete skill bytes and finite profile, verify actual supporting-runtime publication, and obtain separate approval for the skill metadata/content/immutable source. For installation, select a published immutable skill release and verify its recorded source commit and content SHA-256; a Draft or review checkpoint is not release evidence. Four-language runtime guidance and PARITY pin adoption follow the separately approved skill publication. Python skill/reference pins and 0.4 handoff designs remain independent. This document does not authorize installation, operations, merge, or publication.
+
+Historical checkpoint (2026-10-13): runtime 0.3.5 had been published, while companion skill 0.2.1 was an unreleased preparation awaiting human approval. At that checkpoint, the published TS skill 0.2.0 release tag was `session-peer-ts-v0.2.0` and its source commit was `8482cf644507c682915e35c85aa3384c53864906`. This dated record does not determine the current release state or prescribe an ongoing installation default.
 
 ## Minimum, full features, and guard acceptance
 
@@ -94,8 +96,7 @@ The published [fixtures](https://github.com/abruption/session-peer-ts/blob/c0ed3
 
 ## Review and release record
 
-This historical section records the published skill 0.2.0 release. The 0.2.1
-preparation and its remaining approval gates are described separately above.
+This historical section records the published skill 0.2.0 release on 2026-10-09. Release-selection requirements and the dated 0.2.1 review checkpoint are described separately above.
 
 The [2026-10-09 design-only acceptance](https://github.com/abruption/session-peer-skill/blob/699a3251830c30c62d0f812363faf4d0eb0c8e0c/docs/typescript-compatibility.md) reviewed exact #126 `ba18bb806a6ba503381259b4255211af3adc0336` and #129 `bfb3d6f1256ab076a76660e08a7bf1ad071a6c6c`. It accepted the finite profiles, parser/status envelopes, G07 correction, and reader fixtures without authorizing publication. The final published source clarifies and fixtures its two nonblocking plain-name-after-map and whitespace details without changing parser behavior.
 
