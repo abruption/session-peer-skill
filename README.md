@@ -46,7 +46,7 @@ The runtime command above is for pipx installations; keep using your existing ru
 
 A `queued` or `submitted` status does not confirm that the recipient consumed the message. Do not automatically resend after an uncertain submission; see the usage guide for Codex reply waiting.
 
-The separate `session-peer-ts` skill 0.2.0 is the published skill for the npm TypeScript runtime; runtimes 0.3.3 and 0.3.4 accept its metadata profile. This branch prepares `session-peer-ts` skill 0.2.1 as an unpublished Draft requiring the proposed runtime 0.3.5 doctor guard. Do not adopt this Draft as an installation pin; the supporting runtime must be published before a separately approved skill release. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
+The separate `session-peer-ts` skill 0.2.0 is the published skill for the npm TypeScript runtime; runtimes 0.3.3, 0.3.4, and 0.3.5 accept its metadata profile. This branch prepares `session-peer-ts` skill 0.2.1 for human approval; its doctor profile is supported by published runtime 0.3.5, but the skill remains unreleased. Keep the published 0.2.0 installation pin until the separately approved skill release. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
 
 ## Docs
 
