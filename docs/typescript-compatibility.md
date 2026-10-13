@@ -26,6 +26,28 @@ Compatible and incompatible structural results carry `verification: metadata_onl
 
 Runtime 0.3.3's pure validator rejects a valid but unreviewed runtime identity such as `0.3.4` as `incompatible / skill_contract_mismatch / metadata_only`. This describes the released 0.3.3 validator supplied with identity `0.3.4`, not the published 0.3.4 guard: 0.3.4 explicitly adds that reviewed runtime row. Use reviewed runtime 0.3.3 or 0.3.4 for the successor doctor check; no other future identity is accepted by inference. An older CLI can meet the minimum while its doctor rejects this newer metadata profile; do not edit metadata to hide that result. Runtime adoption remains a user-authorized operation under the existing package manager.
 
+## Draft skill 0.2.1 and runtime 0.3.5 candidate
+
+This worktree proposes TS skill `0.2.1`; it is not a published replacement for skill `0.2.0`. The published profiles and runtime rows above remain the public contract. Public runtimes 0.3.2, 0.3.3, and 0.3.4 reject the proposed 0.2.1 profile as `incompatible / skill_contract_mismatch / metadata_only`, even though its CLI minimum and coverage reference are unchanged.
+
+| Proposed profile | Skill version | Implementation | CLI minimum | Full coverage reference | Policy |
+|---|---|---|---|---|---|
+| Draft successor revision | `0.2.1` | `typescript` | `0.1.0` | `0.3.2` | `probe-help` |
+
+| Inspecting runtime | Legacy `0.1.0` | Published successor `0.2.0` | Draft successor `0.2.1` | Evidence scope |
+|---|---|---|---|---|
+| Public `0.3.2` | `compatible` | `incompatible` | `incompatible` | Published exact legacy tuple checker |
+| Public `0.3.3` | `compatible` | `compatible` | `incompatible` | Published finite row |
+| Public `0.3.4` | `compatible` | `compatible` | `incompatible` | Published finite row |
+| Draft `0.3.5` | Proposed `compatible` | Proposed `compatible` | Proposed `compatible` | Exact candidate guard row; valid protected fields and healthy bounded input required; not publication evidence |
+| Unknown or future combination | No automatic guarantee | No automatic guarantee | No automatic guarantee | No wildcard or arithmetic acceptance |
+
+The runtime proposal is [Draft #144 at `08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb`](https://github.com/abruption/session-peer-ts/blob/08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb/docs/design/typescript-skill-compatibility.md), compiled VERSION `0.3.5`. At that exact source, the design document SHA-256 is `251ba89481297891eab480344d5df556fd0d0fb94a3451f4bb69f01bf5989761` and `src/skill-metadata.ts` SHA-256 is `bd396f92992fcd84f7cea3c690443cba28f4ee09069d2eccdbbcfd21f35bc3f2`. Its [metadata fixtures](https://github.com/abruption/session-peer-ts/blob/08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb/test/skill-metadata.test.ts) explicitly cover all three profiles using the helper default, explicit `undefined`, and outer `inspectSkill`. Static source and fixture review is separate from running those tests, current-head CI, or proving publication; it does not demonstrate real message consumption or ACK.
+
+The proposed doctor requirement for skill 0.2.1 is the explicitly reviewed runtime 0.3.5 row, not the CLI minimum `0.1.0` or full coverage reference `0.3.2`. Optional operations still require the resolved executable's stable TypeScript version marker, affirmative help, and actual platform/native/security/permission prerequisites. Do not alter metadata to conceal an older doctor's rejection.
+
+Before this candidate can be published: review the exact complete skill bytes and finite profile; actually publish the supporting runtime guard; then obtain separate approval to finalize and publish the skill metadata/content/immutable pin. The published skill installation pin remains `8482cf644507c682915e35c85aa3384c53864906` and its release tag remains `session-peer-ts-v0.2.0`. This Draft head is not an installation pin. Four-language runtime guidance and PARITY pin adoption follow the separately approved skill publication. No Python skill, reference pin, 0.4 handoff design, installation, operation, merge, or publication is authorized by this candidate.
+
 ## Minimum, full features, and guard acceptance
 
 - `runtime-min-version` is the CLI compatibility floor for the explicitly documented baseline command path in the named implementation. A runtime below it is unsupported. It is not a latest-version marker, a security recommendation, or the minimum for every optional feature.
@@ -33,7 +55,7 @@ Runtime 0.3.3's pure validator rejects a valid but unreviewed runtime identity s
 - Between minimum and full, gate optional operations by their feature-specific version and affirmative help from the resolved TS executable. At or above full, actual platform/native prerequisites, allowlists, permissions, and unique-writer guards still apply. Help proves option presence only.
 - Doctor acceptance is a separate finite runtime/profile contract. Meeting minimum/full numerically does not establish metadata compatibility, and `metadata_only` does not grant network access, installation, update, or send authority.
 
-The independent Python contract remains skill 0.3.2, minimum 0.9.1, full 1.0.1, and the security patch recommendation documented in its own instructions. TS versioning does not change the Python canonical skill, compatibility snapshot, or runtime/reference/parity pins.
+The independent Python contract remains skill 0.3.3, minimum 0.9.1, full 1.0.1, and the security patch recommendation documented in its own instructions. TS versioning does not change the Python canonical skill, compatibility snapshot, or runtime/reference/parity pins.
 
 ## Runtime 0.3.3 input and result contract
 

@@ -2,30 +2,32 @@
 
 [Back to README](../README.md)
 
-The separate `session-peer-ts` skill 0.2.0 describes the published npm TypeScript runtimes 0.3.3 and 0.3.4. The 0.3.4 publication source is [`afed4a5a8945012faf1b23d52cffecb70470a5b3`](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/RELEASING.md). The runtime runs without Python. Both runtimes use the command name `session-peer`, so resolve the intended executable and inspect its version and help before use.
+The separate `session-peer-ts` skill 0.2.1 is an **unpublished documentation candidate** retaining the public CLI guidance through runtime 0.3.4. Its metadata requires the separately reviewed runtime 0.3.5 guard proposal in [Draft PR #144](https://github.com/abruption/session-peer-ts/pull/144), exact source [`08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb`](https://github.com/abruption/session-peer-ts/blob/08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb/src/skill-metadata.ts). That runtime is not yet published; the candidate is not an installation pin. Keep the published skill 0.2.0 source until supporting runtime publication and separate skill release approval. Both runtimes use the command name `session-peer`, so resolve the intended executable and inspect its version and help before use. The TS runtime runs without Python.
 
 ## Published support and independent versions
 
-Published 0.2.0 added combined listing, bounded known Codex homes, guarded live-writer selection, explicit inactive queueing, read-only doctor, and explicit text output. Published 0.3.0 added multi-host SSH, constrained SSH options and a POSIX jump option, Tailscale routing hints, generated reply routes, opt-in return-route diagnostics, npm update checks and cached notices, and the optional shell `sp` alias. Runtime 0.3.3 adds the bounded metadata reader and supports this skill's successor profile. Always check the selected executable's actual version and supported command help. Wake, Antigravity, Relay, MCP, general wait, and Draft 0.4 handoff/observer designs remain unsupported.
+Published 0.2.0 added combined listing, bounded known Codex homes, guarded live-writer selection, explicit inactive queueing, read-only doctor, and explicit text output. Published 0.3.0 added multi-host SSH, constrained SSH options and a POSIX jump option, Tailscale routing hints, generated reply routes, opt-in return-route diagnostics, npm update checks and cached notices, and the optional shell `sp` alias. Runtime 0.3.3 adds the bounded metadata reader and supports the published skill 0.2.0 profile; public 0.3.4 retains that support. Always check the selected executable's actual version and supported command help. Wake, Antigravity, Relay, MCP, general wait, and Draft 0.4 handoff/observer designs remain unsupported.
 
 | Version | Meaning |
 |---|---|
-| Python repository tag `v0.3.2` | Independent Python skill release |
-| Python skill `0.3.2` | Version of `session-peer/SKILL.md` |
-| TS skill `0.2.0` | Version of `session-peer-ts/SKILL.md` |
-| TS skill tag `session-peer-ts-v0.2.0` | Separate TS skill release; resolve its annotated tag to the exact commit recorded in the release |
+| Python repository tag `v0.3.3` | Independent published Python skill release |
+| Python skill `0.3.3` | Version of `session-peer/SKILL.md`; unchanged by this TS candidate |
+| TS skill `0.2.1` | Unpublished candidate version of `session-peer-ts/SKILL.md` |
+| Published TS skill `0.2.0` | Existing immutable release and installation pin |
+| Published TS skill tag `session-peer-ts-v0.2.0` | Keep its recorded source `8482cf644507c682915e35c85aa3384c53864906` until a new release is authorized |
+| Candidate tag `session-peer-ts-v0.2.1` | Not created; requires supporting runtime publication and separate skill approval |
 | TS runtimes `0.3.3` and `0.3.4` | Published npm package `session-peer`; independent of both skill versions |
 | `runtime-min-version` = `0.1.0` | CLI compatibility floor for the explicit baseline commands |
 | `runtime-full-version` = `0.3.2` | Coverage reference for this revision's published CLI features |
-| Successor doctor acceptance | Runtimes `0.3.3` and `0.3.4` accept this exact metadata profile; public `0.3.2` rejects it |
+| Candidate doctor acceptance | Unpublished runtime `0.3.5` explicitly accepts skill `0.2.1`; public `0.3.2`, `0.3.3` and `0.3.4` reject it |
 
 The minimum and full values are distinct from security recommendations, latest-version markers, doctor support, and delivery/ACK. Help establishes option presence only; platform/native prerequisites, permissions, allowlists, and writer guards still apply. See the [normative min/full definitions and separate doctor acceptance table](typescript-compatibility.md#minimum-full-features-and-guard-acceptance).
 
-Use reviewed runtime 0.3.3 or 0.3.4 for doctor metadata compatibility with TS skill 0.2.0. Public 0.3.2 rejects the successor even though it meets the baseline CLI minimum and feature coverage values. Keep the existing package manager and obtain authorization before upgrading; do not edit metadata to hide a mismatch. Unknown future runtime/profile combinations are not automatically accepted. A compatible metadata check is not a content review, source authentication, freshness check, or delivery authorization.
+For the published skill 0.2.0, reviewed runtimes 0.3.3 and 0.3.4 support doctor metadata inspection. This candidate skill 0.2.1 is different: all three public runtimes 0.3.2/0.3.3/0.3.4 reject it even when they meet its CLI minimum/full coverage values. Require actual publication of its supporting reviewed runtime before adopting it. The explicit 0.3.5 candidate row does not enable other future versions. Keep the existing package manager and obtain authorization before upgrading; do not edit metadata to hide a mismatch. Unknown future runtime/profile combinations are not automatically accepted. A compatible metadata check is not a content review, source authentication, freshness check, or delivery authorization.
 
 ## Install, update, and remove the skill
 
-Choose the reviewed **40-character commit SHA** from the [TS skill release](https://github.com/abruption/session-peer-skill/releases/tag/session-peer-ts-v0.2.0), agent (`codex` or `claude-code`), and scope explicitly. The release records the peeled tag commit and SHA-256 of the canonical TS `SKILL.md`. Run in the intended project; omitting `--global` selects project scope. Inspect existing files before accepting an overwrite. For global scope add `--global` consistently to add/list/remove. Codex uses the shared `.agents/skills` directory, so agent selection is not an isolation boundary from other clients that discover that directory.
+The commands below are for the existing published skill 0.2.0, not this candidate. Choose the reviewed **40-character commit SHA** from the [TS skill release](https://github.com/abruption/session-peer-skill/releases/tag/session-peer-ts-v0.2.0), agent (`codex` or `claude-code`), and scope explicitly. The release records the peeled tag commit and SHA-256 of the canonical TS `SKILL.md`. Run in the intended project; omitting `--global` selects project scope. Inspect existing files before accepting an overwrite. For global scope add `--global` consistently to add/list/remove. Codex uses the shared `.agents/skills` directory, so agent selection is not an isolation boundary from other clients that discover that directory.
 
 ```sh
 npx -y skills@1.7.0 add https://github.com/abruption/session-peer-skill/tree/REVIEWED_COMMIT/session-peer-ts \

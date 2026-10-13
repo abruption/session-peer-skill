@@ -3,7 +3,7 @@ name: session-peer-ts
 description: Discover and message Claude Code or Codex sessions using the npm TypeScript session-peer CLI, locally or over SSH. Use for user-requested cross-session messaging with the TypeScript runtime; Python runtime guidance belongs to the separate session-peer skill.
 allowed-tools: Bash, Read
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
   runtime-implementation: "typescript"
   runtime-min-version: "0.1.0"
   runtime-full-version: "0.3.2"
@@ -24,12 +24,18 @@ Python uses that command name too: if the marker is absent, select the Python sk
 which installation the user intends. Keep the resolved executable for every
 following command; do not replace another manager's launcher.
 
-This skill revision is 0.2.0 and covers the published npm 0.3.3 and 0.3.4 runtimes. Its CLI
-minimum is 0.1.0; its full-feature coverage reference is 0.3.2. The original 0.1.0
-supports only the historical baseline below. Runtimes 0.3.3 and 0.3.4 doctor accept this
-exact successor metadata profile; public 0.3.2 doctor rejects it even though the
-baseline CLI commands work. For supported doctor metadata inspection, use reviewed 0.3.3 or 0.3.4;
-an upgrade still requires the user's request and the existing package manager.
+This skill revision is an unpublished 0.2.1 candidate retaining the documented
+public CLI features through npm runtime 0.3.4. Its CLI minimum is 0.1.0; its
+full-feature coverage reference is 0.3.2. The original 0.1.0 supports only the
+historical baseline below. Public runtimes 0.3.2, 0.3.3 and 0.3.4 doctor reject
+this new exact metadata profile, even when baseline commands work. The separate
+unpublished runtime 0.3.5 candidate explicitly accepts it; this is not current
+public support. Before adopting this skill, require actual publication of the
+reviewed supporting runtime and a separately approved immutable skill release.
+Keep the published skill 0.2.0 pin until then. Any upgrade still requires the
+user's request and the existing package manager.
+The [exact 0.3.5 guard candidate](https://github.com/abruption/session-peer-ts/blob/08c507ca1c2a3805b189ee05bfdd32b0d3d2dacb/src/skill-metadata.ts)
+is design/source evidence, not publication or authorization to adopt this draft.
 Do not change metadata to silence an incompatibility. The skill version, npm version, and Python skill/repository
 tag are independent. Unknown versions or contradictory help require review
 before using an unverified operation; do not infer features from Python's
