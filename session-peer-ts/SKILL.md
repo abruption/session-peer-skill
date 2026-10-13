@@ -111,7 +111,7 @@ Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
 not install, update, or make network requests. It is not a privacy guarantee
-that body bytes are unread. Runtimes 0.3.3 and 0.3.4 bound whole-file UTF-8 reads to 65,536
+that body bytes are unread. Runtimes 0.3.3, 0.3.4 and 0.3.5 bound whole-file UTF-8 reads to 65,536
 bytes, with a 65,537-byte overflow-detection buffer, and check regular-file,
 descriptor/path, and observable stability evidence before interpreting metadata.
 It does not authenticate content, freeze an atomic snapshot, protect against a
