@@ -3,7 +3,7 @@ name: session-peer-ts
 description: Discover and message Claude Code or Codex sessions using the npm TypeScript session-peer CLI, locally or over SSH. Use for user-requested cross-session messaging with the TypeScript runtime; Python runtime guidance belongs to the separate session-peer skill.
 allowed-tools: Bash, Read
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
   runtime-implementation: "typescript"
   runtime-min-version: "0.1.0"
   runtime-full-version: "0.3.2"
@@ -24,12 +24,19 @@ Python uses that command name too: if the marker is absent, select the Python sk
 which installation the user intends. Keep the resolved executable for every
 following command; do not replace another manager's launcher.
 
-This skill revision is 0.2.0 and covers the published npm 0.3.3 and 0.3.4 runtimes. Its CLI
-minimum is 0.1.0; its full-feature coverage reference is 0.3.2. The original 0.1.0
-supports only the historical baseline below. Runtimes 0.3.3 and 0.3.4 doctor accept this
-exact successor metadata profile; public 0.3.2 doctor rejects it even though the
-baseline CLI commands work. For supported doctor metadata inspection, use reviewed 0.3.3 or 0.3.4;
-an upgrade still requires the user's request and the existing package manager.
+This skill revision is 0.2.1, retaining the documented public CLI features
+through npm runtime 0.3.4. Its CLI minimum is 0.1.0; its full-feature coverage
+reference is 0.3.2. The original 0.1.0 supports only the historical baseline
+below. Public runtimes 0.3.2, 0.3.3 and 0.3.4 doctor reject this exact metadata
+profile even when baseline commands work. Published runtime 0.3.5 explicitly
+accepts it; use that reviewed runtime for doctor inspection, without inferring
+support from a larger version number. Its [exact guard source](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/src/skill-metadata.ts)
+and [publication record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.5)
+are separate from this skill's release and do not authorize installation or
+sending. Adopt only a separately approved immutable skill release and its
+recorded source pin. Runtime publication does not publish or install this
+skill. Any upgrade still requires the user's request and the existing package
+manager.
 Do not change metadata to silence an incompatibility. The skill version, npm version, and Python skill/repository
 tag are independent. Unknown versions or contradictory help require review
 before using an unverified operation; do not infer features from Python's
@@ -104,7 +111,7 @@ Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
 not install, update, or make network requests. It is not a privacy guarantee
-that body bytes are unread. Runtimes 0.3.3 and 0.3.4 bound whole-file UTF-8 reads to 65,536
+that body bytes are unread. Runtimes 0.3.3, 0.3.4 and 0.3.5 bound whole-file UTF-8 reads to 65,536
 bytes, with a 65,537-byte overflow-detection buffer, and check regular-file,
 descriptor/path, and observable stability evidence before interpreting metadata.
 It does not authenticate content, freeze an atomic snapshot, protect against a
