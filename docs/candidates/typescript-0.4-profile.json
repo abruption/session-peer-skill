@@ -1,13 +1,11 @@
 {
-  "purpose": "documentation-review proposal, not a runtime schema or executed guard test",
-  "status": "earlier content/profile directions accepted; final provenance-amended bytes and actual publication not frozen",
+  "purpose": "historical candidate review fixture plus separate current canonical finalization review; not runtime schema or installation pin",
+  "status": "a969 candidate preserved unchanged; actual supporting runtime published; final canonical exact bytes/human approval pending",
   "sourceCheckpoint": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
   "actualCheckpointCompiledVersion": "0.4.0",
   "candidateFile": "docs/candidates/session-peer-ts-0.3.0.md",
   "candidateUtf8Bytes": 22973,
   "candidateSHA256": "7571c79fb7ac164002daf0bf3aa7c5ba40ca8d99f5610a04d7860eee7b27df68",
-  "publishedSkillPin": "0f494cabd05901c03161dc91792dcf89f8e96631",
-  "publishedSkillSHA256": "8c3520f95e0d6807303be96bfa06df69887ddaf76be05f1905505d0a956820c3",
   "proposedProfile": {
     "version": "0.3.0",
     "runtime-implementation": "typescript",
@@ -70,9 +68,9 @@
       "0.2.1"
     ],
     "newProfile": "0.3.0",
-    "agreement": "implemented in exact unpublished release candidate; full renewed bytes/publication agreement still pending",
-    "candidateSource": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
-    "evidenceScope": "static row verified; TS reviewer reported pure-validator old38cc bytes; current renewed bytes require exact review; not public support",
+    "agreement": "exact tuple implemented and published in runtime0.4.0; final canonical content/skill release remains separate",
+    "candidateSource": "dde3923efe116f87f38b1639b29b889d2b832e44",
+    "evidenceScope": "public runtime/source checked; earlier candidate validator reports remain historical; new canonical bytes require exact-content review",
     "candidateExpectedMetadataResult": {
       "status": "compatible",
       "code": "skill_contract_compatible",
@@ -118,12 +116,10 @@
     }
   ],
   "openContractItems": [
-    "exact skill/min/full/profile numbers",
-    "finite 0.4 row for existing and new profiles",
-    "byte-exact runtime fixtures and expected envelopes including permission/read failures",
-    "final integrated CLI/source/platform qualification",
-    "complete final skill bytes agreement",
-    "actual supporting-runtime publication before separate skill release and pin adoption"
+    "renewed final canonical bytes and operational-guide content review",
+    "human merge/tag/skill release approval after current-head checks/reviews",
+    "actual skill publication and recorded immutable source/hash",
+    "four-language TS runtime guidance/PARITY adoption after skill publication"
   ],
   "sourceCheckpoints": {
     "historicalObserver": "55daf83bd8ebe1cd6e67bb98259130213d1cac71",
@@ -139,7 +135,9 @@
     "integratedMain109": "be6adb26f844e7158362a8fcd6d379fbe8d46864",
     "releaseCandidate": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
     "releaseCandidateCompiledVersion": "0.4.0",
-    "actualRuntimePublication": "pending"
+    "actualRuntimePublication": "dde3923efe116f87f38b1639b29b889d2b832e44",
+    "publicationTag": "v0.4.0",
+    "publicationRun": "39077096491"
   },
   "coreFixtureReviewItems": [
     "payload digest only: AES-256-GCM epoch/intent authenticated ciphertext, separate private0600key; not whole journal/body encryption or same-user defense",
@@ -147,5 +145,28 @@
     "prepared Claude private metadata continuity, fingerprint calculation reads no registry content; normal bounded registry discovery is separate, public generation null",
     "original operationId terminal preservation; duplicate committed confirm preserves journal/classification",
     "actual queue reported build, executable metadata continuity, positive probe budgets, post-fence/async-owner canonical SQLite FD binding; no code authentication/atomic FS/SLA guarantee"
+  ],
+  "historicalPublishedSkill": {
+    "version": "0.2.1",
+    "source": "0f494cabd05901c03161dc91792dcf89f8e96631",
+    "sha256": "8c3520f95e0d6807303be96bfa06df69887ddaf76be05f1905505d0a956820c3",
+    "date": "2026-10-14"
+  },
+  "finalization": {
+    "canonicalFile": "session-peer-ts/SKILL.md",
+    "canonicalUtf8Bytes": 22839,
+    "canonicalSHA256": "c510bcfee1d4d1f9c3a992d7ad25d69c9a9881950c627eec60f3b45659071b9e",
+    "supportingRuntimeVersion": "0.4.0",
+    "supportingRuntimeSource": "dde3923efe116f87f38b1639b29b889d2b832e44",
+    "reviewStatus": "pending exact renewed canonical content and separate human merge/release approval",
+    "installationPin": "not assigned by this review fixture"
+  },
+  "historicalOpenContractItems": [
+    "exact skill/min/full/profile numbers",
+    "finite 0.4 row for existing and new profiles",
+    "byte-exact runtime fixtures and expected envelopes including permission/read failures",
+    "final integrated CLI/source/platform qualification",
+    "complete final skill bytes agreement",
+    "actual supporting-runtime publication before separate skill release and pin adoption"
   ]
 }

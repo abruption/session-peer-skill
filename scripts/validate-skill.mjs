@@ -140,12 +140,20 @@ if (Buffer.byteLength(proposedText, 'utf8') !== proposal.candidateUtf8Bytes ||
     createHash('sha256').update(proposedText).digest('hex') !== proposal.candidateSHA256) {
   errors.push('TS candidate: complete bytes/hash differ from fixture proposal')
 }
-if (createHash('sha256').update(tsSkill).digest('hex') !== proposal.publishedSkillSHA256) {
-  errors.push('TS candidate: published canonical TS skill must remain unchanged during this proposal')
+// Historical candidate bytes remain fixed while the separately reviewed canonical
+// revision is finalized only after actual supporting-runtime publication.
+const finalized = proposal.finalization
+if (finalized.canonicalFile !== 'session-peer-ts/SKILL.md' ||
+    Buffer.byteLength(tsSkill, 'utf8') !== finalized.canonicalUtf8Bytes ||
+    createHash('sha256').update(tsSkill).digest('hex') !== finalized.canonicalSHA256) {
+  errors.push('TS finalization: canonical complete bytes/hash differ from review fixture')
+}
+for (const [key, value] of Object.entries(proposal.proposedProfile)) {
+  if (tsMetadata[key] !== value) errors.push(`TS finalization: metadata.${key} differs from reviewed profile`)
 }
 if (proposal.candidateFile.endsWith('/SKILL.md')) errors.push('TS candidate must not be a discoverable SKILL.md')
 
-for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'docs/typescript-compatibility.md', 'docs/typescript-0.4-candidate.md', proposal.candidateFile, 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
+for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'docs/typescript-compatibility.md', 'docs/typescript-handoff.md', proposal.candidateFile, 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
   for (const [, target] of read(document).matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(target) || target.startsWith('#')) continue
     const path = target.split('#')[0]

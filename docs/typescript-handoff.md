@@ -1,27 +1,18 @@
-# TypeScript 0.4 handoff documentation candidate
+# TypeScript handoff workflow
 
 [Back to TS setup](typescript.md)
 
-## Preparation checkpoint — 2026-10-17
+## Published runtime and source
 
-This is a documentation and contract proposal, not published runtime support or
-an installation guide. Public runtime 0.3.6 and the published TS skill 0.2.1
-source `0f494cabd05901c03161dc91792dcf89f8e96631` remain separate and unchanged.
-The current integrated release candidate is [PR #151 source `bfbadfa42513791899fc8d2b5441238bbe5b2c4e`](https://github.com/abruption/session-peer-ts/tree/bfbadfa42513791899fc8d2b5441238bbe5b2c4e),
-compiled VERSION **0.4.0**, based on integrated main
-[`be6adb26f844e7158362a8fcd6d379fbe8d46864`](https://github.com/abruption/session-peer-ts/commit/be6adb26f844e7158362a8fcd6d379fbe8d46864).
-It is source-candidate evidence, not npm publication or skill installation approval.
-The exact candidate [CLI help](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/help.ts),
-[API](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/docs/api.md)
-and [finite profile guard](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/skill-metadata.ts)
-are the primary review basis. A banner, help probe, merge or passing CI alone
-cannot prove actual runtime publication.
+The limited workflow below is supported by [runtime 0.4.0](https://github.com/abruption/session-peer-ts/releases/tag/v0.4.0), published from source [`dde3923efe116f87f38b1639b29b889d2b832e44`](https://github.com/abruption/session-peer-ts/tree/dde3923efe116f87f38b1639b29b889d2b832e44). The raw npm archive SHA-256 is `84adc8b50ef8f03a2c2170e3c36a97b573f28a6bcbeb7dbc965e16c3b37a57c9`; registry integrity and the SLSA payload source/run were compared with [publication run 39077096491](https://github.com/abruption/session-peer-ts/actions/runs/39077096491). This is not an independent full Sigstore audit.
+
+Use the fixed [CLI help](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/help.ts), [API](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/docs/api.md) and [finite guard](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/skill-metadata.ts). Runtime publication does not publish/install a skill or authorize sending, private-ledger initialization or remote provisioning. Verify a separately approved skill release and source/hash through the [setup instructions](typescript.md#install-update-and-remove-the-skill).
 
 ## Dated source history — 2026-10-17 / 2026-10-18
 
 - Historical #109 `55daf83bd8ebe1cd6e67bb98259130213d1cac71` reported VERSION 0.3.5;
   intermediate #108 `aa4c4ff002638116174c305ed594b3919bc92b17` reported 0.3.6.
-  These are earlier snapshots, not the current integrated candidate.
+  These are earlier snapshots, not the published runtime source.
 - #106 merged at `81d1aece70b414b6aef00641076bd2716f630f6e`; #107 at
   `1e788be6b02c414b3c7de5bbad37afc7e293c2ff`, introducing journal/continuity changes.
 - #108 review head `564adb32c2d4c6def5388b654050299a8536dad6` became squash
@@ -29,26 +20,19 @@ cannot prove actual runtime publication.
 - #109 review head `9e123cf9e3bfb07a0526215c9e797a0fb538be46` became squash/main
   `be6adb26f844e7158362a8fcd6d379fbe8d46864` before release preparation #151.
 
-The dependency sequence has been integrated, but actual release publication and
-exact-source/artifact verification remain separate. Earlier component/native
-records do not qualify this documentation update as a new live test.
+Preparation #151 used `bfbadfa42513791899fc8d2b5441238bbe5b2c4e` at compiled VERSION 0.4.0. Its reviewed source tree matches the published source tree. Earlier component/native records do not qualify this documentation update as a new live test.
+
+At the 2026-10-18 preparation checkpoint, the published skill 0.2.1 source was `0f494cabd05901c03161dc91792dcf89f8e96631`. This is dated history, not an ongoing default for selecting a release.
 
 ## Scope and permission
 
-Use the candidate workflow only after separate implementation/release approval,
-actual supporting runtime publication, approved skill publication, and the user's
-explicit sending/ledger workflow. Do not initialize a ledger, generate receipt
-authority, provision remote hosts, change installed packages or send test messages
-as part of this document review. Metadata compatibility is not source/content
-authentication, sending permission, successful consumption or ACK.
+Use this workflow within the user-authorized sending/ledger scope. Existing explicit authorization can cover initialization or receipt operations; do not ask again for an action already covered. Do not broaden a messaging request into package changes, remote provisioning or new receipt authority. A metadata check does not authenticate content or authorize sending, consumption or ACK.
 
-## Candidate operations
+## Operations
 
-These are source-review examples with placeholders, not instructions to run them
-now. Resolve one intended TS executable and inspect its exact version/help and
-source qualification; do not import Python flags or switch implementations.
+Resolve one intended TS executable and inspect its exact version/help and platform/native prerequisites; do not import Python flags or switch implementations. Replace placeholders only with verified, user-authorized targets and private inputs.
 
-| Operation | Candidate path and boundary |
+| Operation | Path and boundary |
 |---|---|
 | Initialize | `session-peer handoff init --json` explicitly creates the private POSIX ledger; not a discovery prerequisite to run automatically |
 | Prepare | `session-peer handoff prepare --to TARGET --message-file FILE --json` records a fresh ID and original target/body binding without native submission |
@@ -78,9 +62,9 @@ wait for a model to acknowledge a new send. A retained independently verified
 operator confirmation can be queried/waited separately; it does not retroactively
 rewrite an earlier terminal wait.
 
-## Private journal and continuity — integrated candidate
+## Private journal and continuity
 
-The [integrated ledger](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/handoff-ledger.ts)
+The [integrated ledger](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/handoff-ledger.ts)
 does not persist the message body or its raw SHA-256 payload digest in the private
 journal. It stores the digest as AES-256-GCM ciphertext authenticated to the
 ledger epoch and intent ID, using a separate owner-private mode 0600 `ledger.key`.
@@ -94,7 +78,7 @@ regenerate keys, reinitialize the ledger, migrate records or replay intents
 automatically. Explicit fresh initialization is separate from recovery of
 existing history. Do not print or attach either private file.
 
-[Prepared Claude continuity](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/send.ts)
+[Prepared Claude continuity](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/send.ts)
 uses a private registry/descriptor/socket metadata fingerprint, checked again
 before effect. The fingerprint calculation does not read or persist registry
 content; normal target discovery can still read bounded registry JSON. The
@@ -106,13 +90,13 @@ Codex observation support from it.
 Finish or stop the original wait by its operationId; a newer wait must not
 replace its deadline/terminal outcome. A duplicate already committed confirmation
 preserves the original ACK time/classification and does not rewrite the journal.
-These APIs and integrated callers are reviewed at the fixed release candidate
+These APIs and integrated callers are reviewed at the fixed published source
 above. Source/fixture review is not a combined runtime or native test performed
 by this documentation task.
 
 ## Platform and transport qualification
 
-| Route | Candidate support and limits |
+| Route | Support and limits |
 |---|---|
 | Local macOS arm64 Codex | Exact native 0.160.1 or 0.162.1, original saved thread/home/writer generation, default storage and an already-warm supported metadata store |
 | Local POSIX ledger/manual confirmation | Explicit `operator_confirmed` record after binding/order/submission verification; not automatic collection or model authentication |
@@ -134,7 +118,7 @@ activity: native bootstrap may create policy-selected state/cache files first.
 The observer itself uses only the already-warm original store, with no migration,
 warm-up/backfill, resume, model turn or wake.
 
-The integrated [queue guards](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/app-server.ts)
+The integrated [queue guards](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/app-server.ts)
 check the owned queue process's reported native build against the selected exact
 version, not only a separate version probe. They preserve executable realpath,
 device/inode/size/mtime/ctime continuity and check positive remaining budget
@@ -173,7 +157,7 @@ Reconcile the original intent and retained evidence instead.
 
 SQLite internally evaluates body-bearing `item_json` cells to project bounded
 IDs/status. Body/error columns are not returned to JavaScript/IPC/output. This is
-**not** a promise that body bytes are never accessed inside SQLite. The candidate
+**not** a promise that body bytes are never accessed inside SQLite. The runtime
 limits recent user rows to 256 and excludes cells over 256 KiB before JSON
 extraction; temporary SQLite storage is memory-only. Read-only SQLite can still
 participate in transient SHM read locks. Original writer/schema/inode checks must
@@ -182,39 +166,15 @@ remain valid; matching schema alone does not restore lost qualification.
 No rollout/history/queue-list/full-notification API, new native metadata endpoint,
 transcript polling, or resumed model turn is an observation substitute.
 
-## Proposed skill/profile and rollout
+## Skill profile and adoption
 
-The [complete successor file](candidates/session-peer-ts-0.3.0.md) and
-[fixture proposal](candidates/typescript-0.4-profile.json) are review-only data,
-deliberately not named `SKILL.md` so Skills CLI does not install/discover an extra
-skill. Proposed skill **0.3.0**, minimum **0.1.0**, full coverage **0.4.0** received design-direction acceptance for the earlier candidate, but are not
-a jointly frozen final contract or public runtime support. The exact row is
-implemented in the unpublished source candidate only. Minimum retains the explicit ordinary CLI baseline; 0.4 optional
-operations require their final version/help/platform prerequisites. Full is feature
-coverage, not security currency, broad platform support or doctor acceptance.
+The canonical [TS skill](../session-peer-ts/SKILL.md) declares version **0.3.0**, CLI minimum **0.1.0**, full coverage **0.4.0**, implementation `typescript` and policy `probe-help`. Minimum retains the ordinary baseline; the optional handoff operations require runtime 0.4.0, affirmative help and their actual platform/native/security/permission prerequisites. Full is feature coverage, not universal platform support, security currency, doctor acceptance or ACK.
 
-The published 0.3.2/0.3.3/0.3.4/0.3.5/0.3.6 guards reject this proposed tuple. The fixed unpublished 0.4 candidate explicitly enumerates all three existing
-profiles and this exact successor; no arithmetic or wildcard admits another
-profile. That implemented candidate row is not public compatibility. Exact metadata,
-finite runtime/profile cases, full bytes and expected envelopes must be agreed
-with the TS maintainer before any guard or skill is finalized. Malformed/unknown
-evidence is not silently promoted to compatible; `metadata_only` remains limited.
+Public runtimes 0.3.2–0.3.6 reject this profile. The published 0.4.0 guard explicitly enumerates profiles 0.1.0, 0.2.0, 0.2.1 and 0.3.0; no wildcard or version arithmetic admits other combinations. Its bounded reader and status envelopes are documented in the [compatibility contract](typescript-compatibility.md). `metadata_only` does not authenticate body instructions or authorize them.
 
-The earlier b8ff909 content/profile direction was accepted at design level;
-the 38cc7be journal/continuity candidate then received content-direction and
-reported candidate-validator acceptance. These renewed provenance/queue-guard
-bytes require exact review again. Public 0.3.6
-reader limits are grounded in [its exact guard source](https://github.com/abruption/session-peer-ts/blob/7ddded836ef79a7e3384a342ca7011c7abbe127c/src/skill-metadata.ts);
-the unpublished [0.4 candidate reader](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/skill-metadata.ts)
-uses the same bounded reader at compiled VERSION 0.4.0. Keep its source/default
-fixture evidence separate from actual runtime publication and never append it
-to a published-version list by inference.
+Metadata is not a publication claim. Before adopting this revision, verify the separately approved `session-peer-ts-v0.3.0` release, its peeled immutable source and canonical content hash, or stop. Never guess a new pin. The runtime publication does not install/update the skill. Four-language runtime guidance/PARITY adoption remains a separate change after skill publication; preserve the existing manager and require the user's installation/update request.
 
-Order: agree exact profile/content/fixtures → review the supporting guard →
-actually publish the supporting runtime and verify exact source/artifact →
-separately approve/finalize/publish the skill → adopt its same published immutable
-pin in all four TS runtime guides/PARITY. No new tag, pin, runtime install,
-postinstall or manager/PATH replacement is part of this proposal.
+The [complete review candidate](candidates/session-peer-ts-0.3.0.md) and [profile review manifest](candidates/typescript-0.4-profile.json) remain historical review data, not installable skill entrypoints. Earlier candidate acceptance does not certify changed final bytes. This documentation review performs no native/model/installation/ACK experiment.
 
 Deferred: [Linux observation #130](https://github.com/abruption/session-peer-ts/issues/130),
 [Windows observation/private ACL #131](https://github.com/abruption/session-peer-ts/issues/131),
