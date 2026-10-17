@@ -32,19 +32,17 @@ following command; do not replace another manager's launcher.
 
 Proposed revision 0.3.0 retains the ordinary 0.1.0 baseline and proposes a 0.4.0
 feature coverage reference. Neither number grants doctor compatibility, security
-currency, native/platform support or sending permission. Published 0.3.2/0.3.3/0.3.4/0.3.5/0.3.6 guards do
-not accept this new tuple. A planned 0.4 row for existing profiles is not support
-for this proposal; require an explicitly reviewed finite row and exact fixtures.
-The historical observer source candidate is
-[55daf83bd8ebe1cd6e67bb98259130213d1cac71](https://github.com/abruption/session-peer-ts/tree/55daf83bd8ebe1cd6e67bb98259130213d1cac71).
-It actually reports compiled VERSION 0.3.5 despite containing unshipped 0.4 work;
-a banner or help probe alone does not prove approved public source. Final integrated
-source/help, full skill bytes/profile and immutable release must be reviewed again.
-The newer merged core [1e788be6b02c414b3c7de5bbad37afc7e293c2ff](https://github.com/abruption/session-peer-ts/tree/1e788be6b02c414b3c7de5bbad37afc7e293c2ff)
-and open #108 aa4c4ff checkpoint report VERSION 0.3.6. Journal/continuity changes
-below use that core, while observation uses the historical checkpoint; these
-are not a verified combined runtime. Earlier content/profile direction acceptance
-does not freeze this revised full file or prove a planned 0.4 guard/default.
+currency, native/platform support or sending permission. Published
+0.3.2/0.3.3/0.3.4/0.3.5/0.3.6 guards reject this new tuple.
+The fixed integrated release candidate is
+[bfbadfa42513791899fc8d2b5441238bbe5b2c4e](https://github.com/abruption/session-peer-ts/tree/bfbadfa42513791899fc8d2b5441238bbe5b2c4e),
+compiled VERSION 0.4.0, based on main be6adb26f844e7158362a8fcd6d379fbe8d46864.
+Its finite guard explicitly includes this exact tuple alongside the three earlier
+profiles. This is implemented source-candidate support, not npm publication,
+installation approval, content authentication or a joint final-byte freeze.
+Historical 55daf83 (VERSION 0.3.5), intermediate aa4c4ff (0.3.6) and earlier
+merged core 1e788be are dated checkpoints, not the current integrated source. Recheck the
+actual publication source/artifact, full skill bytes/profile and approved release.
 Adopt only a separately approved published skill release with recorded source/hash.
 Runtime publication does not publish/install the skill; upgrades remain user-requested
 and owned by the existing manager. Do not edit metadata to hide a rejection.
@@ -54,7 +52,7 @@ before selecting options. Older baseline help does not promise per-command
 help. A supported command or flag must appear affirmatively in supported help:
 “doctor unsupported” does not enable doctor. Version checks alone do not resolve
 unreleased builds that reuse a version string. The [published npm 0.3.4 CLI help](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/help.ts)
-is a baseline reference; the separate [unpublished candidate help](https://github.com/abruption/session-peer-ts/blob/55daf83bd8ebe1cd6e67bb98259130213d1cac71/src/help.ts)
+is a baseline reference; the separate [unpublished candidate help](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/help.ts)
 is source-review evidence only, not approved public operation support.
 
 Minimum is CLI compatibility for this implementation's stated baseline, separate
@@ -125,8 +123,9 @@ that body bytes are unread. Published runtimes 0.3.3, 0.3.4, 0.3.5 and 0.3.6 bou
 bytes, with a 65,537-byte overflow-detection buffer, and check regular-file,
 descriptor/path, and observable stability evidence before interpreting metadata.
 The [public 0.3.6 reader source](https://github.com/abruption/session-peer-ts/blob/7ddded836ef79a7e3384a342ca7011c7abbe127c/src/skill-metadata.ts)
-is fixed evidence for that list. Planned 0.4 reader/profile support requires its
-final exact source/default fixtures; do not add it by version arithmetic.
+is fixed evidence for that list. The unpublished [0.4 guard candidate](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/skill-metadata.ts)
+retains those reader bounds at compiled VERSION 0.4.0. This is separate from
+actual public support; no arithmetic admits a future runtime/profile.
 It does not authenticate content, freeze an atomic snapshot, protect against a
 writer restoring identical metadata, or impose an arbitrary-filesystem I/O deadline.
 Public 0.3.2 used only a 64 KiB pre-read size check. Metadata compatibility follows
@@ -264,7 +263,7 @@ and arbitrary text never automatically establish receipt ACK. `operator_confirme
 means explicit operator attestation; `token_possession` would mean capability
 possession, not person/model identity or task completion.
 
-The merged core journal stores neither the message body nor raw payload SHA-256.
+The integrated candidate journal stores neither the message body nor raw payload SHA-256.
 It stores that digest as AES-256-GCM ciphertext authenticated to the ledger epoch
 and intent ID, with a separate owner-private mode 0600 ledger.key. This limits
 journal-only payload guessing, not a same-user reader of both files; other
@@ -281,8 +280,9 @@ a public token; do not expose the private fingerprint or extend Codex observatio
 qualification to Claude. Finish/stop the original wait operationId, never a newer
 wait's deadline or terminal record. A duplicate already committed confirmation
 preserves original ACK time/classification without rewriting the journal.
-These [merged core APIs](https://github.com/abruption/session-peer-ts/blob/1e788be6b02c414b3c7de5bbad37afc7e293c2ff/src/handoff-ledger.ts)
-and historical observer callers still need final integrated source/fixture review.
+The [integrated ledger APIs](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/src/handoff-ledger.ts)
+and callers are fixed source evidence, not runtime execution or publication by
+this documentation review.
 
 Qualified native client-ID observation is exact Codex 0.160.1 or 0.162.1 on macOS
 arm64, with the original saved home/thread/writer generation, default storage and
@@ -291,6 +291,14 @@ do not reconstruct it from today's PATH or matching schema. No observer migratio
 warm-up/backfill, history/rollout/queue-list, resume/start/model turn or wake.
 Native queue bootstrap checks its own opened storage under managed policy: a
 storage refusal guarantees zero queue, not zero bootstrap filesystem writes.
+The owned queue process must report a build marker matching the selected exact
+native version. Preserve executable realpath/dev/inode/size/mtime/ctime identity
+and positive remaining budget before version/lsof probes. After the durable
+fence and final asynchronous original-owner check, the queue candidate rechecks
+the executable and owned PID's SQLite FD device/inode against canonical files.
+These guards reject observable changes; they do not authenticate executable code,
+freeze an atomic filesystem snapshot or promise a wall-clock SLA.
+
 
 The privacy claim is bounded: SQLite may internally evaluate body-bearing `item_json`
 cells, but only bounded IDs/status reach JavaScript/IPC/output, not body/error
@@ -325,5 +333,5 @@ receipt producer/authenticated collector/bootstrap remain future work (#130–#1
 Ordinary Linux queue/manual POSIX confirmation is separate from observation.
 No Python full-runtime equivalence, Side Session, steering, Relay, MCP, general
 wait or automatic ACK is proposed. See the fixed
-[candidate API](https://github.com/abruption/session-peer-ts/blob/55daf83bd8ebe1cd6e67bb98259130213d1cac71/docs/api.md)
+[candidate API](https://github.com/abruption/session-peer-ts/blob/bfbadfa42513791899fc8d2b5441238bbe5b2c4e/docs/api.md)
 for source details; this file is not a live-test or installation instruction.

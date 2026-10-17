@@ -1,11 +1,11 @@
 {
   "purpose": "documentation-review proposal, not a runtime schema or executed guard test",
-  "status": "earlier profile/content direction accepted at design level; revised bytes/final runtime fixtures/publication not frozen",
-  "sourceCheckpoint": "55daf83bd8ebe1cd6e67bb98259130213d1cac71",
-  "actualCheckpointCompiledVersion": "0.3.5",
+  "status": "earlier content/profile directions accepted; final provenance-amended bytes and actual publication not frozen",
+  "sourceCheckpoint": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
+  "actualCheckpointCompiledVersion": "0.4.0",
   "candidateFile": "docs/candidates/session-peer-ts-0.3.0.md",
-  "candidateUtf8Bytes": 22522,
-  "candidateSHA256": "bbdcaa4db4245d24127a5c6fefed801ddc7082298278ddd81d5a95fc6e8a0ce9",
+  "candidateUtf8Bytes": 22973,
+  "candidateSHA256": "7571c79fb7ac164002daf0bf3aa7c5ba40ca8d99f5610a04d7860eee7b27df68",
   "publishedSkillPin": "0f494cabd05901c03161dc91792dcf89f8e96631",
   "publishedSkillSHA256": "8c3520f95e0d6807303be96bfa06df69887ddaf76be05f1905505d0a956820c3",
   "proposedProfile": {
@@ -70,8 +70,10 @@
       "0.2.1"
     ],
     "newProfile": "0.3.0",
-    "agreement": "earlier exact tuple direction accepted design-only; final finite row/code/default/whole-byte fixtures and actual publication pending",
-    "desiredNewProfileResultIfReviewedImplementedAndPublished": {
+    "agreement": "implemented in exact unpublished release candidate; full renewed bytes/publication agreement still pending",
+    "candidateSource": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
+    "evidenceScope": "static row verified; TS reviewer reported pure-validator old38cc bytes; current renewed bytes require exact review; not public support",
+    "candidateExpectedMetadataResult": {
       "status": "compatible",
       "code": "skill_contract_compatible",
       "verification": "metadata_only"
@@ -128,15 +130,22 @@
     "historicalObserverCompiledVersion": "0.3.5",
     "merged106": "81d1aece70b414b6aef00641076bd2716f630f6e",
     "merged107": "1e788be6b02c414b3c7de5bbad37afc7e293c2ff",
-    "open108": "aa4c4ff002638116174c305ed594b3919bc92b17",
-    "coreAnd108CompiledVersion": "0.3.6",
     "publishedReader036": "7ddded836ef79a7e3384a342ca7011c7abbe127c",
-    "finalIntegratedRelease": "pending"
+    "historicalOpen108": "aa4c4ff002638116174c305ed594b3919bc92b17",
+    "historicalCoreAnd108CompiledVersion": "0.3.6",
+    "reviewed108": "564adb32c2d4c6def5388b654050299a8536dad6",
+    "merged108": "d645a692f8e402dd224691410fa89be502e45383",
+    "reviewed109": "9e123cf9e3bfb07a0526215c9e797a0fb538be46",
+    "integratedMain109": "be6adb26f844e7158362a8fcd6d379fbe8d46864",
+    "releaseCandidate": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
+    "releaseCandidateCompiledVersion": "0.4.0",
+    "actualRuntimePublication": "pending"
   },
   "coreFixtureReviewItems": [
     "payload digest only: AES-256-GCM epoch/intent authenticated ciphertext, separate private0600key; not whole journal/body encryption or same-user defense",
     "missing/rotated/untrusted key and legacy plaintext: unavailable history/refusal, no automatic repair/migration/replay",
     "prepared Claude private metadata continuity, fingerprint calculation reads no registry content; normal bounded registry discovery is separate, public generation null",
-    "original operationId terminal preservation; duplicate committed confirm preserves journal/classification"
+    "original operationId terminal preservation; duplicate committed confirm preserves journal/classification",
+    "actual queue reported build, executable metadata continuity, positive probe budgets, post-fence/async-owner canonical SQLite FD binding; no code authentication/atomic FS/SLA guarantee"
   ]
 }
