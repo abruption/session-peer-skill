@@ -12,7 +12,7 @@ metadata:
 
 # TypeScript session messaging — proposed 0.4 feature revision
 
-Preparation checkpoint (2026-10-17): this complete file is review-only data,
+Preparation checkpoints (2026-10-17 / 2026-10-18): this complete file is review-only data,
 not an installed/released skill or approved profile. Do not execute experimental
 operations from it. Public skill 0.2.1 and its immutable pin remain unchanged.
 Skill 0.3.0 / minimum 0.1.0 / full 0.4.0 are proposals pending exact contract/fixture review,
@@ -32,14 +32,19 @@ following command; do not replace another manager's launcher.
 
 Proposed revision 0.3.0 retains the ordinary 0.1.0 baseline and proposes a 0.4.0
 feature coverage reference. Neither number grants doctor compatibility, security
-currency, native/platform support or sending permission. Public 0.3.x guards do
+currency, native/platform support or sending permission. Published 0.3.2/0.3.3/0.3.4/0.3.5/0.3.6 guards do
 not accept this new tuple. A planned 0.4 row for existing profiles is not support
 for this proposal; require an explicitly reviewed finite row and exact fixtures.
-The fixed source candidate is
+The historical observer source candidate is
 [55daf83bd8ebe1cd6e67bb98259130213d1cac71](https://github.com/abruption/session-peer-ts/tree/55daf83bd8ebe1cd6e67bb98259130213d1cac71).
 It actually reports compiled VERSION 0.3.5 despite containing unshipped 0.4 work;
 a banner or help probe alone does not prove approved public source. Final integrated
 source/help, full skill bytes/profile and immutable release must be reviewed again.
+The newer merged core [1e788be6b02c414b3c7de5bbad37afc7e293c2ff](https://github.com/abruption/session-peer-ts/tree/1e788be6b02c414b3c7de5bbad37afc7e293c2ff)
+and open #108 aa4c4ff checkpoint report VERSION 0.3.6. Journal/continuity changes
+below use that core, while observation uses the historical checkpoint; these
+are not a verified combined runtime. Earlier content/profile direction acceptance
+does not freeze this revised full file or prove a planned 0.4 guard/default.
 Adopt only a separately approved published skill release with recorded source/hash.
 Runtime publication does not publish/install the skill; upgrades remain user-requested
 and owned by the existing manager. Do not edit metadata to hide a rejection.
@@ -116,9 +121,12 @@ Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
 not install, update, or make network requests. It is not a privacy guarantee
-that body bytes are unread. Runtimes 0.3.3, 0.3.4 and 0.3.5 bound whole-file UTF-8 reads to 65,536
+that body bytes are unread. Published runtimes 0.3.3, 0.3.4, 0.3.5 and 0.3.6 bound whole-file UTF-8 reads to 65,536
 bytes, with a 65,537-byte overflow-detection buffer, and check regular-file,
 descriptor/path, and observable stability evidence before interpreting metadata.
+The [public 0.3.6 reader source](https://github.com/abruption/session-peer-ts/blob/7ddded836ef79a7e3384a342ca7011c7abbe127c/src/skill-metadata.ts)
+is fixed evidence for that list. Planned 0.4 reader/profile support requires its
+final exact source/default fixtures; do not add it by version arithmetic.
 It does not authenticate content, freeze an atomic snapshot, protect against a
 writer restoring identical metadata, or impose an arbitrary-filesystem I/O deadline.
 Public 0.3.2 used only a 64 KiB pre-read size check. Metadata compatibility follows
@@ -255,6 +263,26 @@ wait. Queue/posted/submitted, exact-ID injection, turn completion, queue deletio
 and arbitrary text never automatically establish receipt ACK. `operator_confirmed`
 means explicit operator attestation; `token_possession` would mean capability
 possession, not person/model identity or task completion.
+
+The merged core journal stores neither the message body nor raw payload SHA-256.
+It stores that digest as AES-256-GCM ciphertext authenticated to the ledger epoch
+and intent ID, with a separate owner-private mode 0600 ledger.key. This limits
+journal-only payload guessing, not a same-user reader of both files; other
+journal metadata remains visible. Do not describe whole-journal/body encryption.
+Missing/replaced/malformed/untrusted keys or old plaintext records leave history
+unavailable and refuse dependent submissions. Never auto-migrate, regenerate a
+key, reinitialize existing history or replay intents; surface the failure.
+
+Prepared Claude targets keep a private registry/descriptor/socket metadata
+continuity fingerprint and recheck before effect. The fingerprint calculation
+does not read or persist registry content; normal target discovery can still read
+bounded registry JSON. Public generation stays null. This is not native incarnation/model identity or
+a public token; do not expose the private fingerprint or extend Codex observation
+qualification to Claude. Finish/stop the original wait operationId, never a newer
+wait's deadline or terminal record. A duplicate already committed confirmation
+preserves original ACK time/classification without rewriting the journal.
+These [merged core APIs](https://github.com/abruption/session-peer-ts/blob/1e788be6b02c414b3c7de5bbad37afc7e293c2ff/src/handoff-ledger.ts)
+and historical observer callers still need final integrated source/fixture review.
 
 Qualified native client-ID observation is exact Codex 0.160.1 or 0.162.1 on macOS
 arm64, with the original saved home/thread/writer generation, default storage and

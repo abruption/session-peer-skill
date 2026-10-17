@@ -7,13 +7,22 @@
 This is a documentation and contract proposal, not published runtime support or
 an installation guide. Public runtime 0.3.6 and the published TS skill 0.2.1
 source `0f494cabd05901c03161dc91792dcf89f8e96631` remain separate and unchanged.
-The source below is an unmerged/unpublished 0.4 feature checkpoint; it actually
-reports compiled VERSION **0.3.5**, so a version banner alone cannot identify
-these development features. Final integrated 0.4 source/help must be rechecked.
+The sources below are separate development checkpoints, not a runnable combined
+release. The historical observer checkpoint reports compiled VERSION **0.3.5**;
+the newer core/current #108 checkpoint reports **0.3.6**, not a final 0.4 build.
+A banner alone cannot identify approved 0.4 features. Recheck final integrated
+source, CLI/help, guard and compiled version before adoption.
 
 Fixed evidence: [PR #109 source `55daf83bd8ebe1cd6e67bb98259130213d1cac71`](https://github.com/abruption/session-peer-ts/tree/55daf83bd8ebe1cd6e67bb98259130213d1cac71),
 [CLI help](https://github.com/abruption/session-peer-ts/blob/55daf83bd8ebe1cd6e67bb98259130213d1cac71/src/help.ts),
 [handoff API](https://github.com/abruption/session-peer-ts/blob/55daf83bd8ebe1cd6e67bb98259130213d1cac71/docs/api.md).
+New core checkpoint (2026-10-18): merged [#106 `81d1aece70b414b6aef00641076bd2716f630f6e`](https://github.com/abruption/session-peer-ts/commit/81d1aece70b414b6aef00641076bd2716f630f6e)
+and [#107 `1e788be6b02c414b3c7de5bbad37afc7e293c2ff`](https://github.com/abruption/session-peer-ts/commit/1e788be6b02c414b3c7de5bbad37afc7e293c2ff);
+open [#108 `aa4c4ff002638116174c305ed594b3919bc92b17`](https://github.com/abruption/session-peer-ts/commit/aa4c4ff002638116174c305ed594b3919bc92b17).
+The reported local #109 projection is not an agreed final remote source. The
+journal/continuity changes below use merged #107; native observation still uses
+the historical #109 checkpoint. Absence of later observer code at an earlier
+merge stage is not evidence of feature withdrawal or successful integration.
 The dependency order is #106 → #107 → #108 → #109, with source and checks reviewed
 again after integration. Historical component tests do not qualify a new combined
 release or authorize live tests.
@@ -62,6 +71,38 @@ unsupported, so it refuses **before native effect**. Do not present it as a way 
 wait for a model to acknowledge a new send. A retained independently verified
 operator confirmation can be queried/waited separately; it does not retroactively
 rewrite an earlier terminal wait.
+
+## Private journal and continuity — merged core checkpoint
+
+The [merged #107 ledger](https://github.com/abruption/session-peer-ts/blob/1e788be6b02c414b3c7de5bbad37afc7e293c2ff/src/handoff-ledger.ts)
+does not persist the message body or its raw SHA-256 payload digest in the private
+journal. It stores the digest as AES-256-GCM ciphertext authenticated to the
+ledger epoch and intent ID, using a separate owner-private mode 0600 `ledger.key`.
+This limits payload guessing from the journal alone; it does not protect against
+a same-user reader with access to both files. Target/status/wait metadata still
+exists in the journal: do not call this whole-journal or message-body encryption.
+
+Missing, changed, malformed or untrusted keys and old plaintext records leave
+history unavailable and refuse further submission. Report the refusal; do not
+regenerate keys, reinitialize the ledger, migrate records or replay intents
+automatically. Explicit fresh initialization is separate from recovery of
+existing history. Do not print or attach either private file.
+
+[Prepared Claude continuity](https://github.com/abruption/session-peer-ts/blob/1e788be6b02c414b3c7de5bbad37afc7e293c2ff/src/send.ts)
+uses a private registry/descriptor/socket metadata fingerprint, checked again
+before effect. The fingerprint calculation does not read or persist registry
+content; normal target discovery can still read bounded registry JSON. The
+fingerprint does not prove native incarnation, model identity or a public
+generation; public Claude generation remains `null`.
+Do not export the private fingerprint as a public generation token or infer
+Codex observation support from it.
+
+Finish or stop the original wait by its operationId; a newer wait must not
+replace its deadline/terminal outcome. A duplicate already committed confirmation
+preserves the original ACK time/classification and does not rewrite the journal.
+These merged-core APIs/fixtures and the older #109 integrated callers must be
+rechecked together at the final integrated head; they are not a combined runtime
+test performed by this documentation task.
 
 ## Platform and transport qualification
 
@@ -129,16 +170,22 @@ transcript polling, or resumed model turn is an observation substitute.
 The [complete successor file](candidates/session-peer-ts-0.3.0.md) and
 [fixture proposal](candidates/typescript-0.4-profile.json) are review-only data,
 deliberately not named `SKILL.md` so Skills CLI does not install/discover an extra
-skill. Proposed skill **0.3.0**, minimum **0.1.0**, full coverage **0.4.0** are not
-agreed numbers. Minimum retains the explicit ordinary CLI baseline; 0.4 optional
+skill. Proposed skill **0.3.0**, minimum **0.1.0**, full coverage **0.4.0** received design-direction acceptance for the earlier candidate, but are not
+a jointly frozen final contract or implemented/published runtime row. Minimum retains the explicit ordinary CLI baseline; 0.4 optional
 operations require their final version/help/platform prerequisites. Full is feature
 coverage, not security currency, broad platform support or doctor acceptance.
 
-Public 0.3.x guards reject this proposed tuple. A proposed 0.4 row for existing
+The published 0.3.2/0.3.3/0.3.4/0.3.5/0.3.6 guards reject this proposed tuple. A proposed 0.4 row for existing
 published profiles does not accept a new profile automatically. Exact metadata,
 finite runtime/profile cases, full bytes and expected envelopes must be agreed
 with the TS maintainer before any guard or skill is finalized. Malformed/unknown
 evidence is not silently promoted to compatible; `metadata_only` remains limited.
+
+The earlier b8ff909 content/profile direction was accepted at design level;
+these renewed journal/continuity bytes require exact review again. Public 0.3.6
+reader limits are grounded in [its exact guard source](https://github.com/abruption/session-peer-ts/blob/7ddded836ef79a7e3384a342ca7011c7abbe127c/src/skill-metadata.ts);
+planned 0.4 reader/profile claims require the final exact source and compiled
+version, not addition to a published-version list by inference.
 
 Order: agree exact profile/content/fixtures → review the supporting guard →
 actually publish the supporting runtime and verify exact source/artifact →

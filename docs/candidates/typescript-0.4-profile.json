@@ -1,11 +1,11 @@
 {
   "purpose": "documentation-review proposal, not a runtime schema or executed guard test",
-  "status": "unagreed; no installation/publication pin",
+  "status": "earlier profile/content direction accepted at design level; revised bytes/final runtime fixtures/publication not frozen",
   "sourceCheckpoint": "55daf83bd8ebe1cd6e67bb98259130213d1cac71",
   "actualCheckpointCompiledVersion": "0.3.5",
   "candidateFile": "docs/candidates/session-peer-ts-0.3.0.md",
-  "candidateUtf8Bytes": 20162,
-  "candidateSHA256": "1ae3690cb5d03777bf448cf06496fed27e4a9329deb03741d6d956a3b13c5ed4",
+  "candidateUtf8Bytes": 22522,
+  "candidateSHA256": "bbdcaa4db4245d24127a5c6fefed801ddc7082298278ddd81d5a95fc6e8a0ce9",
   "publishedSkillPin": "0f494cabd05901c03161dc91792dcf89f8e96631",
   "publishedSkillSHA256": "8c3520f95e0d6807303be96bfa06df69887ddaf76be05f1905505d0a956820c3",
   "proposedProfile": {
@@ -70,7 +70,7 @@
       "0.2.1"
     ],
     "newProfile": "0.3.0",
-    "agreement": "pending for all 0.4 combinations; existing-profile row does not imply new-profile acceptance",
+    "agreement": "earlier exact tuple direction accepted design-only; final finite row/code/default/whole-byte fixtures and actual publication pending",
     "desiredNewProfileResultIfReviewedImplementedAndPublished": {
       "status": "compatible",
       "code": "skill_contract_compatible",
@@ -122,5 +122,21 @@
     "final integrated CLI/source/platform qualification",
     "complete final skill bytes agreement",
     "actual supporting-runtime publication before separate skill release and pin adoption"
+  ],
+  "sourceCheckpoints": {
+    "historicalObserver": "55daf83bd8ebe1cd6e67bb98259130213d1cac71",
+    "historicalObserverCompiledVersion": "0.3.5",
+    "merged106": "81d1aece70b414b6aef00641076bd2716f630f6e",
+    "merged107": "1e788be6b02c414b3c7de5bbad37afc7e293c2ff",
+    "open108": "aa4c4ff002638116174c305ed594b3919bc92b17",
+    "coreAnd108CompiledVersion": "0.3.6",
+    "publishedReader036": "7ddded836ef79a7e3384a342ca7011c7abbe127c",
+    "finalIntegratedRelease": "pending"
+  },
+  "coreFixtureReviewItems": [
+    "payload digest only: AES-256-GCM epoch/intent authenticated ciphertext, separate private0600key; not whole journal/body encryption or same-user defense",
+    "missing/rotated/untrusted key and legacy plaintext: unavailable history/refusal, no automatic repair/migration/replay",
+    "prepared Claude private metadata continuity, fingerprint calculation reads no registry content; normal bounded registry discovery is separate, public generation null",
+    "original operationId terminal preservation; duplicate committed confirm preserves journal/classification"
   ]
 }
