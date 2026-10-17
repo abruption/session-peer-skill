@@ -2,6 +2,9 @@
 
 [Back to README](../README.md)
 
+For source-only future work, see the [separate 0.4 documentation/profile candidate](typescript-0.4-candidate.md).
+It does not change the published skill, installation pin or supported commands below.
+
 The separate `session-peer-ts` skill 0.2.1 documents the npm TypeScript runtime and its independently versioned metadata profile. Published runtime 0.3.5 supports this exact profile; its guard source is [`a2057940ba19056fcaaa5551a7820f7414bd3bfa`](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/src/skill-metadata.ts), with a separate [runtime publication record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.5). Runtime publication does not publish, install, update or authorize adoption of the skill. Select a separately approved, published immutable skill release and its recorded source/hash as described below. Both runtimes use the command name `session-peer`, so resolve the intended executable and inspect its version and help before use. The TS runtime runs without Python.
 
 ## Published support and independent versions

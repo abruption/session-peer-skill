@@ -4,6 +4,7 @@
 // On a tag push in GitHub Actions, GITHUB_REF_NAME is checked as the tag.
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
+import { createHash } from 'node:crypto'
 
 const skillDir = 'session-peer'
 const readmes = ['README.md', 'README.ko.md', 'README.ja.md', 'README.zh-CN.md']
@@ -128,7 +129,23 @@ for (const [index, readme] of readmes.entries()) {
   }
 }
 
-for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'docs/typescript-compatibility.md', 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
+// The complete future skill is review data, not a third discoverable SKILL.md.
+const proposal = JSON.parse(read('docs/candidates/typescript-0.4-profile.json'))
+const proposedText = read(proposal.candidateFile)
+const proposedMetadata = parseFrontmatter(proposedText)?.metadata ?? {}
+for (const [key, value] of Object.entries(proposal.proposedProfile)) {
+  if (proposedMetadata[key] !== value) errors.push(`TS candidate: metadata.${key} differs from fixture proposal`)
+}
+if (Buffer.byteLength(proposedText, 'utf8') !== proposal.candidateUtf8Bytes ||
+    createHash('sha256').update(proposedText).digest('hex') !== proposal.candidateSHA256) {
+  errors.push('TS candidate: complete bytes/hash differ from fixture proposal')
+}
+if (createHash('sha256').update(tsSkill).digest('hex') !== proposal.publishedSkillSHA256) {
+  errors.push('TS candidate: published canonical TS skill must remain unchanged during this proposal')
+}
+if (proposal.candidateFile.endsWith('/SKILL.md')) errors.push('TS candidate must not be a discoverable SKILL.md')
+
+for (const document of [...readmes, ...usageGuides, 'docs/typescript.md', 'docs/typescript-compatibility.md', 'docs/typescript-0.4-candidate.md', proposal.candidateFile, 'CONTRIBUTING.md', 'CONTRIBUTING.ko.md']) {
   for (const [, target] of read(document).matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(target) || target.startsWith('#')) continue
     const path = target.split('#')[0]

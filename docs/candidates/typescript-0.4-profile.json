@@ -1,0 +1,126 @@
+{
+  "purpose": "documentation-review proposal, not a runtime schema or executed guard test",
+  "status": "unagreed; no installation/publication pin",
+  "sourceCheckpoint": "55daf83bd8ebe1cd6e67bb98259130213d1cac71",
+  "actualCheckpointCompiledVersion": "0.3.5",
+  "candidateFile": "docs/candidates/session-peer-ts-0.3.0.md",
+  "candidateUtf8Bytes": 20162,
+  "candidateSHA256": "1ae3690cb5d03777bf448cf06496fed27e4a9329deb03741d6d956a3b13c5ed4",
+  "publishedSkillPin": "0f494cabd05901c03161dc91792dcf89f8e96631",
+  "publishedSkillSHA256": "8c3520f95e0d6807303be96bfa06df69887ddaf76be05f1905505d0a956820c3",
+  "proposedProfile": {
+    "version": "0.3.0",
+    "runtime-implementation": "typescript",
+    "runtime-min-version": "0.1.0",
+    "runtime-full-version": "0.4.0",
+    "runtime-capability-policy": "probe-help"
+  },
+  "publishedRuntimeProfileCases": [
+    {
+      "runtime": "0.3.2",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.3",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.4",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.5",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.6",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    }
+  ],
+  "proposedRuntimeRow": {
+    "runtime": "0.4.0",
+    "existingProfiles": [
+      "0.1.0",
+      "0.2.0",
+      "0.2.1"
+    ],
+    "newProfile": "0.3.0",
+    "agreement": "pending for all 0.4 combinations; existing-profile row does not imply new-profile acceptance",
+    "desiredNewProfileResultIfReviewedImplementedAndPublished": {
+      "status": "compatible",
+      "code": "skill_contract_compatible",
+      "verification": "metadata_only"
+    }
+  },
+  "negativeFixtureProposals": [
+    {
+      "id": "unsupported-profile",
+      "change": "well-formed unknown version/implementation/min/full/policy/name",
+      "desiredResult": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "id": "malformed-protected",
+      "change": "missing/duplicate/malformed required name or scalar/map after healthy reader evidence",
+      "desiredResult": {
+        "status": "unknown",
+        "code": "skill_metadata_missing"
+      },
+      "verification": "must be absent, not null"
+    },
+    {
+      "id": "unknown-runtime",
+      "change": "well-formed unreviewed runtime identity; never arithmetic >= support",
+      "desiredResult": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "id": "malformed-runtime",
+      "change": "missing/malformed/noncanonical runtime identity",
+      "desiredResult": {
+        "status": "unknown",
+        "code": "skill_metadata_missing"
+      },
+      "verification": "must be absent, not null"
+    }
+  ],
+  "openContractItems": [
+    "exact skill/min/full/profile numbers",
+    "finite 0.4 row for existing and new profiles",
+    "byte-exact runtime fixtures and expected envelopes including permission/read failures",
+    "final integrated CLI/source/platform qualification",
+    "complete final skill bytes agreement",
+    "actual supporting-runtime publication before separate skill release and pin adoption"
+  ]
+}
