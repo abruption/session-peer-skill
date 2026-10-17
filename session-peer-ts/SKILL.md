@@ -3,10 +3,10 @@ name: session-peer-ts
 description: Discover and message Claude Code or Codex sessions using the npm TypeScript session-peer CLI, locally or over SSH. Use for user-requested cross-session messaging with the TypeScript runtime; Python runtime guidance belongs to the separate session-peer skill.
 allowed-tools: Bash, Read
 metadata:
-  version: "0.2.1"
+  version: "0.3.0"
   runtime-implementation: "typescript"
   runtime-min-version: "0.1.0"
-  runtime-full-version: "0.3.2"
+  runtime-full-version: "0.4.0"
   runtime-capability-policy: "probe-help"
 ---
 
@@ -24,29 +24,29 @@ Python uses that command name too: if the marker is absent, select the Python sk
 which installation the user intends. Keep the resolved executable for every
 following command; do not replace another manager's launcher.
 
-This skill revision is 0.2.1, retaining the documented public CLI features
-through npm runtime 0.3.4. Its CLI minimum is 0.1.0; its full-feature coverage
-reference is 0.3.2. The original 0.1.0 supports only the historical baseline
-below. Public runtimes 0.3.2, 0.3.3 and 0.3.4 doctor reject this exact metadata
-profile even when baseline commands work. Published runtime 0.3.5 explicitly
-accepts it; use that reviewed runtime for doctor inspection, without inferring
-support from a larger version number. Its [exact guard source](https://github.com/abruption/session-peer-ts/blob/a2057940ba19056fcaaa5551a7820f7414bd3bfa/src/skill-metadata.ts)
-and [publication record](https://github.com/abruption/session-peer-ts/releases/tag/v0.3.5)
-are separate from this skill's release and do not authorize installation or
-sending. Adopt only a separately approved immutable skill release and its
-recorded source pin. Runtime publication does not publish or install this
-skill. Any upgrade still requires the user's request and the existing package
-manager.
-Do not change metadata to silence an incompatibility. The skill version, npm version, and Python skill/repository
-tag are independent. Unknown versions or contradictory help require review
-before using an unverified operation; do not infer features from Python's
-`referenceVersion` or from an unreleased design.
+This skill revision is 0.3.0. The ordinary CLI baseline minimum is 0.1.0; the
+full-feature coverage reference is 0.4.0, including the limited opt-in handoff
+workflow below. Neither value grants doctor compatibility, security currency,
+native/platform support or sending permission. Published runtime 0.4.0 explicitly
+accepts this exact profile; published 0.3.2/0.3.3/0.3.4/0.3.5/0.3.6 guards reject it.
+Use the reviewed finite row, never a larger-version or future-range inference.
+See the [published guard source](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/skill-metadata.ts)
+and [runtime release record](https://github.com/abruption/session-peer-ts/releases/tag/v0.4.0).
+A banner or help probe alone cannot distinguish unreviewed development builds.
+Adopt only a separately approved, published immutable skill release with its
+recorded source/hash. Runtime publication does not publish or install this skill.
+Any upgrade still requires the user's request and the existing package manager.
+Do not alter metadata to hide a rejection or import Python's referenceVersion as
+TS feature support.
 
 Capture `--help`. If it advertises `<command> --help`, capture that command's help
 before selecting options. Older baseline help does not promise per-command
 help. A supported command or flag must appear affirmatively in supported help:
 “doctor unsupported” does not enable doctor. Version checks alone do not resolve
-unreleased builds that reuse a version string. See the [published npm 0.3.4 CLI help](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/help.ts).
+unreleased builds that reuse a version string. The [published npm 0.3.4 CLI help](https://github.com/abruption/session-peer-ts/blob/afed4a5a8945012faf1b23d52cffecb70470a5b3/src/help.ts)
+is a baseline reference; the [published 0.4.0 help](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/help.ts)
+documents optional commands; actual version/help, platform, writer/storage and
+permission prerequisites still govern every use.
 
 Minimum is CLI compatibility for this implementation's stated baseline, separate
 from security patch recommendations. Full is this revision's published-feature
@@ -57,7 +57,7 @@ operation by its feature version and affirmative help, even at or above full.
 Help establishes option presence only; permissions, allowlists, native/platform
 requirements, and unique-writer guards still govern execution.
 
-| Operation | Published 0.1.0 baseline | Published additions present in 0.3.2; verify help |
+| Operation | Published 0.1.0 baseline | Published additions; verify exact version/help |
 |---|---|---|
 | Output | Explicit JSON required | 0.2.0+: explicit JSON or text; still no default output format |
 | List and Codex homes | Explicit agent; Codex home required | 0.2.0+: combined list, bounded known-home inventory, unique stable live writer selection |
@@ -65,9 +65,11 @@ requirements, and unique-writer guards still govern execution.
 | Doctor | Unsupported | 0.2.0+: read-only diagnostics; 0.3.0+: opt-in return-route probe |
 | SSH and replies | One host, explicit reply route | 0.3.0+: multiple hosts, constrained SSH options/jump, Tailscale hints, generated sender/reply routes |
 | Runtime update check | Unsupported | 0.3.0+: npm `update --check`, opt-in cached notices, optional shell `sp` alias |
+| Handoff evidence | Unsupported | 0.4.0: explicit private POSIX intents, bounded waits and operator confirmation; exact qualified observation routes only |
 
 Wake, Antigravity, paired devices/Relay, MCP, general wait, and automatic ACK are
-unsupported. Draft 0.4 handoff/observer designs are not published commands. Never
+unsupported as general capabilities. The limited opt-in 0.4 handoff workflow
+below is separate; it does not implement a general --wait or automatic ACK. Never
 import Python flags or switch runtimes/transports to fix an unsupported operation.
 
 ## Discover, select, dry-run, then submit
@@ -111,9 +113,14 @@ Skill checks report structural metadata compatibility, not freshness, authentic
 source, functional verification, or message readiness. `verification: metadata_only`
 means skill instructions/references are not executed and the skill check does
 not install, update, or make network requests. It is not a privacy guarantee
-that body bytes are unread. Runtimes 0.3.3, 0.3.4 and 0.3.5 bound whole-file UTF-8 reads to 65,536
+that body bytes are unread. Published runtimes 0.3.3, 0.3.4, 0.3.5, 0.3.6 and 0.4.0 bound whole-file UTF-8 reads to 65,536
 bytes, with a 65,537-byte overflow-detection buffer, and check regular-file,
 descriptor/path, and observable stability evidence before interpreting metadata.
+The [public 0.3.6 reader source](https://github.com/abruption/session-peer-ts/blob/7ddded836ef79a7e3384a342ca7011c7abbe127c/src/skill-metadata.ts)
+is fixed evidence for that list. The [published 0.4 guard](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/skill-metadata.ts)
+retains those reader bounds at compiled VERSION 0.4.0. Structural profile
+compatibility is separate from content/source authentication or permission; no
+arithmetic admits another future runtime/profile.
 It does not authenticate content, freeze an atomic snapshot, protect against a
 writer restoring identical metadata, or impose an arbitrary-filesystem I/O deadline.
 Public 0.3.2 used only a 64 KiB pre-read size check. Metadata compatibility follows
@@ -205,10 +212,124 @@ Inspect optional fields when present; do not require them because Python emits t
 Keep `status`, `submitted`, `retryAllowed` when present, and the exit status together:
 `refused` has not submitted; `unknown` has `submitted:null` and must never be
 retried automatically. Missing replies or a target exit cannot establish
-consumption or failure. Do not implement wait by transcript reads or polling.
+consumption or failure. Do not emulate observation through transcript reads or custom polling; only the
+qualified bounded metadata path below is supported on its stated routes.
 
 A Codex recipient reads its queue after its active turn ends. If further work
 depends on a reply, record the target, correlation token, and next step, then end
 the turn and resume on the matching reply. Do not resend, remind, wake, or restart
 because no reply has arrived. Independent work may continue, but a sender also
 receives queued replies only after its turn ends.
+
+## Limited opt-in handoff evidence
+
+Use these subcommands with the same resolved session-peer executable only in
+the user-authorized ledger/sending workflow, after verifying the approved
+immutable skill release/source. Do not initialize a ledger or provision a remote
+host as routine discovery. Required goals are not broadened by minimum/full
+numbers, matching help or metadata_only.
+
+- Explicit POSIX `handoff init --json` creates the private ledger. Do not initialize
+  it as routine discovery or provision a destination ledger automatically.
+- `handoff prepare --to TARGET --message-file FILE --json` records a fresh ID and
+  original target/body binding without native submission. FILE is owner-owned,
+  regular, non-symlink UTF-8 with mode 0600; do not change a user's file implicitly.
+- A single `send --to TARGET --message-file FILE --correlation-id PREPARED_UUID
+  --json` uses that exact binding. Never use a new ID to replay uncertain work.
+- `handoff status --correlation-id PREPARED_UUID --json` reads retained evidence.
+  `handoff wait --correlation-id PREPARED_UUID --wait-for delivered
+  --wait-timeout 30 --json` starts a bounded observation operation over a retained
+  positively submitted qualified intent, recording its own ledger wait state
+  without another queue/native attempt. The original send must already have
+  enabled and qualified observation (for example --observe-delivery); a
+  correlation-only send cannot acquire qualification afterward.
+- `handoff confirm --receipt - --json` accepts a bounded private explicit operator
+  attestation tied to the original epoch/ID/generation/submission and ordering.
+  Do not fabricate it from a reply or assign it model-authenticated assurance.
+- Top-level `ack --receipt - --json` needs a qualified private token producer and
+  consumer. Production automated bootstrap/collector is unsupported. Do not send
+  capabilities through normal model text, argv, environment or public output.
+  Private receipt/confirmation stdin is bounded to 4096 bytes.
+
+`--request-ack` adds best-effort handoff metadata, not automatic ACK.
+`send --wait-for acknowledged` refuses before effect because the required automated
+receipt bootstrap is unsupported. An independently verified operator confirmation
+can support a later retained wait/query; it does not rewrite an earlier terminal
+wait. Queue/posted/submitted, exact-ID injection, turn completion, queue deletion
+and arbitrary text never automatically establish receipt ACK. `operator_confirmed`
+means explicit operator attestation; `token_possession` would mean capability
+possession, not person/model identity or task completion.
+
+The private journal stores neither the message body nor raw payload SHA-256.
+It stores that digest as AES-256-GCM ciphertext authenticated to the ledger epoch
+and intent ID, with a separate owner-private mode 0600 ledger.key. This limits
+journal-only payload guessing, not a same-user reader of both files; other
+journal metadata remains visible. Do not describe whole-journal/body encryption.
+Missing/replaced/malformed/untrusted keys or old plaintext records leave history
+unavailable and refuse dependent submissions. Never auto-migrate, regenerate a
+key, reinitialize existing history or replay intents; surface the failure.
+
+Prepared Claude targets keep a private registry/descriptor/socket metadata
+continuity fingerprint and recheck before effect. The fingerprint calculation
+does not read or persist registry content; normal target discovery can still read
+bounded registry JSON. Public generation stays null. This is not native incarnation/model identity or
+a public token; do not expose the private fingerprint or extend Codex observation
+qualification to Claude. Finish/stop the original wait operationId, never a newer
+wait's deadline or terminal record. A duplicate already committed confirmation
+preserves original ACK time/classification without rewriting the journal.
+The [ledger APIs](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/src/handoff-ledger.ts)
+document these private continuity and receipt boundaries; metadata_only never
+authorizes ledger operations or receipt submission.
+
+Qualified native client-ID observation is exact Codex 0.160.1 or 0.162.1 on macOS
+arm64, with the original saved home/thread/writer generation, default storage and
+an already-warm supported metadata store. Verify the original private qualification;
+do not reconstruct it from today's PATH or matching schema. No observer migration,
+warm-up/backfill, history/rollout/queue-list, resume/start/model turn or wake.
+Native queue bootstrap checks its own opened storage under managed policy: a
+storage refusal guarantees zero queue, not zero bootstrap filesystem writes.
+The owned queue process must report a build marker matching the selected exact
+native version. Preserve executable realpath/dev/inode/size/mtime/ctime identity
+and positive remaining budget before version/lsof probes. After the durable
+fence and final asynchronous original-owner check, the queue implementation rechecks
+the executable and owned PID's SQLite FD device/inode against canonical files.
+These guards reject observable changes; they do not authenticate executable code,
+freeze an atomic filesystem snapshot or promise a wall-clock SLA.
+
+
+The privacy claim is bounded: SQLite may internally evaluate body-bearing `item_json`
+cells, but only bounded IDs/status reach JavaScript/IPC/output, not body/error
+columns. Recent user rows are limited to 256 and cells over 256 KiB are excluded
+before JSON extraction; temporary storage is memory-only. Read-only SQLite may
+participate in transient SHM read locks. Original writer/schema/inode changes
+or ambiguous IDs cannot advance delivery. Unknown native turn statuses remain
+unknown; matching client-ID injection establishes only the limited delivery
+observation, and neither turn status nor injection establishes ACK.
+
+POSIX SSH opt-in send/wait needs the same exact reviewed TS runtime on both ends,
+an explicitly initialized destination ledger and destination preparation without
+native message submission,
+then one send using the original remaining budget. Use send --host DEST --wait-for
+on a qualified route; local handoff status/wait/confirm/ack do not take --host or
+SSH options. Destination retained operations require separate destination authority;
+there is no original-sender SSH receipt collector. Do not reuse one explicit
+correlation ID across several hosts or infer remote observation from ordinary SSH.
+
+Each opt-in handoff send or independent wait total budget is integer 1–60 seconds,
+default 30, including five seconds reserved for cleanup. Budgets at or below
+five seconds refuse before effect. This is not a universal timeout for init/prepare/status
+or confirmation/receipt stdin. Do not reset the budget remotely. Independent waits
+keep operation IDs/cutoffs and other pending/terminal evidence intact. Required
+unsupported evidence refuses before effect; a best-effort legacy queue choice is
+only before any app-server attempt. After possible native write there is no
+fallback or retry. Timeout, SIGINT, corrupt/missing history and unknown never
+authorize resend, successor-writer adoption or new correlation IDs for replay.
+
+Linux/Windows native observation, Windows private ledger/ACL, automated voluntary
+receipt producer/authenticated collector/bootstrap remain future work (#130–#132).
+Ordinary Linux queue/manual POSIX confirmation is separate from observation.
+No Python full-runtime equivalence, Side Session, steering, Relay, MCP, general
+wait or automatic ACK is implied. See the
+[published API](https://github.com/abruption/session-peer-ts/blob/dde3923efe116f87f38b1639b29b889d2b832e44/docs/api.md)
+for source details. A documented route is not proof of delivery, model identity
+or ACK, and never authorizes a test message or package/operations update.

@@ -1,0 +1,172 @@
+{
+  "purpose": "historical candidate review fixture plus separate current canonical finalization review; not runtime schema or installation pin",
+  "status": "a969 candidate preserved unchanged; actual supporting runtime published; final canonical exact bytes/human approval pending",
+  "sourceCheckpoint": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
+  "actualCheckpointCompiledVersion": "0.4.0",
+  "candidateFile": "docs/candidates/session-peer-ts-0.3.0.md",
+  "candidateUtf8Bytes": 22973,
+  "candidateSHA256": "7571c79fb7ac164002daf0bf3aa7c5ba40ca8d99f5610a04d7860eee7b27df68",
+  "proposedProfile": {
+    "version": "0.3.0",
+    "runtime-implementation": "typescript",
+    "runtime-min-version": "0.1.0",
+    "runtime-full-version": "0.4.0",
+    "runtime-capability-policy": "probe-help"
+  },
+  "publishedRuntimeProfileCases": [
+    {
+      "runtime": "0.3.2",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.3",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.4",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.5",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "runtime": "0.3.6",
+      "profile": "0.3.0",
+      "expectedFromPublishedSource": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    }
+  ],
+  "proposedRuntimeRow": {
+    "runtime": "0.4.0",
+    "existingProfiles": [
+      "0.1.0",
+      "0.2.0",
+      "0.2.1"
+    ],
+    "newProfile": "0.3.0",
+    "agreement": "exact tuple implemented and published in runtime0.4.0; final canonical content/skill release remains separate",
+    "candidateSource": "dde3923efe116f87f38b1639b29b889d2b832e44",
+    "evidenceScope": "public runtime/source checked; earlier candidate validator reports remain historical; new canonical bytes require exact-content review",
+    "candidateExpectedMetadataResult": {
+      "status": "compatible",
+      "code": "skill_contract_compatible",
+      "verification": "metadata_only"
+    }
+  },
+  "negativeFixtureProposals": [
+    {
+      "id": "unsupported-profile",
+      "change": "well-formed unknown version/implementation/min/full/policy/name",
+      "desiredResult": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "id": "malformed-protected",
+      "change": "missing/duplicate/malformed required name or scalar/map after healthy reader evidence",
+      "desiredResult": {
+        "status": "unknown",
+        "code": "skill_metadata_missing"
+      },
+      "verification": "must be absent, not null"
+    },
+    {
+      "id": "unknown-runtime",
+      "change": "well-formed unreviewed runtime identity; never arithmetic >= support",
+      "desiredResult": {
+        "status": "incompatible",
+        "code": "skill_contract_mismatch",
+        "verification": "metadata_only"
+      }
+    },
+    {
+      "id": "malformed-runtime",
+      "change": "missing/malformed/noncanonical runtime identity",
+      "desiredResult": {
+        "status": "unknown",
+        "code": "skill_metadata_missing"
+      },
+      "verification": "must be absent, not null"
+    }
+  ],
+  "openContractItems": [
+    "renewed final canonical bytes and operational-guide content review",
+    "human merge/tag/skill release approval after current-head checks/reviews",
+    "actual skill publication and recorded immutable source/hash",
+    "four-language TS runtime guidance/PARITY adoption after skill publication"
+  ],
+  "sourceCheckpoints": {
+    "historicalObserver": "55daf83bd8ebe1cd6e67bb98259130213d1cac71",
+    "historicalObserverCompiledVersion": "0.3.5",
+    "merged106": "81d1aece70b414b6aef00641076bd2716f630f6e",
+    "merged107": "1e788be6b02c414b3c7de5bbad37afc7e293c2ff",
+    "publishedReader036": "7ddded836ef79a7e3384a342ca7011c7abbe127c",
+    "historicalOpen108": "aa4c4ff002638116174c305ed594b3919bc92b17",
+    "historicalCoreAnd108CompiledVersion": "0.3.6",
+    "reviewed108": "564adb32c2d4c6def5388b654050299a8536dad6",
+    "merged108": "d645a692f8e402dd224691410fa89be502e45383",
+    "reviewed109": "9e123cf9e3bfb07a0526215c9e797a0fb538be46",
+    "integratedMain109": "be6adb26f844e7158362a8fcd6d379fbe8d46864",
+    "releaseCandidate": "bfbadfa42513791899fc8d2b5441238bbe5b2c4e",
+    "releaseCandidateCompiledVersion": "0.4.0",
+    "actualRuntimePublication": "dde3923efe116f87f38b1639b29b889d2b832e44",
+    "publicationTag": "v0.4.0",
+    "publicationRun": "39077096491"
+  },
+  "coreFixtureReviewItems": [
+    "payload digest only: AES-256-GCM epoch/intent authenticated ciphertext, separate private0600key; not whole journal/body encryption or same-user defense",
+    "missing/rotated/untrusted key and legacy plaintext: unavailable history/refusal, no automatic repair/migration/replay",
+    "prepared Claude private metadata continuity, fingerprint calculation reads no registry content; normal bounded registry discovery is separate, public generation null",
+    "original operationId terminal preservation; duplicate committed confirm preserves journal/classification",
+    "actual queue reported build, executable metadata continuity, positive probe budgets, post-fence/async-owner canonical SQLite FD binding; no code authentication/atomic FS/SLA guarantee"
+  ],
+  "historicalPublishedSkill": {
+    "version": "0.2.1",
+    "source": "0f494cabd05901c03161dc91792dcf89f8e96631",
+    "sha256": "8c3520f95e0d6807303be96bfa06df69887ddaf76be05f1905505d0a956820c3",
+    "date": "2026-10-14"
+  },
+  "finalization": {
+    "canonicalFile": "session-peer-ts/SKILL.md",
+    "canonicalUtf8Bytes": 22839,
+    "canonicalSHA256": "c510bcfee1d4d1f9c3a992d7ad25d69c9a9881950c627eec60f3b45659071b9e",
+    "supportingRuntimeVersion": "0.4.0",
+    "supportingRuntimeSource": "dde3923efe116f87f38b1639b29b889d2b832e44",
+    "reviewStatus": "pending exact renewed canonical content and separate human merge/release approval",
+    "installationPin": "not assigned by this review fixture"
+  },
+  "historicalOpenContractItems": [
+    "exact skill/min/full/profile numbers",
+    "finite 0.4 row for existing and new profiles",
+    "byte-exact runtime fixtures and expected envelopes including permission/read failures",
+    "final integrated CLI/source/platform qualification",
+    "complete final skill bytes agreement",
+    "actual supporting-runtime publication before separate skill release and pin adoption"
+  ]
+}
