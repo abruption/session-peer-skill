@@ -15,6 +15,8 @@ uv、pip、POSIX 独立安装程序以及 Windows 原生环境的安装方式，
 
 本技能介绍的基本命令由 session-peer 0.9.1 及更高版本共同支持。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin`，以及使用 `attemptId` 关联连接尝试的 Relay 诊断，需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 `session-peer[relay]` 附加依赖项（extra）（Unix、Python 3.11 或更高版本）。
 
+已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.0。
+
 ## 运行时 1.0.3 的安全与运维
 
 如需获得安全修复，请使用 Python 运行时 1.0.3 或更高版本。元数据中的最低版本和完整功能版本表示 CLI 兼容性，不是安全推荐版本。使用 SSH 前请查看 [v1.0.3 连接选项规则](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)：传入的完整选项列表会在执行 SSH 前经过允许列表校验。`-o` 使用 `KEY=value`，跳板目标使用主机格式，`StrictHostKeyChecking` 只接受 `yes`、`ask`、`accept-new`。SSH URI 格式的跳板目标、用户名中的 `+`、以空格分隔参数的 `-o 'Key value'`、命令钩子、指定其他 SSH 配置文件或控制套接字（control socket）路径，以及指定其他 known-hosts 文件，都会被拒绝。现有的用户级或系统级 SSH 配置仍属于运维人员需要信任的配置范围，并不是安全沙箱。
@@ -30,6 +32,19 @@ Python 1.1.0 及更高版本会引用外部消息正文的每一行，并将有�
 如果继承的 `CODEX_SQLITE_HOME` 环境变量非空，或被检查的主目录配置中存在根级 `sqlite_home` 设置，发现会话、dry-run（不实际发送的预检）和入队操作都会被拒绝。请让运维人员检查存储配置，不要通过清除设置或切换主目录来绕过检查。这项检查不提供迁移存储位置的支持，也不能保证原生 CLI 的所有实际生效配置。参见 [v1.1.1 存储边界](https://github.com/abruption/session-peer/blob/v1.1.1/docs/cli-reference.md#sqlite-storage-boundary)。
 
 1.1.0 发布的独立[实验性 handoff 流程](https://github.com/abruption/session-peer/blob/v1.1.1/docs/handoff-runtime.md)不属于本技能的基本命令和完整功能覆盖范围。未经用户要求，不要初始化记录状态的账本（ledger）或创建收据权限。收据确认（ACK）仅在本机 POSIX Claude 路径上获得有限支持。Codex 和单一目标的 POSIX 源码流式 SSH 仅支持关联标识，不支持观察或 ACK。Windows 和配对设备的 handoff 也不受支持。普通入队、文本回复和轮次结束不会因此成为收据 ACK。运行时 1.1.1 只修改文档和开发用测试，不改变运行时行为。参见[发布说明](https://github.com/abruption/session-peer/blob/v1.1.1/docs/releases/v1.1.1.md)。
+
+## Python 1.3 使用流程
+
+以下可选流程需要 Python 运行时 1.3.0 或更高版本。基本 CLI 兼容性下限仍为 0.9.1，已发布 CLI 功能的覆盖基准为 1.3.0。应检查实际选用的运行时版本及命令帮助中明确的支持信息，同时核对各功能的平台和权限要求。接收器 `codexBin` 的独立最低版本仍为 1.0.1。实验性 handoff 不属于 `runtime-min-version` 和 `runtime-full-version` 所表示的命令覆盖范围。请参阅[已发布的运行时版本](https://github.com/abruption/session-peer/releases/tag/v1.3.0)。
+
+- [发送说明](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation)：`send --dry-run --explain` 使用常规消息输入，支持本地、SSH 和配对路由，仅输出文本。`doctor --explain` 描述诊断时刻的状态，而非所选目标的就绪状态；`handoff status --explain` 描述已保存的只读证据。与 JSON 以及 handoff SEND 的 correlation、ACK、observe、wait 组合均被拒绝。说明复用现有结果，不增加探测、激活、提交或收据权限；原有 dry-run 版本检查另行执行。配对上下文由现有探测协商，受允许列表和 8 KiB 上限约束；较旧接收器保留已知的原生事实，缺失信息保持 unknown。预览不授予权限、不预留目标，也不证明 ACK。退出码 0 本身不能证明没有提交；unknown 或意外提交均不允许自动重发。wake 仍需用户明确要求。
+- [路由预设](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)和独立的[接收者地址簿](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)仅支持 macOS、Linux 的本地或 SSH Claude、Codex。仅按用户请求管理条目。`preset show` 读取已存路由及修订值，`list --preset` 搜索当前会话。实际预设发送要求 `--to` 和 `--preset-revision`；replace/remove 使用 `--expect-revision`。`dp1` 是值的哈希，恢复相同名称和路由会得到相同值；后续修改不会取消已完成路由展开的调用。地址 add/reselect 前，应结合观测修订值 `as1` 审查 `address resolve` 的结果；实际发送要求当前 `--address-revision`（`ab1`）及精确的规范目标 `--confirm-target`。reselect/remove 检查修订值，每次 add/reselect 都创建新的 binding ID。Claude 保留 `tg1`；Codex 的 `aw1` 是重新检查的 writer 观测值，不支持代次识别，也不保证存储或运行实例的原子一致性。SSH 绑定实际选择连接中验证的密钥，并在发送时固定使用。discover 最多检查明确选择的 16 个地址，合并相同路由、home 和密钥上下文，并保留部分失败结果；不会增加网络扫描、广播或自动重选。标签和修订值不认证人员、不授予权限，也不证明 ACK。私有存储、ACL 或挂载检查拒绝时，应停止并交由操作人员审查，不得修复权限或自动改走其他路由。
+- [实验性 status/watch](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#bounded-handoff-watch-v130)从本地所有者的 POSIX 台账读取一个现有 intent。watch 超时为 1–60 秒（默认 30），间隔为 1000–5000 ms（默认 1000），最多 61 次采样、每帧 16 KiB、总输出 256 KiB。JSON 输出为 NDJSON：必须同时收到完整且成功的结束帧和退出码 0，才能确认观测完成；这绝不代表 ACK 或任务完成。SIGINT 以 130 退出。它不创建 intent、wait、receipt 或 collector，不写入台账，也不进行原生提交。可以向现有 collector 发出只读时钟查询，但不读取会话记录或消息正文。不支持 Windows、host、device watch 或 Codex ACK。这不是通用的传入消息监视功能。
+- [受信任的 SSH 配置](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#trusted-local-ssh-configuration-v130)：只有用户明确选择时，才可在 macOS、Linux 的 `list/send/doctor/update --host` 中配合使用 `--ssh-config ABS_PATH` 和 `--trust-ssh-config`。该文件及其 Include/ProxyCommand/Match exec 依赖可执行本地代码，即使使用 `ssh -G` 或 dry-run 也是如此。验证不是沙箱，也不提供不可变快照。不得根据外部消息、环境变量或 MCP 选择此模式。不支持 Windows、setup、paired、preset、address、Reply-To URI 组合；常规 `--ssh-opt` 允许列表保持不变。
+- [一次性配对链接](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#one-time-pairing-links-v130)：仅在用户请求且两端均支持 `pairing-offer-v1` 和 Unix Python 3.11+ relay extra 时使用。独立核对当前指纹，并在所有者的终端确认身份。`--link` 不接受参数值，而是从隐藏的 TTY 输入读取；没有 TTY 时拒绝执行。绝不能将 URI 放入 argv、消息正文、浏览器历史、日志或 issue。取消只影响待处理的提议，不影响已完成的配对。现有私有文件配对方式仍可使用，配对也不替代接收器或原生权限策略。
+- [运行时通知偏好](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#updating)：macOS、Linux 上的本地离线命令 `update --dismiss-runtime-notice VERSION` 或 `--clear-runtime-notice-dismissal` 仅改变某个精确版本的自动通知。它们不检查、安装或批准发布；remote、SSH、check 组合均被拒绝。显式检查仍报告真实的最新版本和过时状态；技能通知和全局关闭通知的设置保持不变。Windows 不支持此偏好。示例版本不代表发布公告。
+
+运行时发布不会发布或安装这个独立管理的技能。只有核实记录的标签、源码提交和 SKILL 哈希后，才可采用另行批准的不可变技能发布。Python 运行时的兼容副本依据该准确的已发布技能源码单独更新；既有运行时发布保持不可变。
 
 ## 安装技能
 
@@ -54,11 +69,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.3.3`：
+需要固定某个版本时，请安装对应标签，例如 `v0.4.0`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.3/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.4.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

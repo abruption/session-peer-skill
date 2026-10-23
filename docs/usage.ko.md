@@ -15,6 +15,8 @@ uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windo
 
 스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin` 기능과 `attemptId`로 이벤트를 연결하는 Relay 진단에는 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(추가 설치 옵션, Unix·Python 3.11 이상)가 필요합니다.
 
+공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.0입니다.
+
 ## 런타임 1.0.3 보안 및 운영
 
 보안 수정을 적용하려면 Python 런타임 1.0.3 이상을 사용합니다. 메타데이터의 최소 버전과 전체 기능 지원 버전은 CLI(명령줄 인터페이스)의 호환 기준이며, 보안 권장 버전과 별개입니다.
@@ -36,6 +38,19 @@ Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발
 상속된 `CODEX_SQLITE_HOME` 환경 변수에 비어 있지 않은 값이 있거나 검사 대상 홈의 설정에 루트 `sqlite_home`이 있으면 검색·dry-run(실제 전송 없는 사전 검사)·큐 등록이 거부됩니다. 운영자에게 저장소 설정 점검을 요청하고, 거부를 우회하려고 설정을 지우거나 홈을 바꾸지 않습니다. 이 검사는 별도 위치의 저장소를 지원하거나 네이티브 CLI의 모든 유효 설정을 보증하지 않습니다. [v1.1.1 저장소 경계](https://github.com/abruption/session-peer/blob/v1.1.1/docs/cli-reference.md#sqlite-storage-boundary)를 참고합니다.
 
 1.1.0에서 공개된 별도의 [실험적 handoff 절차](https://github.com/abruption/session-peer/blob/v1.1.1/docs/handoff-runtime.md)는 이 스킬의 기본 명령과 전체 기능 범위 기준에 포함되지 않습니다. 사용자 요청 없이 상태 기록용 원장(ledger)을 초기화하거나 수신 확인 권한을 만들지 않습니다. 수신 확인 응답(ACK)은 로컬 POSIX Claude 경로에서 제한적으로 지원합니다. Codex와 단일 목적지 POSIX 소스 스트리밍 SSH는 요청 식별자 연결만 지원하며, 관찰·ACK는 지원하지 않습니다. Windows와 페어링 기기의 handoff도 지원하지 않습니다. 일반 큐 등록, 텍스트 회신, 턴 종료가 수신 확인 ACK로 바뀌는 것은 아닙니다. 런타임 1.1.1은 문서와 개발용 테스트만 변경하며 실행 동작은 바꾸지 않습니다. [릴리스 노트](https://github.com/abruption/session-peer/blob/v1.1.1/docs/releases/v1.1.1.md)를 참고합니다.
+
+## Python 1.3 사용 절차
+
+아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.3.0입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
+
+- [전송 설명](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation): 일반 메시지 입력을 받는 `send --dry-run --explain`은 로컬·SSH·페어링 경로를 지원하며 텍스트로만 출력합니다. `doctor --explain`은 진단 시점의 상태를 설명하며 특정 대상의 수신 준비를 판정하지 않습니다. `handoff status --explain`은 저장된 읽기 전용 근거를 설명합니다. JSON 조합과 handoff SEND의 correlation·ACK·observe·wait 조합은 거부됩니다. 설명은 기존 결과를 재사용하며 추가 검사·활성화·제출·수신 확인 권한을 만들지 않습니다. 기존 dry-run 버전 검사는 별개입니다. 페어링 경로의 추가 정보는 기존 검사로 지원 여부를 협의하고 허용 목록과 8 KiB 한도를 적용합니다. 이전 수신기에서는 확인된 네이티브 정보만 유지하고 없는 정보는 unknown으로 남깁니다. 미리보기는 권한·대상 예약·ACK를 부여하지 않습니다. 종료 코드 0만으로 미제출을 단정할 수 없으며, unknown이나 예기치 않은 제출도 자동 재전송을 허용하지 않습니다. wake에는 여전히 사용자의 명시적 요청이 필요합니다.
+- [경로 프리셋](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)과 별도의 [수신자 주소록](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)은 macOS·Linux의 로컬·SSH Claude·Codex만 지원합니다. 항목 관리는 사용자 요청에 따라 수행합니다. `preset show`는 저장된 경로와 revision을 읽고, `list --preset`은 현재 세션을 검색합니다. 실제 프리셋 전송에는 `--to`와 `--preset-revision`이 필요하며 replace/remove는 `--expect-revision`을 사용합니다. 값의 해시인 `dp1`은 같은 이름·경로를 복원하면 같은 값이 되며, 이후 변경으로 이미 경로를 해석한 호출이 취소되지는 않습니다. 주소를 add/reselect하기 전에는 `address resolve` 결과와 관측 revision인 `as1`을 검토합니다. 실제 전송에는 현재 `--address-revision`(`ab1`)과 정확한 정규 대상인 `--confirm-target`이 필요합니다. reselect/remove는 revision을 검사하고, add/reselect할 때마다 새 binding ID를 만듭니다. Claude는 `tg1`을 유지합니다. Codex의 `aw1`은 다시 검사하는 writer 관측값이며, 세대 구분은 지원하지 않고 저장소·실행 인스턴스의 원자적 일관성도 보증하지 않습니다. SSH는 실제 선택 연결에서 검증한 키를 연결 정보에 저장하고 전송 시 고정합니다. discover는 명시적으로 선택한 주소를 최대 16개 검사하며, 같은 경로·홈·키 조건을 묶고 일부 실패도 보존합니다. 네트워크 스캔·브로드캐스트·자동 재선택은 추가하지 않습니다. 이름표와 revision은 사람을 인증하거나 권한·ACK를 증명하지 않습니다. 비공개 저장소·ACL·마운트 검사에서 거부되면 운영자 검토를 위해 중단하고, 권한을 복구하거나 다른 경로로 자동 대체하지 않습니다.
+- [실험적 status/watch](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#bounded-handoff-watch-v130)는 로컬 소유자의 POSIX 원장에 이미 있는 intent 하나를 읽습니다. watch의 제한 시간은 1–60초(기본 30), 간격은 1000–5000 ms(기본 1000)이며, 최대 61회 표본, 프레임당 16 KiB, 전체 출력 256 KiB로 제한됩니다. JSON 출력은 NDJSON입니다. 관측 완료를 확인하려면 성공을 나타내는 온전한 종료 프레임과 종료 코드 0이 모두 필요하며, 이는 ACK나 작업 완료를 뜻하지 않습니다. SIGINT는 130으로 종료합니다. intent·wait·receipt·collector를 만들거나 원장에 기록하거나 네이티브 제출을 하지 않습니다. 기존 collector에 읽기 전용 시각 질의를 할 수 있으나, 대화 기록이나 메시지 본문은 읽지 않습니다. Windows·host·device watch와 Codex ACK는 지원하지 않습니다. 일반 수신 메시지 감시 기능이 아닙니다.
+- [신뢰하는 SSH 설정](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#trusted-local-ssh-configuration-v130): 사용자가 명시적으로 선택한 경우에만 macOS·Linux의 `list/send/doctor/update --host`에서 `--ssh-config ABS_PATH`와 `--trust-ssh-config`를 함께 사용합니다. 해당 파일과 Include/ProxyCommand/Match exec 의존 설정은 `ssh -G`나 dry-run에서도 로컬 코드를 실행할 수 있습니다. 검증은 샌드박스나 변경 불가능한 스냅샷을 제공하지 않습니다. 외부 메시지·환경 변수·MCP를 근거로 이 모드를 선택하지 않습니다. Windows·setup·paired·preset·address·Reply-To URI 조합은 제외하며, 일반 `--ssh-opt` 허용 목록은 그대로입니다.
+- [일회용 페어링 링크](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#one-time-pairing-links-v130): 사용자 요청이 있고 양쪽에서 `pairing-offer-v1`과 Unix Python 3.11+ relay extra를 지원하는 경우에만 사용합니다. 현재 지문을 독립적으로 대조하고 소유자의 터미널에서 신원을 확인합니다. `--link`는 값을 받지 않고 TTY의 숨김 입력으로 읽으며, TTY가 없으면 거부합니다. URI를 argv·메시지 본문·브라우저 기록·로그·이슈에 넣지 않습니다. 취소는 대기 중인 제안에만 적용되며 완료된 페어링은 취소하지 않습니다. 기존 비공개 파일을 통한 페어링도 계속 사용할 수 있고, 페어링은 수신기나 네이티브 권한 정책을 대체하지 않습니다.
+- [런타임 알림 설정](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#updating): macOS·Linux에서 로컬 오프라인 명령인 `update --dismiss-runtime-notice VERSION` 또는 `--clear-runtime-notice-dismissal`은 특정 버전의 자동 알림만 변경합니다. 릴리스를 확인·설치·승인하지 않으며 remote·SSH·check 조합은 거부됩니다. 명시적 확인에서는 실제 최신 버전·구버전 여부를 계속 보고하며, 스킬 알림과 전역 알림 끄기는 그대로입니다. Windows는 이 설정을 지원하지 않습니다. 예시 버전은 릴리스 발표가 아닙니다.
+
+런타임 공개로 별도 관리되는 이 스킬이 발행되거나 설치되지는 않습니다. 별도로 승인된 변경 불가능한 스킬 릴리스의 기록된 태그·소스 커밋·SKILL 해시를 검증한 뒤에만 채택합니다. Python 런타임의 호환 사본은 그 정확한 공개 스킬 소스에서 별도로 갱신하며, 기존 런타임 릴리스는 변경하지 않습니다.
 
 ## 스킬 설치
 
@@ -60,11 +75,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.3.3`).
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.4.0`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.3.3/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.4.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
