@@ -16,7 +16,7 @@
 
 ## 快速开始
 
-基本 Python CLI 命令需要 session-peer 0.9.1 或更高版本。本技能介绍的全部 Python CLI 功能需要 session-peer 1.0.1 或更高版本。配对设备传输为可选功能，需要 `session-peer[relay]` 附加依赖项（Unix、Python 3.11 或更高版本）。
+基本 Python CLI 命令需要 session-peer 0.9.1 或更高版本。已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.0。配对设备传输为可选功能，需要 `session-peer[relay]` 附加依赖项（Unix、Python 3.11 或更高版本）。
 如需获得 v1.0.3 安全修复，请使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能门槛，并非安全建议版本。
 
 ### 安装
@@ -47,6 +47,8 @@ npx -y skills@latest update session-peer --global --yes
 `queued` 或 `submitted` 状态不代表接收方已消费该消息。提交结果不确定时不要自动重发。Codex 回复等待流程请参阅使用指南。
 
 独立的 `session-peer-ts` 技能 0.3.0 配置（最低运行时 0.1.0，功能说明参考版本 0.4.0）由已发布的 npm 运行时 0.4.0 识别。使用基本命令前也须核对实际选用的 TypeScript 运行时版本和帮助信息；可选功能还须通过平台、私有存储、权限和写入进程检查。关联标识符、有限等待以及由操作员明确确认的收件记录，请参阅[需主动启用的有限 handoff 指南](docs/typescript-handoff.md)。排队或注入输入并不代表自动收件确认。请选择经单独批准并已发布的不可变技能版本，核对其记录的源码提交和内容哈希。发布运行时不会发布或安装技能，也不代表获准安装技能。指定智能体、项目/全局适用范围和经审查提交版本的安装步骤，请参阅 [TypeScript 设置指南](docs/typescript.md)。
+
+Python 1.3.0 的可选功能及使用条件见[使用指南](docs/usage.zh-CN.md#python-13-使用流程)。
 
 ## 文档
 

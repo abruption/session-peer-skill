@@ -5,6 +5,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { createHash } from 'node:crypto'
+import { validatePythonCoverage, validateLocalizedCoverage, validateLocalizedCodexBin } from './python-coverage.mjs'
 
 const skillDir = 'session-peer'
 const readmes = ['README.md', 'README.ko.md', 'README.ja.md', 'README.zh-CN.md']
@@ -99,10 +100,7 @@ const statedOneZero = skill.match(/exist only in (\d+\.\d+\.\d+) and newer/)?.[1
 if (statedOneZero !== '1.0.0') {
   errors.push(`SKILL.md: original 1.0-only options require 1.0.0, got ${statedOneZero ?? 'missing'}`)
 }
-const statedFull = skill.match(/receiver policy `codexBin` requires\s+session-peer (\d+\.\d+\.\d+) or newer/)?.[1]
-if (statedFull !== full) {
-  errors.push(`SKILL.md: receiver codexBin runtime ${statedFull ?? 'missing'} does not match metadata ${full}`)
-}
+errors.push(...validatePythonCoverage(skill, minimum, full))
 
 for (const [index, readme] of readmes.entries()) {
   const text = read(readme)
@@ -115,8 +113,9 @@ for (const [index, readme] of readmes.entries()) {
   for (const [path, body] of [[readme, text], [guidePath, guide]]) {
     const stated = body.match(/session-peer (\d+\.\d+\.\d+)/)?.[1]
     if (stated !== minimum) errors.push(`${path}: minimum runtime ${stated ?? 'missing'} does not match metadata ${minimum}`)
-    if (!body.includes(`session-peer ${full}`)) errors.push(`${path}: full runtime ${full} not stated`)
+    errors.push(...validateLocalizedCoverage(path, body, full))
   }
+  errors.push(...validateLocalizedCodexBin(guidePath, guide))
   if (!guide.includes('session-peer 1.0.0')) errors.push(`${guidePath}: original 1.0-only option runtime not stated`)
   const tags = [...guide.matchAll(/session-peer-skill\/tree\/(v\d+\.\d+\.\d+)\//g)].map(tag => tag[1])
   if (tags.length === 0) errors.push(`${guidePath}: pinned install tag not found`)
