@@ -16,7 +16,7 @@
 
 ## 快速开始
 
-基本 Python CLI 命令需要 session-peer 0.9.1 或更高版本。已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.0。配对设备传输为可选功能，需要 `session-peer[relay]` 附加依赖项（Unix、Python 3.11 或更高版本）。
+基本 Python CLI 命令需要 session-peer 0.9.1 或更高版本。已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.2。配对设备传输为可选功能，需要 `session-peer[relay]` 附加依赖项（Unix、Python 3.11 或更高版本）。
 如需获得 v1.0.3 安全修复，请使用 Python 运行时 1.0.3 或更高版本。上述兼容版本是 CLI 功能门槛，并非安全建议版本。
 
 ### 安装

@@ -15,7 +15,7 @@ uv、pip、POSIX 独立安装程序以及 Windows 原生环境的安装方式，
 
 本技能介绍的基本命令由 session-peer 0.9.1 及更高版本共同支持。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin`，以及使用 `attemptId` 关联连接尝试的 Relay 诊断，需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 `session-peer[relay]` 附加依赖项（extra）（Unix、Python 3.11 或更高版本）。
 
-已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.0。
+已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.2。
 
 ## 运行时 1.0.3 的安全与运维
 
@@ -35,7 +35,7 @@ Python 1.1.0 及更高版本会引用外部消息正文的每一行，并将有�
 
 ## Python 1.3 使用流程
 
-以下可选流程需要 Python 运行时 1.3.0 或更高版本。基本 CLI 兼容性下限仍为 0.9.1，已发布 CLI 功能的覆盖基准为 1.3.0。应检查实际选用的运行时版本及命令帮助中明确的支持信息，同时核对各功能的平台和权限要求。接收器 `codexBin` 的独立最低版本仍为 1.0.1。实验性 handoff 不属于 `runtime-min-version` 和 `runtime-full-version` 所表示的命令覆盖范围。请参阅[已发布的运行时版本](https://github.com/abruption/session-peer/releases/tag/v1.3.0)。
+以下可选流程需要 Python 运行时 1.3.0 或更高版本。基本 CLI 兼容性下限仍为 0.9.1，已发布 CLI 功能的覆盖基准为 1.3.2。应检查实际选用的运行时版本及命令帮助中明确的支持信息，同时核对各功能的平台和权限要求。接收器 `codexBin` 的独立最低版本仍为 1.0.1。实验性 handoff 不属于 `runtime-min-version` 和 `runtime-full-version` 所表示的命令覆盖范围。请参阅[已发布的运行时版本](https://github.com/abruption/session-peer/releases/tag/v1.3.0)。
 
 - [发送说明](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation)：`send --dry-run --explain` 使用常规消息输入，支持本地、SSH 和配对路由，仅输出文本。`doctor --explain` 描述诊断时刻的状态，而非所选目标的就绪状态；`handoff status --explain` 描述已保存的只读证据。与 JSON 以及 handoff SEND 的 correlation、ACK、observe、wait 组合均被拒绝。说明复用现有结果，不增加探测、激活、提交或收据权限；原有 dry-run 版本检查另行执行。配对上下文由现有探测协商，受允许列表和 8 KiB 上限约束；较旧接收器保留已知的原生事实，缺失信息保持 unknown。预览不授予权限、不预留目标，也不证明 ACK。退出码 0 本身不能证明没有提交；unknown 或意外提交均不允许自动重发。wake 仍需用户明确要求。
 - [路由预设](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)和独立的[接收者地址簿](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)仅支持 macOS、Linux 的本地或 SSH Claude、Codex。仅按用户请求管理条目。`preset show` 读取已存路由及修订值，`list --preset` 搜索当前会话。实际预设发送要求 `--to` 和 `--preset-revision`；replace/remove 使用 `--expect-revision`。`dp1` 是值的哈希，恢复相同名称和路由会得到相同值；后续修改不会取消已完成路由展开的调用。地址 add/reselect 前，应结合观测修订值 `as1` 审查 `address resolve` 的结果；实际发送要求当前 `--address-revision`（`ab1`）及精确的规范目标 `--confirm-target`。reselect/remove 检查修订值，每次 add/reselect 都创建新的 binding ID。Claude 保留 `tg1`；Codex 的 `aw1` 是重新检查的 writer 观测值，不支持代次识别，也不保证存储或运行实例的原子一致性。SSH 绑定实际选择连接中验证的密钥，并在发送时固定使用。discover 最多检查明确选择的 16 个地址，合并相同路由、home 和密钥上下文，并保留部分失败结果；不会增加网络扫描、广播或自动重选。标签和修订值不认证人员、不授予权限，也不证明 ACK。私有存储、ACL 或挂载检查拒绝时，应停止并交由操作人员审查，不得修复权限或自动改走其他路由。
@@ -45,6 +45,34 @@ Python 1.1.0 及更高版本会引用外部消息正文的每一行，并将有�
 - [运行时通知偏好](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#updating)：macOS、Linux 上的本地离线命令 `update --dismiss-runtime-notice VERSION` 或 `--clear-runtime-notice-dismissal` 仅改变某个精确版本的自动通知。它们不检查、安装或批准发布；remote、SSH、check 组合均被拒绝。显式检查仍报告真实的最新版本和过时状态；技能通知和全局关闭通知的设置保持不变。Windows 不支持此偏好。示例版本不代表发布公告。
 
 运行时发布不会发布或安装这个独立管理的技能。只有核实记录的标签、源码提交和 SKILL 哈希后，才可采用另行批准的不可变技能发布。Python 运行时的兼容副本依据该准确的已发布技能源码单独更新；既有运行时发布保持不可变。
+
+## Python 1.3.2 维护说明
+
+这些维护说明以[已发布的 Python 运行时 1.3.2](https://github.com/abruption/session-peer/releases/tag/v1.3.2)、源码 `f5e7c49554ff02771990a151e00b52f2abf3df0a` 为准。基本 CLI 兼容性下限仍为 0.9.1；本次修订也指导读者解读新的 Direct 输出，因此已发布功能覆盖基准为 1.3.2。原有 1.3.0 使用流程的版本要求和接收器 `codexBin` 的独立下限 1.0.1 保持独立。
+
+### 可选 MCP 的安装与升级
+
+基本 CLI 支持 Python 3.9+，没有必需的外部依赖。可选 MCP 需要 Python 3.10+ 和 `session-peer[mcp]` extra。运行时 1.3.2 要求 MCP SDK `mcp>=1.30,<2`。对于新的隔离环境，文档给出的 pipx 安装示例如下：
+
+```bash
+pipx install 'session-peer[mcp]'
+```
+
+对于现有 MCP 环境，应保留其解释器和所选 extra，通过原来的管理工具显式升级。不要用新安装示例替换该环境，也不要擅自切换管理工具。修改依赖声明不会升级已安装的软件包；`install.sh` 和独立脚本更新不会安装或刷新 MCP 依赖。参见[固定版本的 MCP 指南](https://github.com/abruption/session-peer/blob/v1.3.2/docs/mcp.md)。
+
+SDK 下限反映了上游 1.x 的修复，但不代表已确认这个仅使用标准输入/输出（stdio）的应用存在可被利用的 HTTP/OAuth/client 漏洞，也不会启用这些传输方式。运行时 CI 在 macOS/Linux、Python 3.10/3.13 上分别测试了准确的 SDK 下限 1.30.0 和最新兼容的 1.x，共 8 种组合。审计的是这些环境实际解析得到的依赖图，并未测试每个传递依赖包的最低版本。参见[验证范围](https://github.com/abruption/session-peer/blob/v1.3.2/docs/mcp.md#validation)。
+
+### Direct 接收器输出与运维更新
+
+在 Python 1.3.2+ 中，接收器启动输出保留 `ready:true`，并增加 `directReadyConfirmed:false`。前者表示本地监听器已设置；两者均不确认远端连接接纳/TLS、已认证访问、原生提交、消费或 ACK。旧接收器可能不输出新字段：应保留为未知证据，不要擅自补成 false 或失败。请核对实际运行版本、帮助信息和输出契约。TLS 可能只是未认证的配对初始化；已认证 probe 是另一项独立证据。
+
+现有的主动启用选项 `--diagnostic-events` 增加了 `direct_transport` 阶段 `accepted` 和 `peer_tls`，以及有上限的 `accepted`、`tlsCompleted`、`tlsFailed` 计数器。每个阶段每 60 秒最多输出 1 条记录，每 60 秒共最多 2 条；TLS 成功与失败共享同一阶段的额度。正常关闭时会额外尝试输出 1 条 `summary`，包括计数为零的情况；重复关闭不会重复输出。记录缺失或计数不平衡都可能发生。这不是 heartbeat、无损历史或 ACK；同步 stderr 在输出端阻塞时也没有严格的期限保证。参见[固定版本的 Direct 参考说明](https://github.com/abruption/session-peer/blob/v1.3.2/docs/paired-devices.md#macos-direct-listener-checks-341)。
+
+在所报告的两台 Mac 事件中，所有者允许相应 Python 应用的传入连接后，原先已发布的 1.3.1 恢复了配对和已认证 probe；修复网络的并非诊断代码。适当时应请所有者核对实际应用的权限。保持防火墙启用，并保留预期的私有 bind、固定的 TLS 身份及接收器策略。不要自动扩大到 `0.0.0.0`、重置密钥/DB、更改访问策略，或重试结果不确定的配对/发送。该事件不能证明通用于所有平台的诊断，也不能证明原生交付/ACK 支持。
+
+可选接收器模块包含在 wheel/sdist 中，不内置于独立的 `session_peer.py`。仅更新独立文件不会改变现有接收器环境。运维人员必须在获得授权的部署安排下，单独升级该软件包环境，并显式重启接收器；发布 Python 软件包不会自动部署服务。
+
+Node Control 的 Better Auth/core 1.7.7 修改不属于 Python 制品，需要单独更新服务。验证命名空间变化可能要求重新开始尚未完成的 OAuth 登录，但不能据此批量撤销会话、轮换密钥或重新创建数据库。历史上 1.0.3 引入的账户会话“创建时刻加 24 小时”限制仍然有效。一个服务栈的部署不能验证所有安装环境、注册策略、可用性、实际 OAuth 或原生 ACK。参见[发布与运维边界](https://github.com/abruption/session-peer/blob/v1.3.2/docs/releases/v1.3.2.md#incident-and-compatibility-boundaries)。
 
 ## 安装技能
 
@@ -69,11 +97,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.4.0`：
+需要固定某个版本时，请安装对应标签，例如 `v0.4.1`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.4.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.4.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

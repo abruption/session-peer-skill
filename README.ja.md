@@ -16,7 +16,7 @@
 
 ## クイックスタート
 
-基本的な Python CLI コマンドには session-peer 0.9.1 以降が必要です。公開 Python CLI の機能範囲の基準は session-peer 1.3.0 です。オプションのペアリング済みデバイス転送には、Unix 上で Python 3.11 以降と `session-peer[relay]` が必要です。
+基本的な Python CLI コマンドには session-peer 0.9.1 以降が必要です。公開 Python CLI の機能範囲の基準は session-peer 1.3.2 です。オプションのペアリング済みデバイス転送には、Unix 上で Python 3.11 以降と `session-peer[relay]` が必要です。
 v1.0.3 のセキュリティ修正を利用するには、Python ランタイム 1.0.3 以降を使用してください。上記の互換バージョンは CLI 機能の条件であり、セキュリティ上の推奨バージョンではありません。
 
 ### インストール

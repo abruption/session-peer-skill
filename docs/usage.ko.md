@@ -15,7 +15,7 @@ uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windo
 
 스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin` 기능과 `attemptId`로 이벤트를 연결하는 Relay 진단에는 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(추가 설치 옵션, Unix·Python 3.11 이상)가 필요합니다.
 
-공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.0입니다.
+공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.2입니다.
 
 ## 런타임 1.0.3 보안 및 운영
 
@@ -41,7 +41,7 @@ Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발
 
 ## Python 1.3 사용 절차
 
-아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.3.0입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
+아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.3.2입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
 
 - [전송 설명](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation): 일반 메시지 입력을 받는 `send --dry-run --explain`은 로컬·SSH·페어링 경로를 지원하며 텍스트로만 출력합니다. `doctor --explain`은 진단 시점의 상태를 설명하며 특정 대상의 수신 준비를 판정하지 않습니다. `handoff status --explain`은 저장된 읽기 전용 근거를 설명합니다. JSON 조합과 handoff SEND의 correlation·ACK·observe·wait 조합은 거부됩니다. 설명은 기존 결과를 재사용하며 추가 검사·활성화·제출·수신 확인 권한을 만들지 않습니다. 기존 dry-run 버전 검사는 별개입니다. 페어링 경로의 추가 정보는 기존 검사로 지원 여부를 협의하고 허용 목록과 8 KiB 한도를 적용합니다. 이전 수신기에서는 확인된 네이티브 정보만 유지하고 없는 정보는 unknown으로 남깁니다. 미리보기는 권한·대상 예약·ACK를 부여하지 않습니다. 종료 코드 0만으로 미제출을 단정할 수 없으며, unknown이나 예기치 않은 제출도 자동 재전송을 허용하지 않습니다. wake에는 여전히 사용자의 명시적 요청이 필요합니다.
 - [경로 프리셋](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)과 별도의 [수신자 주소록](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)은 macOS·Linux의 로컬·SSH Claude·Codex만 지원합니다. 항목 관리는 사용자 요청에 따라 수행합니다. `preset show`는 저장된 경로와 revision을 읽고, `list --preset`은 현재 세션을 검색합니다. 실제 프리셋 전송에는 `--to`와 `--preset-revision`이 필요하며 replace/remove는 `--expect-revision`을 사용합니다. 값의 해시인 `dp1`은 같은 이름·경로를 복원하면 같은 값이 되며, 이후 변경으로 이미 경로를 해석한 호출이 취소되지는 않습니다. 주소를 add/reselect하기 전에는 `address resolve` 결과와 관측 revision인 `as1`을 검토합니다. 실제 전송에는 현재 `--address-revision`(`ab1`)과 정확한 정규 대상인 `--confirm-target`이 필요합니다. reselect/remove는 revision을 검사하고, add/reselect할 때마다 새 binding ID를 만듭니다. Claude는 `tg1`을 유지합니다. Codex의 `aw1`은 다시 검사하는 writer 관측값이며, 세대 구분은 지원하지 않고 저장소·실행 인스턴스의 원자적 일관성도 보증하지 않습니다. SSH는 실제 선택 연결에서 검증한 키를 연결 정보에 저장하고 전송 시 고정합니다. discover는 명시적으로 선택한 주소를 최대 16개 검사하며, 같은 경로·홈·키 조건을 묶고 일부 실패도 보존합니다. 네트워크 스캔·브로드캐스트·자동 재선택은 추가하지 않습니다. 이름표와 revision은 사람을 인증하거나 권한·ACK를 증명하지 않습니다. 비공개 저장소·ACL·마운트 검사에서 거부되면 운영자 검토를 위해 중단하고, 권한을 복구하거나 다른 경로로 자동 대체하지 않습니다.
@@ -51,6 +51,34 @@ Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발
 - [런타임 알림 설정](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#updating): macOS·Linux에서 로컬 오프라인 명령인 `update --dismiss-runtime-notice VERSION` 또는 `--clear-runtime-notice-dismissal`은 특정 버전의 자동 알림만 변경합니다. 릴리스를 확인·설치·승인하지 않으며 remote·SSH·check 조합은 거부됩니다. 명시적 확인에서는 실제 최신 버전·구버전 여부를 계속 보고하며, 스킬 알림과 전역 알림 끄기는 그대로입니다. Windows는 이 설정을 지원하지 않습니다. 예시 버전은 릴리스 발표가 아닙니다.
 
 런타임 공개로 별도 관리되는 이 스킬이 발행되거나 설치되지는 않습니다. 별도로 승인된 변경 불가능한 스킬 릴리스의 기록된 태그·소스 커밋·SKILL 해시를 검증한 뒤에만 채택합니다. Python 런타임의 호환 사본은 그 정확한 공개 스킬 소스에서 별도로 갱신하며, 기존 런타임 릴리스는 변경하지 않습니다.
+
+## Python 1.3.2 유지보수 안내
+
+이 안내는 [공개 Python 런타임 1.3.2](https://github.com/abruption/session-peer/releases/tag/v1.3.2), 소스 `f5e7c49554ff02771990a151e00b52f2abf3df0a`를 기준으로 합니다. 기본 CLI 호환성 하한은 0.9.1입니다. 이번 개정판은 새 Direct 출력의 해석도 안내하므로 공개 기능 범위의 기준은 1.3.2입니다. 기존 1.3.0 사용 절차의 요구 버전과 수신기 `codexBin`의 개별 하한 1.0.1은 별개로 유지합니다.
+
+### 선택 기능 MCP의 설치와 업그레이드
+
+기본 CLI는 필수 외부 의존성 없이 Python 3.9+를 지원합니다. 선택 기능인 MCP에는 Python 3.10+와 `session-peer[mcp]` extra가 필요합니다. 런타임 1.3.2는 MCP SDK `mcp>=1.30,<2`를 요구합니다. 새 격리 환경을 위한 pipx 설치 예시는 다음과 같습니다.
+
+```bash
+pipx install 'session-peer[mcp]'
+```
+
+기존 MCP 환경은 인터프리터와 선택한 extra를 유지하면서 원래 사용한 관리자로 명시적으로 업그레이드합니다. 새 설치 예시로 기존 환경을 대체하거나 관리자를 임의로 바꾸지 않습니다. 의존성 선언이 바뀌어도 설치된 패키지는 자동으로 업그레이드되지 않습니다. `install.sh`와 독립 실행형 스크립트 업데이트는 MCP 의존성을 설치하거나 갱신하지 않습니다. [고정 MCP 안내](https://github.com/abruption/session-peer/blob/v1.3.2/docs/mcp.md)를 참고합니다.
+
+SDK 하한은 상위 프로젝트의 1.x 수정 사항을 반영합니다. 이것이 표준 입출력(stdio)만 사용하는 이 애플리케이션에서 HTTP/OAuth/client 취약점이 악용될 수 있음을 확인하거나 해당 전송 방식을 활성화한다는 뜻은 아닙니다. 런타임 CI는 macOS·Linux와 Python 3.10/3.13에서 정확한 SDK 1.30.0 및 최신 호환 1.x를 조합한 8개 환경을 검사했습니다. 각 환경에서 결정된 의존성 그래프를 감사했으며, 의존 패키지가 다시 요구하는 모든 패키지의 최소 버전을 시험한 것은 아닙니다. [검증 범위](https://github.com/abruption/session-peer/blob/v1.3.2/docs/mcp.md#validation)를 참고합니다.
+
+### Direct 수신기 출력과 운영자 업데이트
+
+Python 1.3.2+의 수신기 시작 출력은 `ready:true`를 유지하고 `directReadyConfirmed:false`를 추가합니다. 앞의 필드는 로컬 리스너가 준비됐다는 뜻이며, 두 필드 모두 원격 연결 수락/TLS, 인증된 접근, 네이티브 제출, 소비나 ACK를 확인하지 않습니다. 이전 수신기는 새 필드를 생략할 수 있습니다. 이 경우 false나 실패를 임의로 만들지 말고 근거가 불명확한 상태로 유지합니다. 실제 실행 버전, 도움말과 출력 계약을 확인합니다. TLS는 인증 전 페어링 초기 단계일 수 있으며, 인증된 probe는 별도의 근거입니다.
+
+기존의 선택 옵션 `--diagnostic-events`에는 `direct_transport`의 `accepted`·`peer_tls` 단계와 상한이 있는 `accepted`·`tlsCompleted`·`tlsFailed` 카운터가 추가됩니다. 각 단계는 60초당 기록 1개를 허용하므로 60초당 총 2개까지이며, TLS 성공과 실패는 같은 단계의 한도를 공유합니다. 정상 종료 시에는 0인 카운터도 포함한 `summary` 1개를 추가로 기록하려고 시도하며, 종료 처리를 반복해도 다시 기록하지 않습니다. 기록이 빠지거나 카운터 합계가 맞지 않을 수 있습니다. 이는 heartbeat, 손실 없는 이력이나 ACK가 아니며, 동기식 stderr 출력은 수신 측이 막혔을 때 엄격한 제한 시간을 보장하지 않습니다. [고정 Direct 안내](https://github.com/abruption/session-peer/blob/v1.3.2/docs/paired-devices.md#macos-direct-listener-checks-341)를 참고합니다.
+
+보고된 두 Mac 사례에서는 소유자가 해당 Python 애플리케이션의 들어오는 연결을 허용한 뒤 원래 공개된 1.3.1에서 페어링과 인증된 probe가 복구됐습니다. 진단 코드가 네트워크를 고친 것은 아닙니다. 필요한 경우 소유자에게 실제 애플리케이션의 권한을 확인하도록 요청합니다. 방화벽을 켠 상태로 유지하고 의도한 사설 bind, 고정된 TLS 신원과 수신기 정책을 유지합니다. `0.0.0.0`으로 자동 확대하거나 키/DB를 초기화하거나 접근 정책을 바꾸거나 결과가 불확실한 페어링·전송을 재시도하지 않습니다. 이 사례는 모든 플랫폼에 적용할 진단이나 네이티브 전달·ACK 지원을 입증하지 않습니다.
+
+선택 수신기 모듈은 wheel/sdist에 포함되며 독립 실행형 `session_peer.py` 안에는 포함되지 않습니다. 독립 실행형 파일만 업데이트해도 기존 수신기 환경은 바뀌지 않습니다. 운영자가 승인된 배포 절차에 따라 해당 패키지 환경을 별도로 업그레이드하고 수신기를 명시적으로 다시 시작해야 합니다. Python 패키지를 발행한다고 서비스가 배포되지는 않습니다.
+
+Node Control의 Better Auth/core 1.7.7 변경은 Python 배포물 밖에 있으며 별도의 서비스 업데이트가 필요합니다. 검증 네임스페이스 변경으로 진행 중인 OAuth 로그인을 다시 시작해야 할 수 있으나, 세션 일괄 폐기·키 회전·DB 재생성의 근거는 아닙니다. 과거 1.0.3에서 적용한 계정 세션의 생성 시점으로부터 24시간 제한은 여전히 유효합니다. 한 스택의 배포가 모든 설치 환경, 가입 정책, 가용성, 실제 OAuth나 네이티브 ACK를 검증하는 것은 아닙니다. [릴리스와 운영의 경계](https://github.com/abruption/session-peer/blob/v1.3.2/docs/releases/v1.3.2.md#incident-and-compatibility-boundaries)를 참고합니다.
 
 ## 스킬 설치
 
@@ -75,11 +103,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.4.0`).
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.4.1`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.4.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.4.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

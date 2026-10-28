@@ -16,7 +16,7 @@
 
 ## 빠른 시작
 
-기본 Python CLI 명령에는 session-peer 0.9.1 이상이 필요합니다. 공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.0입니다. 페어링 기기 전송은 선택 기능이며, Unix 환경에서 Python 3.11 이상과 `session-peer[relay]`가 필요합니다.
+기본 Python CLI 명령에는 session-peer 0.9.1 이상이 필요합니다. 공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.2입니다. 페어링 기기 전송은 선택 기능이며, Unix 환경에서 Python 3.11 이상과 `session-peer[relay]`가 필요합니다.
 v1.0.3 보안 수정을 적용하려면 Python 런타임 1.0.3 이상을 사용합니다. 위 호환 버전은 CLI(명령줄 인터페이스) 기능 지원 기준이며 보안 권장 버전과 별개입니다.
 
 ### 설치
