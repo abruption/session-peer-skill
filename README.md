@@ -16,7 +16,7 @@ The runtime demonstration shows Claude Code and Codex messaging; the skill provi
 
 ## Quick Start
 
-Basic Python CLI commands require session-peer 0.9.1 or newer. The published Python CLI coverage reference is session-peer 1.3.0. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
+Basic Python CLI commands require session-peer 0.9.1 or newer. The published Python CLI coverage reference is session-peer 1.3.2. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
 For the v1.0.3 security fixes, use Python runtime 1.0.3 or newer. The compatibility versions above are CLI feature thresholds, not security recommendations.
 
 ### Install
