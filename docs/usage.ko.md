@@ -15,7 +15,7 @@ uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windo
 
 스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin` 기능과 `attemptId`로 이벤트를 연결하는 Relay 진단에는 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(추가 설치 옵션, Unix·Python 3.11 이상)가 필요합니다.
 
-공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.2입니다.
+공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.4.0입니다.
 
 ## 런타임 1.0.3 보안 및 운영
 
@@ -41,7 +41,7 @@ Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발
 
 ## Python 1.3 사용 절차
 
-아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.3.2입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
+아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.4.0입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
 
 - [전송 설명](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation): 일반 메시지 입력을 받는 `send --dry-run --explain`은 로컬·SSH·페어링 경로를 지원하며 텍스트로만 출력합니다. `doctor --explain`은 진단 시점의 상태를 설명하며 특정 대상의 수신 준비를 판정하지 않습니다. `handoff status --explain`은 저장된 읽기 전용 근거를 설명합니다. JSON 조합과 handoff SEND의 correlation·ACK·observe·wait 조합은 거부됩니다. 설명은 기존 결과를 재사용하며 추가 검사·활성화·제출·수신 확인 권한을 만들지 않습니다. 기존 dry-run 버전 검사는 별개입니다. 페어링 경로의 추가 정보는 기존 검사로 지원 여부를 협의하고 허용 목록과 8 KiB 한도를 적용합니다. 이전 수신기에서는 확인된 네이티브 정보만 유지하고 없는 정보는 unknown으로 남깁니다. 미리보기는 권한·대상 예약·ACK를 부여하지 않습니다. 종료 코드 0만으로 미제출을 단정할 수 없으며, unknown이나 예기치 않은 제출도 자동 재전송을 허용하지 않습니다. wake에는 여전히 사용자의 명시적 요청이 필요합니다.
 - [경로 프리셋](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)과 별도의 [수신자 주소록](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)은 macOS·Linux의 로컬·SSH Claude·Codex만 지원합니다. 항목 관리는 사용자 요청에 따라 수행합니다. `preset show`는 저장된 경로와 revision을 읽고, `list --preset`은 현재 세션을 검색합니다. 실제 프리셋 전송에는 `--to`와 `--preset-revision`이 필요하며 replace/remove는 `--expect-revision`을 사용합니다. 값의 해시인 `dp1`은 같은 이름·경로를 복원하면 같은 값이 되며, 이후 변경으로 이미 경로를 해석한 호출이 취소되지는 않습니다. 주소를 add/reselect하기 전에는 `address resolve` 결과와 관측 revision인 `as1`을 검토합니다. 실제 전송에는 현재 `--address-revision`(`ab1`)과 정확한 정규 대상인 `--confirm-target`이 필요합니다. reselect/remove는 revision을 검사하고, add/reselect할 때마다 새 binding ID를 만듭니다. Claude는 `tg1`을 유지합니다. Codex의 `aw1`은 다시 검사하는 writer 관측값이며, 세대 구분은 지원하지 않고 저장소·실행 인스턴스의 원자적 일관성도 보증하지 않습니다. SSH는 실제 선택 연결에서 검증한 키를 연결 정보에 저장하고 전송 시 고정합니다. discover는 명시적으로 선택한 주소를 최대 16개 검사하며, 같은 경로·홈·키 조건을 묶고 일부 실패도 보존합니다. 네트워크 스캔·브로드캐스트·자동 재선택은 추가하지 않습니다. 이름표와 revision은 사람을 인증하거나 권한·ACK를 증명하지 않습니다. 비공개 저장소·ACL·마운트 검사에서 거부되면 운영자 검토를 위해 중단하고, 권한을 복구하거나 다른 경로로 자동 대체하지 않습니다.
@@ -54,7 +54,7 @@ Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발
 
 ## Python 1.3.2 유지보수 안내
 
-이 안내는 [공개 Python 런타임 1.3.2](https://github.com/abruption/session-peer/releases/tag/v1.3.2), 소스 `f5e7c49554ff02771990a151e00b52f2abf3df0a`를 기준으로 합니다. 기본 CLI 호환성 하한은 0.9.1입니다. 이번 개정판은 새 Direct 출력의 해석도 안내하므로 공개 기능 범위의 기준은 1.3.2입니다. 기존 1.3.0 사용 절차의 요구 버전과 수신기 `codexBin`의 개별 하한 1.0.1은 별개로 유지합니다.
+이 안내는 [공개 Python 런타임 1.3.2](https://github.com/abruption/session-peer/releases/tag/v1.3.2), 소스 `f5e7c49554ff02771990a151e00b52f2abf3df0a`를 기준으로 합니다. 기본 CLI 호환성 하한은 0.9.1입니다. 스킬 0.4.1은 기능 범위 기준 1.3.2로 이 Direct 출력 안내를 도입했습니다. 현재 기능 범위 기준은 위에서 명시합니다. 기존 1.3.0 사용 절차의 요구 버전과 수신기 `codexBin`의 개별 하한 1.0.1은 별개로 유지합니다.
 
 ### 선택 기능 MCP의 설치와 업그레이드
 
@@ -80,6 +80,41 @@ Python 1.3.2+의 수신기 시작 출력은 `ready:true`를 유지하고 `direct
 
 Node Control의 Better Auth/core 1.7.7 변경은 Python 배포물 밖에 있으며 별도의 서비스 업데이트가 필요합니다. 검증 네임스페이스 변경으로 진행 중인 OAuth 로그인을 다시 시작해야 할 수 있으나, 세션 일괄 폐기·키 회전·DB 재생성의 근거는 아닙니다. 과거 1.0.3에서 적용한 계정 세션의 생성 시점으로부터 24시간 제한은 여전히 유효합니다. 한 스택의 배포가 모든 설치 환경, 가입 정책, 가용성, 실제 OAuth나 네이티브 ACK를 검증하는 것은 아닙니다. [릴리스와 운영의 경계](https://github.com/abruption/session-peer/blob/v1.3.2/docs/releases/v1.3.2.md#incident-and-compatibility-boundaries)를 참고합니다.
 
+## Python 1.4 MCP 사용 절차
+
+아래 선택 MCP 도구와 구조화된 CLI 미리보기는 [공개 런타임 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0), 소스 `476c67e636ef02cb93797dd2f42252dfe577625f`에서 지원합니다. 사용 전에 선택한 CLI의 버전·도움말을 확인하고, MCP를 호출할 때는 실행 중인 서버의 패키지 환경도 확인합니다. 이전 버전의 개발 도움말은 공개 기능 지원의 증거가 아닙니다. 기본 CLI 호환성 하한은 0.9.1이며 수신기 `codexBin`의 개별 하한 1.0.1은 유지합니다. 이 개정판은 새 선택 경로를 안내하므로 공개 기능 범위 기준은 1.4.0입니다. 기존 1.3.0·1.3.2의 기능 요구 버전과 링크는 여전히 유효합니다.
+
+런타임 공개가 별도로 관리되는 이 스킬을 발행하거나 설치하지는 않습니다. 기록된 소스·해시를 검증한 뒤 별도로 승인된 공개 스킬 릴리스만 채택합니다. 스킬의 PR·병합·태그·발행과 정확한 공개 스킬 소스에 따른 Python 호환 사본 갱신은 별개 작업입니다.
+
+### 도구 권한·효과·근거
+
+사용 흐름은 목적지 메타데이터 → 선택적인 승인 프리셋 메타데이터 → 명시적 사전 검사 → 기존의 승인된 전송입니다. 운영자 정책, 호스트 클라이언트의 승인, 사용자가 요청한 행동은 별개의 요구 사항입니다. 모델이 스스로 권한을 얻으려고 정책을 편집하지 않습니다. 정책 `schemaVersion:2`, 결과 `schemaVersion:1`, 런타임 버전과 스킬 버전은 서로 다른 계약입니다. schema 1이나 기본 정책의 권한은 자동으로 확대되지 않습니다.
+
+프리셋을 선택할 때는 preflight를 포함한 해당 작업의 권한 외에도 승인된 이름과 `presets` 권한이 필요합니다. 프리셋과 wake 또는 Reply-To URI 대상은 함께 사용할 수 없습니다.
+
+| 도구·경로 | 필요한 정책 권한 | 효과와 해석 |
+|---|---|---|
+| `list_destinations()` | 추가 네이티브 행동 권한 없음 | 자식 프로세스·네트워크 작업 없음. 이름과 선언된 기능은 신원·준비 상태·권한·소비·ACK의 근거가 아님 |
+| `list_presets(destination)` | Schema 2의 `presets`와 목적지별 승인 이름 | 승인된 경로 메타데이터만 읽음. 검색·네이티브/버전/SSH probe·초기화·수리·자동 대체 없음 |
+| `preflight_send(...)` | Schema 2의 `preflight`. wake 적격성 요청에는 `wake`도 필요 | 정상 메시지 입력이 필요하며 기존 dry-run·로컬 버전·SSH 검사에서 명령이 실행될 수 있음. `send`를 요구하거나 부여하지 않으며 모델을 시작하거나 wake 예산을 예약하거나 이후 전송의 안전을 입증하지 않음 |
+| `diagnose_destination(...)` 메타데이터 모드 | Schema 2의 `diagnostics` | 정책·어댑터 선언만 조회. CLI·검색 프로세스나 네트워크 작업 없음 |
+| `diagnose_destination(..., active_probe=true)` | 추가로 `diagnostics_probe` | macOS·Linux만 지원. 범위가 제한된 에이전트·홈·정방향 SSH 검사에서 운영자 SSH 설정이 실행될 수 있음. 역방향 probe나 대상별 준비 검사는 없음 |
+| 프리셋을 선택한 기존 `list_sessions` / `send_message` | 기존 행동 권한과 `presets`·승인 이름의 교집합 | 정책의 host·agent·Codex home이 정확히 일치해야 함. 실제 전송에는 명시적 대상과 현재 revision이 필요하며 기존 성공 네이티브 JSON은 유지됨 |
+
+목적지 메타데이터는 원문 host·home을 제외하고, 조회를 64개 목적지와 최대 128 UTF-8 bytes의 출력 가능한 ID로 제한합니다. 텍스트와 구조화된 도구 결과를 합쳐 64 KiB로 제한하며 바깥 JSON-RPC envelope는 제외합니다. 공용 서버는 호출자 신원을 확인할 수 없습니다. 라벨·기능·revision을 명령이나 신원·권한의 근거로 취급하지 않습니다.
+
+능동 진단은 허용된 에이전트 최대 3개를 검사하며, 20초 실행 예산을 공유한 뒤 별도 정리를 수행합니다. 각 자식의 stdout·stderr와 합산 도구 결과는 각각 64 KiB로 제한됩니다. 불완전하거나 형식이 잘못되거나 잘린 검사는 unknown으로 유지합니다. `ok`는 수집·형식의 완전성을 뜻하므로 완전하게 수집된 `missing_home`에도 `ok:true`일 수 있습니다. 성공한 `state_db_readable` 조회는 네이티브 daemon의 실제 저장소를 입증하지 않습니다. 준비 상태, TCP 수락, TLS, 페어링 기기 인증은 `not_checked`로 유지되며, 정제된 정방향 SSH 실패는 다른 검사 결과입니다. 엄격한 벽시계 제한 시간, 원격 프로세스 정리, 소비나 ACK를 보장하지 않습니다. 기본 메타데이터 모드가 선택적인 능동 호출까지 무효과로 만드는 것은 아닙니다. preflight와 두 모드를 포괄하는 진단 도구는 `readOnlyHint=false`, `idempotentHint=false`를 사용합니다. [제한된 진단 계약](https://github.com/abruption/session-peer/blob/v1.4.0/docs/mcp.md#v140-source-bounded-diagnostics-358)을 참고합니다.
+
+### 프리셋과 결과의 경계
+
+프리셋은 운영자의 실행 환경에 지정된 보안 저장소에서 읽으며 모델이 경로를 선택할 수 없습니다. 호출자가 제공한 revision을 비교하기 전에 권한과 정확한 host·agent·Codex home 일치를 확인하고, 호출 직전 정책을 다시 검사합니다. 기존 `dp1` 값 토큰은 동일한 이름·경로 값을 복원하면 재사용될 수 있으며 이후 저장소 변경으로 이미 경로가 펼쳐진 호출이 취소되지는 않습니다. 프리셋 관리와 권한 수리는 지원하지 않습니다. 프리셋 선택은 Windows/device/Antigravity/addressbook/handoff나 wake·Reply-To URI 대상과의 조합을 지원하지 않습니다. [MCP 프리셋 계약](https://github.com/abruption/session-peer/blob/v1.4.0/docs/mcp.md#v140-source-mcp-presets-359)을 참고합니다.
+
+새 `list_presets` 메타데이터 결과에는 텍스트·구조화 결과 합산 64 KiB 제한이 적용됩니다. 기존 list/send의 성공 응답에 이 제한이나 새 projection을 적용하지 않습니다. 기존 네이티브 JSON과 전송 한도는 유지됩니다. 안전한 프리셋 메타데이터는 별도로 조회하거나 선택한 preflight에 포함합니다. 불명확한 I/O·디코드 결과로 자동 재시도하거나 독립적으로 확인된 queued/submitted 근거를 지우지 않습니다. 실제 전송의 불확실성은 `submitted:null`, `retryAllowed:false`로 보고될 수 있습니다. 제출·큐 등록은 여전히 소비나 ACK를 입증하지 않습니다.
+
+[CLI `send --dry-run --explain-json`](https://github.com/abruption/session-peer/blob/v1.4.0/docs/cli-reference.md#v140-source-structured-send-preview-357)은 로컬·SSH의 한 목적지에 대한 projection이며 원문 host·home, 메시지·오류 내용을 의도적으로 제외합니다. `--json`과 함께 사용할 수 있지만 `--explain`, device/preset/address/handoff 조합은 거부합니다. MCP는 승인된 프리셋 경로를 검사·확장한 뒤 이 경로를 호출하며, 명시적 경로 옵션에 CLI `--preset`을 함께 전달하지 않습니다. 기존 `--explain`은 텍스트 전용이며 일반 list/send/doctor/update JSON은 기존 envelope를 유지합니다. 타입 오류, 거부, unknown 또는 상충하는 제출·소비 근거를 성공으로 승격하지 않습니다.
+
+별도로 승인된 Python 호환 사본은 정확한 공개 스킬 태그·소스·해시를 사용합니다. 이 안내로 기존 런타임·스킬 릴리스 산출물, TypeScript 프로필, 전역 설치와 운영은 변경되지 않습니다.
+
 ## 스킬 설치
 
 ```bash
@@ -103,11 +138,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.4.1`).
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.5.0`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.4.1/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
