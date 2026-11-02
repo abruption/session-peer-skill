@@ -17,6 +17,28 @@ The skill documents basic commands shared by session-peer 0.9.1 and newer. `--al
 
 The published Python CLI coverage reference is session-peer 1.4.0.
 
+## Existing Relay runtime and paired discovery
+
+Before diagnosing missing paired support, identify the operator-approved session-peer invocation and check its session-peer version/help. Check the Python interpreter version separately when needed. A default standalone CLI and an existing Relay-capable service environment can be separate installations on the same machine. A dependency error from one executable is not proof that no suitable environment is installed, and is not by itself a reason to reinstall or re-pair.
+
+Inspect only operator-known launchers/service definitions or explicitly supplied environment paths, using the minimum non-secret metadata needed to identify the interpreter/package environment and state context. Do not scan arbitrary private/credential directories or print credentials. Reading a service definition does not authorize running its startup command, restarting it or executing a newly discovered interpreter. Have the operator review/select the existing runtime before using it; ask the operator to resolve ambiguous runtimes or state directories. Preserve the existing package manager, interpreter, extras, identities, keys and permissions.
+
+Once the runtime and initialized state have been explicitly selected, the existing lookup workflow is:
+
+```bash
+<relay-runtime> device peers --state <existing-state>
+<relay-runtime> list --device <fingerprint> \
+  --device-state <existing-state> --device-route direct --json
+```
+
+Substitute operator-reviewed values before using these examples; angle-bracket tokens are placeholders. `<relay-runtime>` is the approved CLI invocation in the existing environment, not a discovered service startup command. `<existing-state>` must be the exact known initialized state, not a path guessed for a probe. These are lookup/discovery operations with no native message submission, but they can acquire store locks and perform existing schema/metadata maintenance; they are not a promise of filesystem-read-only access. Do not run them against missing, incomplete or ambiguous state.
+
+Use the exact stored peer/device identifier for `<fingerprint>` and inspect its stored status. The stored identifier is not proof of remote reachability or permission, and must not be replaced with a guessed key value or a similar label. `list --device` selects one receiver; its current policy exposes only authorized target aliases. It does not list every native session on that machine. Default `list` discovers locally; for ordinary local/SSH discovery, `--all` includes stale/archived records rather than all paired receivers. Do not advertise a proposed aggregate discovery flag as available.
+
+The example explicitly selects an already configured Direct route. It is not a universal connectivity test or a reason to rewrite endpoints. When another route is intentionally selected, retain its existing Relay admission and route requirements. `device routes` changes stored peer routes; it is not a read-only connectivity check. See the fixed [paired list/send/reconciliation reference](https://github.com/abruption/session-peer/blob/v1.4.0/docs/paired-devices.md#list-send-and-reconcile) and [route-update contract](https://github.com/abruption/session-peer/blob/v1.4.0/docs/paired-devices.md#updating-a-paired-route).
+
+Keep the same selected runtime and initialized state when selecting the exact peer and permitted alias, performing the existing dry-run, and sending once only when the user's workflow authorizes it. Preserve each result's provenance. `queued`, `submitted` and `receiverAccepted` are not consumption or receipt ACK; receiver acceptance can describe a successful lookup/dry-run without any native submission. An unknown outcome never authorizes resend. Do not implicitly install, initialize identity/state, re-pair, repair permissions, restart services, log in or activate a native session to make discovery succeed. A standalone update does not update a separate receiver package environment; a runtime update does not update this independently managed skill.
+
 ## Runtime 1.0.3 security and operations
 
 Use Python runtime 1.0.3 or newer for its security fixes. The metadata minimum and full versions describe CLI compatibility, not the version recommended for security. Before using SSH, review the [v1.0.3 connection-option rules](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits): the complete supplied option list is checked against an allowlist before SSH runs. Use `KEY=value` for `-o`, host-style jump targets, and only `yes`, `ask`, or `accept-new` for `StrictHostKeyChecking`; SSH URI jumps, `+` in usernames, spaced `-o 'Key value'`, command hooks, alternate config/control socket paths, and known-hosts file overrides are refused. Existing user/system SSH config remains an operator trust boundary, not a sandbox.
@@ -134,11 +156,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-To pin a release exactly, install its tag, for example `v0.5.0`:
+To pin a release exactly, install its tag, for example `v0.5.1`:
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

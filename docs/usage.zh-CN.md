@@ -17,6 +17,28 @@ uv、pip、POSIX 独立安装程序以及 Windows 原生环境的安装方式，
 
 已发布 Python CLI 功能的覆盖基准为 session-peer 1.4.0。
 
+## 选择现有 Relay 运行时并发现配对设备
+
+判断缺少配对支持前，应先确定运维人员批准的 session-peer 调用方式，并通过该调用检查 session-peer 的版本和帮助信息。需要时应单独检查 Python 解释器版本。同一台设备上的默认独立 CLI 与现有的支持 Relay 的服务环境可能是两套独立安装。一个可执行文件报告依赖错误，并不能证明没有安装合适环境，也不能单凭这一点重新安装或重新配对。
+
+仅检查运维人员已知的启动命令（launcher）、服务定义或明确提供的环境路径，只查看识别解释器/包环境及 state 上下文所需的最少非秘密元数据。不要扫描任意私有或凭据目录，也不要输出凭据。读取服务定义并不授权执行其启动命令、重启服务或运行新发现的解释器。使用现有运行时前，应由运维人员审阅并选择；运行时或 state 目录存在歧义时，请运维人员明确判断。保留原有包管理器、解释器、extra、身份、密钥和权限。
+
+明确选择运行时和已初始化的 state 后，使用现有查询流程：
+
+```bash
+<relay-runtime> device peers --state <existing-state>
+<relay-runtime> list --device <fingerprint> \
+  --device-state <existing-state> --device-route direct --json
+```
+
+使用示例前，请替换为经运维人员审阅的值；尖括号中的标记是占位符。`<relay-runtime>` 是现有环境中获准使用的 CLI 调用，不是新发现的服务启动命令。`<existing-state>` 必须是准确已知、已经初始化的 state，不能是为探测而猜测的路径。这些查询/发现操作不提交原生消息，但可能获取存储锁并维护现有 schema/元数据，并不保证文件系统只读。不要对缺失、不完整或不明确的 state 执行这些命令。
+
+`<fingerprint>` 应使用已保存的准确 peer/设备标识符，并检查其保存状态。保存的标识符不能证明远端可达性或权限，也不能替换为猜测的密钥值或相似标签。`list --device` 只选择一个接收器；其当前策略只公开已授权的目标别名，并不列出该设备上的所有原生会话。默认 `list` 在本地发现；在普通本地/SSH 发现中，`--all` 包含过时/归档记录，不表示所有已配对接收器。不要将提议中的聚合发现标志描述为已实现功能。
+
+示例明确选择已经配置好的 Direct 路由。这不是通用连通性测试，也不是重写端点的理由。明确选择其他路由时，应保留现有 Relay admission 和路由要求。`device routes` 会修改已保存的 peer 路由，不是只读连通性检查。参见固定版本的[配对查询、发送及结果核对说明](https://github.com/abruption/session-peer/blob/v1.4.0/docs/paired-devices.md#list-send-and-reconcile)和[路由更新契约](https://github.com/abruption/session-peer/blob/v1.4.0/docs/paired-devices.md#updating-a-paired-route)。
+
+从选择准确 peer 和获准别名，到执行现有 dry-run，再到仅在用户工作流程授权时发送一次，均应使用同一个已选运行时和已初始化 state。保留每项结果的来源。`queued`、`submitted` 和 `receiverAccepted` 不代表消费或收据 ACK；接收器接受也可能只是没有任何原生提交的查询/dry-run 成功。unknown 结果绝不授权重发。不要为了让发现成功而隐式安装、初始化身份/state、重新配对、修复权限、重启服务、登录或启动原生会话。独立程序更新不会更新单独的接收器包环境；运行时更新也不会更新这个独立管理的技能。
+
 ## 运行时 1.0.3 的安全与运维
 
 如需获得安全修复，请使用 Python 运行时 1.0.3 或更高版本。元数据中的最低版本和完整功能版本表示 CLI 兼容性，不是安全推荐版本。使用 SSH 前请查看 [v1.0.3 连接选项规则](https://github.com/abruption/session-peer/blob/v1.0.3/docs/cli-reference.md#limits)：传入的完整选项列表会在执行 SSH 前经过允许列表校验。`-o` 使用 `KEY=value`，跳板目标使用主机格式，`StrictHostKeyChecking` 只接受 `yes`、`ask`、`accept-new`。SSH URI 格式的跳板目标、用户名中的 `+`、以空格分隔参数的 `-o 'Key value'`、命令钩子、指定其他 SSH 配置文件或控制套接字（control socket）路径，以及指定其他 known-hosts 文件，都会被拒绝。现有的用户级或系统级 SSH 配置仍属于运维人员需要信任的配置范围，并不是安全沙箱。
@@ -132,11 +154,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.5.0`：
+需要固定某个版本时，请安装对应标签，例如 `v0.5.1`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
