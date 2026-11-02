@@ -16,7 +16,7 @@ The runtime demonstration shows Claude Code and Codex messaging; the skill provi
 
 ## Quick Start
 
-Basic Python CLI commands require session-peer 0.9.1 or newer. The published Python CLI coverage reference is session-peer 1.3.2. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
+Basic Python CLI commands require session-peer 0.9.1 or newer. The published Python CLI coverage reference is session-peer 1.4.0. Paired-device transport is optional and needs `session-peer[relay]` on Unix with Python 3.11+.
 For the v1.0.3 security fixes, use Python runtime 1.0.3 or newer. The compatibility versions above are CLI feature thresholds, not security recommendations.
 
 ### Install
@@ -49,6 +49,8 @@ A `queued` or `submitted` status does not confirm that the recipient consumed th
 The separate `session-peer-ts` skill 0.3.0 profile (minimum runtime 0.1.0, feature coverage reference 0.4.0) is recognized by published npm runtime 0.4.0. Basic commands still require the resolved TypeScript runtime’s actual version/help checks; optional features also require their platform, private-storage, permission, and writer guards. See the [limited opt-in handoff guide](docs/typescript-handoff.md) for correlation, bounded waiting, and explicit operator-confirmed receipts; queueing or injection is not an automatic acknowledgment. Select a separately approved, published immutable skill release and verify its recorded source commit and content hash. Runtime publication does not publish, install, or authorize installation of the skill. See the [TypeScript setup guide](docs/typescript.md) for an explicit agent, project/global scope, and reviewed commit installation.
 
 Optional Python 1.3.0 workflows and their requirements are described in the [usage guide](docs/usage.md#python-13-workflows).
+
+Optional Python 1.4 MCP workflows, permissions and evidence limits are described in the [usage guide](docs/usage.md#python-14-mcp-workflows).
 
 ## Docs
 

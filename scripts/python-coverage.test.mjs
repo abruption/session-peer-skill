@@ -8,7 +8,7 @@ const text = (full = '1.3.0', codexBin = '1.0.1') =>
   `receiver policy \`codexBin\` requires\n session-peer ${codexBin} or newer`
 
 test('coverage can advance while the receiver feature floor stays at 1.0.1', () => {
-  for (const full of ['1.0.1', '1.3.0', '1.3.2']) {
+  for (const full of ['1.0.1', '1.3.0', '1.3.2', '1.4.0']) {
     assert.deepEqual(validatePythonCoverage(text(full), '0.9.1', full), [])
   }
 })
@@ -46,14 +46,15 @@ test('minimum comparison is numeric across major, minor and patch components', (
 })
 
 // These literal documentation claims are independent of the validator's parser.
-const currentFull = '1.3.2'
-const previousFull = '1.3.0'
+const currentFull = '1.4.0'
+const previousFull = '1.3.2'
+const earlierFull = '1.3.0'
 const legacyFull = '1.0.1'
 const claims = {
-  en: 'The published Python CLI coverage reference is session-peer 1.3.2.',
-  ko: '공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.3.2입니다.',
-  ja: '公開 Python CLI の機能範囲の基準は session-peer 1.3.2 です。',
-  zh: '已发布 Python CLI 功能的覆盖基准为 session-peer 1.3.2。'
+  en: 'The published Python CLI coverage reference is session-peer 1.4.0.',
+  ko: '공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.4.0입니다.',
+  ja: '公開 Python CLI の機能範囲の基準は session-peer 1.4.0 です。',
+  zh: '已发布 Python CLI 功能的覆盖基准为 session-peer 1.4.0。'
 }
 const documents = [
   ['README.md', 'en'], ['README.ko.md', 'ko'],
@@ -65,16 +66,16 @@ const readDocument = path => readFileSync(new URL('../' + path, import.meta.url)
 const changedClaim = (body, claim, version) => body.replace(claim, claim.replace(currentFull, version))
 
 for (const [path, locale] of documents) {
-  test(`${path}: actual current, previous and legacy coverage pass independently of feature mentions`, () => {
+  test(`${path}: actual and historical coverage transitions preserve independent feature floors`, () => {
     const body = readDocument(path)
     const claim = claims[locale]
     assert.ok(body.includes(claim), 'the actual document must contain its explicit coverage assertion')
     assert.deepEqual(validateLocalizedCoverage(path, body, currentFull), [])
-    for (const supported of [previousFull, legacyFull]) {
-      const historical = changedClaim(body, claim, supported)
-      assert.deepEqual(validateLocalizedCoverage(path, historical, supported), [])
+    for (const supported of [previousFull, earlierFull, legacyFull]) {
+      const rewritten = changedClaim(body, claim, supported)
+      assert.deepEqual(validateLocalizedCoverage(path, rewritten, supported), [])
       if (path.startsWith('docs/')) {
-        assert.deepEqual(validateLocalizedCodexBin(path, historical), [])
+        assert.deepEqual(validateLocalizedCodexBin(path, rewritten), [])
       }
     }
     if (path.startsWith('docs/')) {
@@ -87,14 +88,18 @@ for (const [path, locale] of documents) {
     const claim = claims[locale]
     const wrong = changedClaim(body, claim, legacyFull)
     const previous = changedClaim(body, claim, previousFull)
+    const earlier = changedClaim(body, claim, earlierFull)
     const missing = body.replace(claim, '')
-    for (const mutation of [wrong, previous, missing]) {
+    for (const mutation of [wrong, previous, earlier, missing]) {
       const withFeature = mutation + `\nAn independent feature requires session-peer ${currentFull}.\n`
       assert.ok(validateLocalizedCoverage(path, withFeature, currentFull).length > 0)
     }
-    for (const mutation of [body, missing]) {
-      const withFeature = mutation + '\nAn independent feature requires session-peer 1.0.1.\n'
-      assert.ok(validateLocalizedCoverage(path, withFeature, legacyFull).length > 0)
+    // Incidental feature references cannot replace the explicit coverage claim.
+    for (const incidentalFull of [previousFull, earlierFull, legacyFull]) {
+      for (const mutation of [body, missing]) {
+        const withFeature = mutation + `\nAn independent feature requires session-peer ${incidentalFull}.\n`
+        assert.ok(validateLocalizedCoverage(path, withFeature, incidentalFull).length > 0)
+      }
     }
     if (path.startsWith('docs/')) {
       assert.deepEqual(validateLocalizedCodexBin(path, wrong), [])
