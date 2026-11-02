@@ -17,6 +17,28 @@ uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windo
 
 공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.4.0입니다.
 
+## 기존 Relay 런타임 선택과 페어링 기기 검색
+
+페어링 지원이 없다고 판단하기 전에 운영자가 승인한 session-peer 호출을 확인하고, 그 호출을 통해 session-peer의 버전과 도움말을 확인합니다. 필요한 경우 Python 인터프리터의 버전은 별도로 확인합니다. 기본 독립 실행형 CLI와 기존 Relay 지원 서비스 환경은 같은 기기에서도 서로 별도로 설치되어 있을 수 있습니다. 실행 파일 하나에서 의존성 오류가 났다고 적합한 환경이 전혀 없다는 뜻은 아니며, 그것만으로 재설치나 재페어링을 결정하지 않습니다.
+
+운영자가 알고 있는 실행 명령(launcher)·서비스 정의 또는 명시적으로 제공한 환경 경로만 살펴봅니다. 인터프리터·패키지 환경과 state 맥락을 식별하는 데 필요한 최소한의 비밀이 아닌 메타데이터만 확인합니다. 임의의 사설·자격증명 디렉터리를 검색하거나 자격증명을 출력하지 않습니다. 서비스 정의를 읽었다고 시작 명령 실행, 서비스 재시작 또는 새로 발견한 인터프리터 실행이 허용되는 것은 아닙니다. 기존 런타임은 사용 전에 운영자가 검토·선택하도록 하고, 런타임이나 state 디렉터리가 모호하면 운영자에게 확인합니다. 기존 패키지 관리자, 인터프리터, extra, 신원, 키와 권한을 보존합니다.
+
+런타임과 이미 초기화된 state를 명시적으로 선택한 뒤에는 기존 조회 흐름을 사용합니다.
+
+```bash
+<relay-runtime> device peers --state <existing-state>
+<relay-runtime> list --device <fingerprint> \
+  --device-state <existing-state> --device-route direct --json
+```
+
+이 예시를 사용하기 전에 운영자가 검토한 값으로 바꿉니다. 꺾쇠로 둘러싼 토큰은 자리표시자입니다. `<relay-runtime>`은 기존 환경에서 승인된 CLI 호출이며, 발견한 서비스의 시작 명령이 아닙니다. `<existing-state>`에는 조회를 위해 추측한 경로가 아니라 정확히 알고 있는 초기화된 state를 지정해야 합니다. 이 명령들은 네이티브 메시지를 제출하지 않는 조회·검색 작업이지만, 저장소 잠금을 얻거나 기존 스키마·메타데이터를 유지하는 작업을 수행할 수 있습니다. 파일시스템에 전혀 쓰지 않는다는 보장은 아닙니다. 없거나 불완전하거나 모호한 state에 실행하지 않습니다.
+
+`<fingerprint>`에는 저장된 정확한 peer·기기 식별자를 사용하고 저장된 상태를 확인합니다. 저장된 식별자는 원격 도달 가능성이나 권한의 증거가 아니며, 추측한 키 값이나 비슷한 이름표로 바꾸면 안 됩니다. `list --device`는 수신기 하나를 선택하며, 그 수신기의 현재 정책이 허용한 대상 별칭만 표시합니다. 해당 기기의 모든 네이티브 세션을 나열하는 것은 아닙니다. 기본 `list`는 로컬에서 검색합니다. 일반 로컬·SSH 검색에서 `--all`은 모든 페어링 수신기가 아니라 오래되거나 보관된 기록을 포함합니다. 제안 단계의 통합 검색 플래그를 이미 사용할 수 있는 것처럼 안내하지 않습니다.
+
+예시는 이미 설정된 Direct 경로를 명시적으로 선택합니다. 모든 환경의 연결성을 시험하는 방법이나 엔드포인트를 다시 쓰는 근거가 아닙니다. 다른 경로를 의도적으로 선택한다면 기존 Relay admission과 경로 요구 사항을 유지합니다. `device routes`는 저장된 peer 경로를 바꾸므로 읽기 전용 연결 검사 명령이 아닙니다. 고정된 [페어링 조회·전송·결과 대조 안내](https://github.com/abruption/session-peer/blob/v1.4.0/docs/paired-devices.md#list-send-and-reconcile)와 [경로 변경 계약](https://github.com/abruption/session-peer/blob/v1.4.0/docs/paired-devices.md#updating-a-paired-route)을 참고합니다.
+
+정확한 peer와 허용된 별칭을 선택하고 기존 dry-run을 수행한 뒤 사용자 작업 흐름이 허용할 때 한 번 전송하는 모든 단계에서, 동일하게 선택된 런타임과 초기화된 state를 유지합니다. 각 결과가 어느 경로·대상에서 나온 것인지 보존합니다. `queued`, `submitted`, `receiverAccepted`는 소비나 수신 확인 ACK가 아닙니다. 수신기 수락은 네이티브 제출 없이 성공한 조회·dry-run을 뜻할 수도 있습니다. 결과가 unknown이면 재전송이 허용되지 않습니다. 검색을 성공시키려고 설치, 신원·state 초기화, 재페어링, 권한 복구, 서비스 재시작, 로그인 또는 네이티브 세션 활성화를 암묵적으로 수행하지 않습니다. 독립 실행형 업데이트는 별도 수신기 패키지 환경을 갱신하지 않으며, 런타임 업데이트는 독립 관리되는 이 스킬을 갱신하지 않습니다.
+
 ## 런타임 1.0.3 보안 및 운영
 
 보안 수정을 적용하려면 Python 런타임 1.0.3 이상을 사용합니다. 메타데이터의 최소 버전과 전체 기능 지원 버전은 CLI(명령줄 인터페이스)의 호환 기준이며, 보안 권장 버전과 별개입니다.
@@ -138,11 +160,11 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.5.0`).
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.5.1`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.0/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.1/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
