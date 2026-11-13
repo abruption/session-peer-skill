@@ -137,6 +137,20 @@ Node Control의 Better Auth/core 1.7.7 변경은 Python 배포물 밖에 있으�
 
 별도로 승인된 Python 호환 사본은 정확한 공개 스킬 태그·소스·해시를 사용합니다. 이 안내로 기존 런타임·스킬 릴리스 산출물, TypeScript 프로필, 전역 설치와 운영은 변경되지 않습니다.
 
+## Python 1.5 MCP SDK 호환성
+
+[공개 런타임 1.5.0](https://github.com/abruption/session-peer/releases/tag/v1.5.0), 소스 `9a0b23ff5e1f83e1cee4dc22bec7e3c0ca8063bb`는 안정판 MCP SDK 1.30 이상의 1.x와 2.3 이상의 2.x를 지원합니다. 선택 extra의 제약은 `mcp>=1.30,<3,!=2.0.*,!=2.1.*,!=2.2.*`입니다. SDK 2.0–2.2와 사전·개발 릴리스는 설치 도구가 허용했더라도 서버 시작 시 거부합니다. SDK import가 깨진 경우 다른 API로 조용히 전환하지 않습니다.
+
+SDK 2를 사용하려면 실제 실행 중인 MCP 서버의 패키지 환경에 런타임 1.5.0 이상이 필요합니다. 관련 없는 standalone CLI의 버전 확인만으로는 충분하지 않습니다. 기존 안정판 SDK 1 환경은 계속 지원하므로 새 major가 나왔다는 이유만으로 옮길 필요는 없습니다. 요청된 업그레이드는 운영자가 쓰던 관리자·인터프리터·extra를 유지해야 합니다. manifest 변경, standalone 스크립트 업데이트나 서버 재시작만으로 설치된 SDK가 업그레이드되지는 않습니다. [고정 SDK 계약](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate)을 참고합니다.
+
+공개 도구 6개, 프로젝트 결과 payload의 `schemaVersion:1`, 정책 버전 1/2, 권한, 호스트 승인과 unknown·자동 재시도 금지 동작은 그대로입니다. SDK 2에서도 subscriptions는 비활성화하며 subscription/listen, status, wait 인터페이스가 추가되지 않습니다. SDK major는 정책 schema나 스킬 버전과 별개입니다. 이 유지보수 프로필은 새 CLI·도구 경로를 추가하지 않으므로 full coverage는 1.4.0을 유지하고, SDK 2의 런타임 1.5.0 요구 조건을 따로 둡니다. 위의 1.3.2 SDK 제약과 날짜가 있는 CI 수치는 역사적 사실이며 SDK 2 수용 검증 기록이 아닙니다.
+
+SDK 2의 Python 속성과 camelCase wire 별칭은 내부에서 맞춥니다. 협상한 프로토콜 버전마다 SDK가 생성하는 결과 envelope나 capability 필드의 바이트가 같다고 가정하지 마세요. 내부 프로젝트 결과 JSON은 바뀌지 않습니다. 크기 제한이 있는 metadata/preflight/diagnostic 결과에서 64 KiB는 상한이며, 그보다 작은 모든 payload의 수용을 보장하지 않습니다. SDK 2는 legacy 연결에서도 최신 서버 신원 metadata를 크기 계산에 포함하므로 SDK 1이 수용하는 경계 부근 결과를 보수적으로 거부할 수 있습니다. 이를 재시도 권한으로 해석하지 말고 거부·unknown 근거와 기존 재전송 금지 규칙을 유지합니다. 기존의 성공한 legacy list/send payload 전체에 새 크기 제한이 생기는 것은 아닙니다.
+
+1.5.0 소스는 SDK 프로필 4개(최소 1.30.0, 최신 호환 1.x, 최소 2.3.0, 최신 호환 2.x)를 macOS·Linux와 Python 3.10/3.13/3.14에 조합한 CI 셀 24개를 정의합니다. 각 버전·감사 보고서와 프로토콜 fixture는 별도의 근거이며 이 스킬에서 실행한 테스트가 아닙니다. 모든 전이 의존성을 각각의 최소 버전으로 검사하거나 새 native/SSH/ACK/live OAuth 동작을 검증한 것도 아닙니다. [검증 범위](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation)를 참고합니다.
+
+기본 런타임은 여전히 필수 외부 의존성 없이 Python 3.9를 지원하며, 선택 MCP에는 Python 3.10+, Relay에는 Python 3.11+가 필요합니다. 빌드 도구의 하한은 별개입니다. Hatchling 1.32.4와 1.33.0 모두 Python 3.10+ 빌드 인터프리터가 필요합니다. Python 3.9에서 기본 CLI를 사용할 때는 universal wheel이나 standalone 경로를 이용하며, 같은 인터프리터에서 sdist 직접 빌드도 된다고 추정하거나 운영자 환경을 임의로 교체하지 않습니다. [빌드·런타임 경계](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries)를 참고합니다. Node Control 의존성은 Python 배포물 밖에 있으며 별도로 승인된 서비스 업데이트가 필요합니다. 앞선 1.3.2 세션 정책 안내의 숫자를 기계적으로 바꾸지 않습니다.
+
 ## 스킬 설치
 
 ```bash
@@ -160,11 +174,13 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.5.1`).
+업데이트 명령은 설치할 때 기록한 소스 ref를 확인합니다. 태그에 고정했다면 최신이라는 결과는 그 태그의 내용이 바뀌지 않았다는 뜻이며, GitHub의 최신 릴리스로 이동한다는 뜻은 아닙니다. `skills@latest`는 스킬 버전이 아니라 Skills CLI 버전을 선택합니다. 더 새로운 공개 스킬을 채택하려면 기존 관리자·에이전트·복사/링크 방식을 유지해 승인된 새 태그를 명시적으로 다시 추가합니다. lock 파일을 직접 편집하거나 개발 `main`으로 바꾸어 고정을 우회하지 않습니다. [Skills CLI 고정 ref 업데이트 구현](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701)을 참고합니다.
+
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.5.2`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.1/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

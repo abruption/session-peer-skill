@@ -131,6 +131,20 @@ Node Control 的 Better Auth/core 1.7.7 修改不属于 Python 制品，需要�
 
 任何另行批准的 Python 兼容副本均使用准确的公开技能标签、源码和哈希。这些说明不会改变现有运行时或技能发布制品、TypeScript 配置、全局安装或运维状态。
 
+## Python 1.5 MCP SDK 兼容性
+
+[已发布运行时 1.5.0](https://github.com/abruption/session-peer/releases/tag/v1.5.0)、源码 `9a0b23ff5e1f83e1cee4dc22bec7e3c0ca8063bb` 支持 1.30 起的稳定版 MCP SDK 1.x，以及 2.3 起的稳定版 2.x。可选 extra 的约束为 `mcp>=1.30,<3,!=2.0.*,!=2.1.*,!=2.2.*`。SDK 2.0–2.2、预发布版和开发版即使被安装器接受，也会在服务器启动时遭拒。SDK import 损坏时不会悄然回退到另一套 API。
+
+使用 SDK 2 时，实际运行的 MCP 服务器包环境中必须有运行时 1.5.0+；仅检查无关的 standalone CLI 版本并不足够。现有稳定版 SDK 1 环境仍受支持，无须仅因存在新 major 而迁移。进行所请求的升级时，须保留运维人员原有的管理器、解释器和已选 extra。修改 manifest、更新 standalone 脚本或重启服务器均不会升级已安装的 SDK。参见[固定 SDK 契约](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate)。
+
+六个公开工具、项目结果 payload 的 `schemaVersion:1`、策略版本 1/2、权限、主机审批以及 unknown/禁止自动重试的行为均不变。SDK 2 的 subscriptions 仍禁用，不新增 subscription/listen、status 或 wait 接口。SDK major 与策略 schema、技能版本不同。此维护配置不新增 CLI/工具路径，因此 full coverage 保持 1.4.0，并单独注明 SDK 2 需要运行时 1.5.0。上文 1.3.2 的 SDK 约束及带日期的 CI 数量仍是历史事实，而非 SDK 2 的验收记录。
+
+SDK 2 的 Python 属性与 camelCase wire 别名在内部适配。不要假定不同协商协议版本中，由 SDK 生成的结果 envelope 或 capability 字段具有完全相同的字节；内部项目结果 JSON 不变。对于受限的 metadata/preflight/diagnostic 结果，64 KiB 是上限，并不保证接受所有更小的 payload。SDK 2 即使在 legacy 连接中，也会将现代服务器身份 metadata 计入大小，因此可能保守地拒绝 SDK 1 能接受的临界结果。应保留拒绝/unknown 证据及现有禁止重发规则，不得据此推定重试权限。成功的既有 legacy list/send payload 不会获得新的全局大小限制。
+
+1.5.0 源码定义四个 SDK 配置（最低 1.30.0、最新兼容 1.x、最低 2.3.0、最新兼容 2.x），与 macOS/Linux、Python 3.10/3.13/3.14 组合，共 24 个 CI 单元。各配置的版本/审计报告及协议 fixture 是独立证据，不是本技能执行的测试；它们没有测试每个传递依赖各自的最低版本，也不构成新增 native/SSH/ACK/live OAuth 验证。参见[验证范围](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation)。
+
+基础运行时仍支持无必需外部依赖的 Python 3.9；可选 MCP 仍需 Python 3.10+，Relay 需 Python 3.11+。构建工具有独立下限：Hatchling 1.32.4 和 1.33.0 均需 Python 3.10+ 构建解释器。Python 3.9 的基础 CLI 应使用 universal wheel 或 standalone 路径；不要推定同一解释器可以直接构建 sdist，也不要擅自替换运维环境。参见[构建/运行时边界](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries)。Node Control 依赖不属于 Python 制品，需要另行批准的服务更新；不要机械地替换此前 1.3.2 会话策略说明中的版本号。
+
 ## 安装技能
 
 ```bash
@@ -154,11 +168,13 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-需要固定某个版本时，请安装对应标签，例如 `v0.5.1`：
+update 命令检查安装时记录的源码 ref。若已固定标签，显示已是最新仅表示该标签内容未变，并不表示切换到 GitHub 最新发布。`skills@latest` 选择的是 Skills CLI 版本，而非技能版本。采用更新的公开技能时，应保留原管理器、代理及复制/链接方式，显式重新添加获准的新标签。不要手动编辑 lock 文件或切换到开发 `main` 来绕过固定。参见[Skills CLI 固定 ref 更新实现](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701)。
+
+需要固定某个版本时，请安装对应标签，例如 `v0.5.2`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.1/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

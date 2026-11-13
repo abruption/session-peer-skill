@@ -3,7 +3,7 @@ name: session-peer
 description: Send user-requested messages to Claude Code, Codex, or a live registered Antigravity TUI on this machine, an SSH host, or a paired device using session-peer. Use for cross-session handoffs and notifications when the available native tools do not cover the requested target.
 allowed-tools: Bash, Read
 metadata:
-  version: "0.5.1"
+  version: "0.5.2"
   runtime-min-version: "0.9.1"
   runtime-full-version: "1.4.0"
 ---
@@ -59,6 +59,10 @@ report an outdated or incompatible separately installed skill. Update it with
 its own manager (Skills CLI: `npx -y skills@latest update session-peer --global --yes`).
 Runtime package upgrades and `session-peer update` do not update an
 independently managed skill; `install.sh` preserves its paths.
+A Skills CLI installation pinned to a release tag remains on that ref during
+`update`; `skills@latest` selects the manager version. To adopt a newer skill,
+explicitly add its separately approved published tag through the existing
+manager. Do not edit lock files or switch to development `main` to bypass a pin.
 
 Discover targets before sending. `session-peer list` lists Claude, Codex, and
 live registered Antigravity bridges together; use `--agent claude`, `--agent codex`,
@@ -400,3 +404,20 @@ expansion, not CLI `--preset` composition. See the
 [fixed MCP contract](https://github.com/abruption/session-peer/blob/v1.4.0/docs/mcp.md)
 and [structured preview](https://github.com/abruption/session-peer/blob/v1.4.0/docs/cli-reference.md#v140-source-structured-send-preview-357)
 before using these optional paths.
+
+## Python 1.5 MCP SDK compatibility
+
+Runtime 1.5.0 supports stable MCP SDK 1.x from 1.30 and SDK 2.x from 2.3
+(`<3`); SDK 2.0–2.2 and prerelease/dev versions are rejected. SDK 2 use requires
+runtime 1.5.0+ in the actual MCP server environment. Keep its existing manager,
+interpreter and extras; do not force a working SDK 1 environment to migrate.
+A manifest change, standalone update or restart does not upgrade installed SDKs.
+Report unsupported/broken SDKs rather than silently trying another API.
+
+The six tools, project payload schema 1, policy versions 1/2 and approval,
+unknown/no-resend/ACK boundaries are unchanged. SDK 2 adds no subscription,
+listen, status or wait interface. SDK-generated envelopes may differ across
+protocol versions while project result JSON remains unchanged. The 64 KiB
+bound is a ceiling, not a guarantee that every smaller result fits; SDK 2's
+identity metadata may cause conservative near-limit refusals. See the
+[fixed SDK compatibility contract](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate).

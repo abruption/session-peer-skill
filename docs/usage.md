@@ -133,6 +133,20 @@ The [CLI `send --dry-run --explain-json`](https://github.com/abruption/session-p
 
 Any separately approved Python compatibility snapshot uses the exact published skill tag/source/hash. Existing runtime and skill release artifacts, TypeScript profiles, global installations and operations are not changed by these instructions.
 
+## Python 1.5 MCP SDK compatibility
+
+[Published runtime 1.5.0](https://github.com/abruption/session-peer/releases/tag/v1.5.0), source `9a0b23ff5e1f83e1cee4dc22bec7e3c0ca8063bb`, supports stable MCP SDK 1.x from 1.30 and stable SDK 2.x from 2.3. The optional extra uses `mcp>=1.30,<3,!=2.0.*,!=2.1.*,!=2.2.*`. SDK 2.0–2.2 and prerelease/development SDKs are rejected at server startup, even if an installer accepted a prerelease. A broken SDK import does not silently fall back to another API.
+
+SDK 2 use requires runtime 1.5.0+ in the actual running MCP server's package environment; verifying an unrelated standalone CLI is insufficient. Existing stable SDK 1 environments remain supported and need not migrate merely because another major is available. Any requested upgrade must retain the operator's manager, interpreter and selected extras. Changing a manifest, updating a standalone script or restarting a server does not upgrade its installed SDK. See the [fixed SDK contract](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate).
+
+The six public tools, project result payload `schemaVersion:1`, policy versions 1/2, permissions, host approvals and unknown/no-automatic-retry behavior are unchanged. SDK 2 subscriptions remain disabled; it adds no subscription/listen, status or wait interface. SDK-major versions are not policy-schema or skill versions. This maintenance profile adds no new CLI/tool path, so full coverage remains 1.4.0, with the separate SDK 2 runtime requirement of 1.5.0. The 1.3.2 SDK constraint and dated CI counts above remain historical facts, not SDK 2 acceptance records.
+
+SDK 2 Python attributes and camelCase wire aliases are adapted internally. Do not assume byte-identical SDK-generated result envelopes or capability fields across negotiated protocol versions; inner project result JSON is unchanged. For bounded metadata/preflight/diagnostic results, 64 KiB remains an upper bound, not guaranteed acceptance of every smaller payload. SDK 2 sizing includes modern server-identity metadata even for legacy connections and can conservatively reject near-limit results accepted by SDK 1. Preserve refusals/unknown evidence and existing no-resend rules rather than treating this as authority to retry. Existing successful legacy list/send payloads do not gain a new global size limit.
+
+The 1.5.0 source defines four SDK profiles (minimum 1.30.0, latest compatible 1.x, minimum 2.3.0 and latest compatible 2.x) across macOS/Linux with Python 3.10/3.13/3.14: 24 configured cells. Their version/audit reports and protocol fixtures are separate evidence, not tests run by this skill. They do not test every transitive dependency at its own minimum or establish new native/SSH/ACK/live OAuth qualification. See the [validation scope](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation).
+
+The core runtime still supports Python 3.9 without mandatory external dependencies; optional MCP still requires Python 3.10+ and Relay Python 3.11+. Build tools have a separate floor: both Hatchling 1.32.4 and 1.33.0 require a Python 3.10+ build interpreter. Use the universal wheel or standalone route for Python 3.9 core CLI use; do not infer that a direct sdist build works on that interpreter or silently replace an operator's environment. See the [build/runtime boundary](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries). Node Control dependencies remain outside Python artifacts and require a separately authorized service update; earlier 1.3.2 session-policy guidance is not mechanically renumbered.
+
 ## Install the skill
 
 ```bash
@@ -156,11 +170,13 @@ npx -y skills@latest list --global --json
 npx -y skills@latest update session-peer --global --yes
 ```
 
-To pin a release exactly, install its tag, for example `v0.5.1`:
+The update command checks the source ref recorded at installation. If it is pinned to a tag, a report that the skill is up to date means that tag's content is unchanged; it does not move to GitHub's latest release. `skills@latest` selects the Skills CLI version, not the skill version. To adopt a later published skill, explicitly re-add the new approved tag using the existing manager, agents and copy/link mode. Do not manually edit lock files or switch to development `main` as a workaround. See the [Skills CLI pinned-ref update implementation](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701).
+
+To pin a release exactly, install its tag, for example `v0.5.2`:
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.1/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
