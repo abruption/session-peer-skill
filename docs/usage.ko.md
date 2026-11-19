@@ -15,7 +15,7 @@ uv, pip, POSIX 환경의 독립 실행형(standalone) 설치 프로그램, Windo
 
 스킬은 session-peer 0.9.1 이상에서 공통으로 사용할 수 있는 기본 명령을 안내합니다. `--allow-inactive-codex-home`과 `--relay-login`은 session-peer 1.0.0 이상에서만 사용할 수 있습니다. macOS·Linux 수신기 정책의 `codexBin` 기능과 `attemptId`로 이벤트를 연결하는 Relay 진단에는 session-peer 1.0.1 이상이 필요합니다. 선택 기능인 페어링 기기 전송에는 `session-peer[relay]` extra(추가 설치 옵션, Unix·Python 3.11 이상)가 필요합니다.
 
-공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.4.0입니다.
+공개 Python CLI 기능 범위의 기준 버전은 session-peer 1.6.0입니다.
 
 ## 기존 Relay 런타임 선택과 페어링 기기 검색
 
@@ -63,7 +63,7 @@ Python 1.1.0 이상은 외부 메시지 본문의 모든 줄을 인용하고 발
 
 ## Python 1.3 사용 절차
 
-아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.4.0입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
+아래 선택 절차에는 Python 런타임 1.3.0 이상이 필요합니다. 기본 CLI 호환성 하한은 0.9.1이며, 공개 CLI 기능 범위 기준은 1.6.0입니다. 실제 선택된 런타임 버전과 명령 도움말의 지원 여부를 확인하고, 각 기능의 플랫폼·권한 요구 사항도 확인합니다. 수신기 `codexBin`의 개별 최소 버전 1.0.1은 유지합니다. 실험적 handoff는 `runtime-min-version`과 `runtime-full-version`이 나타내는 명령 범위에서 제외합니다. [공개 런타임 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.3.0)를 참고합니다.
 
 - [전송 설명](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation): 일반 메시지 입력을 받는 `send --dry-run --explain`은 로컬·SSH·페어링 경로를 지원하며 텍스트로만 출력합니다. `doctor --explain`은 진단 시점의 상태를 설명하며 특정 대상의 수신 준비를 판정하지 않습니다. `handoff status --explain`은 저장된 읽기 전용 근거를 설명합니다. JSON 조합과 handoff SEND의 correlation·ACK·observe·wait 조합은 거부됩니다. 설명은 기존 결과를 재사용하며 추가 검사·활성화·제출·수신 확인 권한을 만들지 않습니다. 기존 dry-run 버전 검사는 별개입니다. 페어링 경로의 추가 정보는 기존 검사로 지원 여부를 협의하고 허용 목록과 8 KiB 한도를 적용합니다. 이전 수신기에서는 확인된 네이티브 정보만 유지하고 없는 정보는 unknown으로 남깁니다. 미리보기는 권한·대상 예약·ACK를 부여하지 않습니다. 종료 코드 0만으로 미제출을 단정할 수 없으며, unknown이나 예기치 않은 제출도 자동 재전송을 허용하지 않습니다. wake에는 여전히 사용자의 명시적 요청이 필요합니다.
 - [경로 프리셋](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)과 별도의 [수신자 주소록](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)은 macOS·Linux의 로컬·SSH Claude·Codex만 지원합니다. 항목 관리는 사용자 요청에 따라 수행합니다. `preset show`는 저장된 경로와 revision을 읽고, `list --preset`은 현재 세션을 검색합니다. 실제 프리셋 전송에는 `--to`와 `--preset-revision`이 필요하며 replace/remove는 `--expect-revision`을 사용합니다. 값의 해시인 `dp1`은 같은 이름·경로를 복원하면 같은 값이 되며, 이후 변경으로 이미 경로를 해석한 호출이 취소되지는 않습니다. 주소를 add/reselect하기 전에는 `address resolve` 결과와 관측 revision인 `as1`을 검토합니다. 실제 전송에는 현재 `--address-revision`(`ab1`)과 정확한 정규 대상인 `--confirm-target`이 필요합니다. reselect/remove는 revision을 검사하고, add/reselect할 때마다 새 binding ID를 만듭니다. Claude는 `tg1`을 유지합니다. Codex의 `aw1`은 다시 검사하는 writer 관측값이며, 세대 구분은 지원하지 않고 저장소·실행 인스턴스의 원자적 일관성도 보증하지 않습니다. SSH는 실제 선택 연결에서 검증한 키를 연결 정보에 저장하고 전송 시 고정합니다. discover는 명시적으로 선택한 주소를 최대 16개 검사하며, 같은 경로·홈·키 조건을 묶고 일부 실패도 보존합니다. 네트워크 스캔·브로드캐스트·자동 재선택은 추가하지 않습니다. 이름표와 revision은 사람을 인증하거나 권한·ACK를 증명하지 않습니다. 비공개 저장소·ACL·마운트 검사에서 거부되면 운영자 검토를 위해 중단하고, 권한을 복구하거나 다른 경로로 자동 대체하지 않습니다.
@@ -104,7 +104,7 @@ Node Control의 Better Auth/core 1.7.7 변경은 Python 배포물 밖에 있으�
 
 ## Python 1.4 MCP 사용 절차
 
-아래 선택 MCP 도구와 구조화된 CLI 미리보기는 [공개 런타임 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0), 소스 `476c67e636ef02cb93797dd2f42252dfe577625f`에서 지원합니다. 사용 전에 선택한 CLI의 버전·도움말을 확인하고, MCP를 호출할 때는 실행 중인 서버의 패키지 환경도 확인합니다. 이전 버전의 개발 도움말은 공개 기능 지원의 증거가 아닙니다. 기본 CLI 호환성 하한은 0.9.1이며 수신기 `codexBin`의 개별 하한 1.0.1은 유지합니다. 이 개정판은 새 선택 경로를 안내하므로 공개 기능 범위 기준은 1.4.0입니다. 기존 1.3.0·1.3.2의 기능 요구 버전과 링크는 여전히 유효합니다.
+아래 선택 MCP 도구와 구조화된 CLI 미리보기는 [공개 런타임 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0), 소스 `476c67e636ef02cb93797dd2f42252dfe577625f`에서 지원합니다. 사용 전에 선택한 CLI의 버전·도움말을 확인하고, MCP를 호출할 때는 실행 중인 서버의 패키지 환경도 확인합니다. 이전 버전의 개발 도움말은 공개 기능 지원의 증거가 아닙니다. 기본 CLI 호환성 하한은 0.9.1이며 수신기 `codexBin`의 개별 하한 1.0.1은 유지합니다. 이 개정판은 새 선택 경로를 안내하므로 공개 기능 범위 기준은 1.6.0입니다. 기존 1.3.0·1.3.2의 기능 요구 버전과 링크는 여전히 유효합니다.
 
 런타임 공개가 별도로 관리되는 이 스킬을 발행하거나 설치하지는 않습니다. 기록된 소스·해시를 검증한 뒤 별도로 승인된 공개 스킬 릴리스만 채택합니다. 스킬의 PR·병합·태그·발행과 정확한 공개 스킬 소스에 따른 Python 호환 사본 갱신은 별개 작업입니다.
 
@@ -143,13 +143,25 @@ Node Control의 Better Auth/core 1.7.7 변경은 Python 배포물 밖에 있으�
 
 SDK 2를 사용하려면 실제 실행 중인 MCP 서버의 패키지 환경에 런타임 1.5.0 이상이 필요합니다. 관련 없는 standalone CLI의 버전 확인만으로는 충분하지 않습니다. 기존 안정판 SDK 1 환경은 계속 지원하므로 새 major가 나왔다는 이유만으로 옮길 필요는 없습니다. 요청된 업그레이드는 운영자가 쓰던 관리자·인터프리터·extra를 유지해야 합니다. manifest 변경, standalone 스크립트 업데이트나 서버 재시작만으로 설치된 SDK가 업그레이드되지는 않습니다. [고정 SDK 계약](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate)을 참고합니다.
 
-공개 도구 6개, 프로젝트 결과 payload의 `schemaVersion:1`, 정책 버전 1/2, 권한, 호스트 승인과 unknown·자동 재시도 금지 동작은 그대로입니다. SDK 2에서도 subscriptions는 비활성화하며 subscription/listen, status, wait 인터페이스가 추가되지 않습니다. SDK major는 정책 schema나 스킬 버전과 별개입니다. 이 유지보수 프로필은 새 CLI·도구 경로를 추가하지 않으므로 full coverage는 1.4.0을 유지하고, SDK 2의 런타임 1.5.0 요구 조건을 따로 둡니다. 위의 1.3.2 SDK 제약과 날짜가 있는 CI 수치는 역사적 사실이며 SDK 2 수용 검증 기록이 아닙니다.
+런타임 1.5.0에서는 기존 도구 6개, 프로젝트 결과 payload의 `schemaVersion:1`, 정책 버전 1/2, 권한, 호스트 승인과 unknown·자동 재시도 금지 동작은 그대로입니다. SDK 2에서도 subscriptions는 비활성화하며 subscription/listen, status, wait 인터페이스가 추가되지 않습니다. SDK major는 정책 schema나 스킬 버전과 별개입니다. 이 유지보수 프로필은 새 CLI·도구 경로를 추가하지 않으므로 스킬 0.5.2에서는 full coverage를 1.4.0으로 유지했고, SDK 2의 런타임 1.5.0 요구 조건을 따로 둡니다. 위의 1.3.2 SDK 제약과 날짜가 있는 CI 수치는 역사적 사실이며 SDK 2 수용 검증 기록이 아닙니다.
 
 SDK 2의 Python 속성과 camelCase wire 별칭은 내부에서 맞춥니다. 협상한 프로토콜 버전마다 SDK가 생성하는 결과 envelope나 capability 필드의 바이트가 같다고 가정하지 마세요. 내부 프로젝트 결과 JSON은 바뀌지 않습니다. 크기 제한이 있는 metadata/preflight/diagnostic 결과에서 64 KiB는 상한이며, 그보다 작은 모든 payload의 수용을 보장하지 않습니다. SDK 2는 legacy 연결에서도 최신 서버 신원 metadata를 크기 계산에 포함하므로 SDK 1이 수용하는 경계 부근 결과를 보수적으로 거부할 수 있습니다. 이를 재시도 권한으로 해석하지 말고 거부·unknown 근거와 기존 재전송 금지 규칙을 유지합니다. 기존의 성공한 legacy list/send payload 전체에 새 크기 제한이 생기는 것은 아닙니다.
 
 1.5.0 소스는 SDK 프로필 4개(최소 1.30.0, 최신 호환 1.x, 최소 2.3.0, 최신 호환 2.x)를 macOS·Linux와 Python 3.10/3.13/3.14에 조합한 CI 셀 24개를 정의합니다. 각 버전·감사 보고서와 프로토콜 fixture는 별도의 근거이며 이 스킬에서 실행한 테스트가 아닙니다. 모든 전이 의존성을 각각의 최소 버전으로 검사하거나 새 native/SSH/ACK/live OAuth 동작을 검증한 것도 아닙니다. [검증 범위](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation)를 참고합니다.
 
 기본 런타임은 여전히 필수 외부 의존성 없이 Python 3.9를 지원하며, 선택 MCP에는 Python 3.10+, Relay에는 Python 3.11+가 필요합니다. 빌드 도구의 하한은 별개입니다. Hatchling 1.32.4와 1.33.0 모두 Python 3.10+ 빌드 인터프리터가 필요합니다. Python 3.9에서 기본 CLI를 사용할 때는 universal wheel이나 standalone 경로를 이용하며, 같은 인터프리터에서 sdist 직접 빌드도 된다고 추정하거나 운영자 환경을 임의로 교체하지 않습니다. [빌드·런타임 경계](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries)를 참고합니다. Node Control 의존성은 Python 배포물 밖에 있으며 별도로 승인된 서비스 업데이트가 필요합니다. 앞선 1.3.2 세션 정책 안내의 숫자를 기계적으로 바꾸지 않습니다.
+
+## Python 1.6 세션 조회
+
+페이지 단위로 조회하려면 실행 중인 MCP 서버가 1.6.0 이상이고 `tools/list`에 `list_sessions_page`가 나오는지 확인합니다. macOS/Linux에서 기존 정책의 `list` 권한이 있는 목적지와 에이전트를 하나씩 지정합니다. 수집 중 CLI와 운영자가 설정한 SSH가 실행될 수 있으므로 호스트 승인도 필요합니다. `include_inactive`는 불리언, `limit`는 1~50의 정수(기본값 50)를 사용합니다. 프리셋, 기기, 주소록이나 임의의 경로 재지정은 지원하지 않습니다.
+
+`nextCursor`를 다음 호출의 `cursor`에 넣고 목적지, 에이전트, 비활성 세션 필터와 개수 제한을 그대로 유지합니다. null이면 종료합니다. 커서는 실행 중인 서버의 스냅샷에 묶인 불투명 값입니다. 30초 동안 사용하지 않으면 만료되며 스냅샷의 최대 수명은 10분입니다. 서버 재시작, 캐시 제거 또는 정책 변경으로 무효가 될 수 있습니다. 거부 결과가 새 조회를 시작하거나 자동 재시도를 허용하지는 않습니다. 인코딩된 결과의 상한은 64 KiB이므로 요청보다 적은 행이 반환될 수 있습니다.
+
+- 일반 CLI 조회는 일부 Claude 레코드를 읽지 못해도 정상 행을 보존하고, 조회가 불완전하면 종료 코드 1을 반환합니다.
+- 기존 MCP `list_sessions`는 일부 행을 `isError=true`와 함께 반환합니다.
+- 유효한 `list_sessions_page` 결과는 `ok:true`, `complete:false`, `isError=false`일 수 있습니다. 불완전 사유를 확인하고 유효한 커서로만 이어갑니다. 거부 결과는 `ok:false`, `isError=true`, `retryAllowed=false`를 반환합니다. 조회는 대상 준비, 제출, 소비 또는 ACK의 근거가 아닙니다.
+
+[MCP 페이지 조회 계약](https://github.com/abruption/session-peer/blob/v1.6.2/docs/mcp.md#bounded-session-listing-393)을 참고합니다. standalone 설치 검증기의 시작 단계 보호를 적용하려면 검증된 1.6.1 이상의 `install.sh` 자산을 사용합니다. 1.6.2 Control 핫픽스는 태그가 지정된 소스와 lockfile로 서비스를 별도 빌드·배포해야 적용됩니다. [설치 프로그램 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.6.1) · [Control 릴리스](https://github.com/abruption/session-peer/releases/tag/v1.6.2)
 
 ## 스킬 설치
 
@@ -176,11 +188,11 @@ npx -y skills@latest update session-peer --global --yes
 
 업데이트 명령은 설치할 때 기록한 소스 ref를 확인합니다. 태그에 고정했다면 최신이라는 결과는 그 태그의 내용이 바뀌지 않았다는 뜻이며, GitHub의 최신 릴리스로 이동한다는 뜻은 아닙니다. `skills@latest`는 스킬 버전이 아니라 Skills CLI 버전을 선택합니다. 더 새로운 공개 스킬을 채택하려면 기존 관리자·에이전트·복사/링크 방식을 유지해 승인된 새 태그를 명시적으로 다시 추가합니다. lock 파일을 직접 편집하거나 개발 `main`으로 바꾸어 고정을 우회하지 않습니다. [Skills CLI 고정 ref 업데이트 구현](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701)을 참고합니다.
 
-특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.5.2`).
+특정 릴리스로 버전을 고정하여 설치하려면 해당 태그를 사용합니다(예: `v0.6.0`).
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.6.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

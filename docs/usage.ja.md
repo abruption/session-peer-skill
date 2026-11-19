@@ -15,7 +15,7 @@ uv、pip、POSIX 向けスタンドアロンインストーラー、およびネ
 
 このスキルでは、session-peer 0.9.1 以降で共通して使える基本コマンドを案内します。`--allow-inactive-codex-home` と `--relay-login` は session-peer 1.0.0 以降でのみ使用できます。macOS/Linux の受信側ポリシーで使う `codexBin` と、`attemptId` で接続試行を関連付けた Relay 診断には session-peer 1.0.1 以降が必要です。オプションのペアリング済みデバイス転送には `session-peer[relay]` extra（Unix、Python 3.11 以降）が必要です。
 
-公開 Python CLI の機能範囲の基準は session-peer 1.4.0 です。
+公開 Python CLI の機能範囲の基準は session-peer 1.6.0 です。
 
 ## 既存の Relay ランタイムの選択とペアリング済み機器の検索
 
@@ -59,7 +59,7 @@ Python 1.1.0 以降では、外部メッセージ本文のすべての行を引�
 
 ## Python 1.3 の利用手順
 
-以下のオプション手順には Python ランタイム 1.3.0 以降が必要です。基本 CLI の互換性下限は 0.9.1、公開 CLI の機能範囲の基準は 1.4.0 です。実際に選択されたランタイムのバージョンとコマンドのヘルプで対応を確認し、各機能のプラットフォームと権限の要件も確認します。受信機の `codexBin` 固有の最低バージョン 1.0.1 は維持します。実験的 handoff は `runtime-min-version` と `runtime-full-version` が示すコマンドの対応範囲に含めません。[公開済みランタイムのリリース](https://github.com/abruption/session-peer/releases/tag/v1.3.0)を参照してください。
+以下のオプション手順には Python ランタイム 1.3.0 以降が必要です。基本 CLI の互換性下限は 0.9.1、公開 CLI の機能範囲の基準は 1.6.0 です。実際に選択されたランタイムのバージョンとコマンドのヘルプで対応を確認し、各機能のプラットフォームと権限の要件も確認します。受信機の `codexBin` 固有の最低バージョン 1.0.1 は維持します。実験的 handoff は `runtime-min-version` と `runtime-full-version` が示すコマンドの対応範囲に含めません。[公開済みランタイムのリリース](https://github.com/abruption/session-peer/releases/tag/v1.3.0)を参照してください。
 
 - [送信説明](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation)：通常のメッセージ入力を受け取る `send --dry-run --explain` は、ローカル・SSH・ペアリング済み経路に対応し、テキストのみを出力します。`doctor --explain` は診断時点の状態を説明し、選択した対象の受信準備を判定するものではありません。`handoff status --explain` は保存済みの読み取り専用の根拠を説明します。JSON との組み合わせや、handoff SEND の correlation・ACK・observe・wait との組み合わせは拒否します。説明は既存の結果を再利用し、追加の検査・有効化・送信処理・受領確認の権限は生みません。既存の dry-run のバージョン検査は別です。ペアリング経路の追加情報は既存の検査で対応を確認し、許可リストと 8 KiB の上限を適用します。古い受信機では確認済みのネイティブ情報を維持し、不足する情報は unknown のままにします。プレビューは許可・対象の予約・ACK を与えません。終了コード 0 だけで未送信とは判断できず、unknown や想定外の送信処理も自動再送を許可しません。wake には引き続きユーザーの明示的な依頼が必要です。
 - [経路プリセット](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)と別個の[受信者アドレス帳](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)は、macOS・Linux のローカル・SSH Claude・Codex のみを対象とします。項目の管理はユーザーの依頼に基づいて行います。`preset show` は保存済みの経路と revision を読み、`list --preset` は現在のセッションを検索します。実際のプリセット送信には `--to` と `--preset-revision` が必要で、replace/remove は `--expect-revision` を使います。値のハッシュである `dp1` は同じ名前・経路に戻すと同じ値になり、後の変更で展開済みの呼び出しが取り消されることはありません。アドレスの add/reselect 前には、`address resolve` の結果を観測 revision の `as1` とともに確認します。実際の送信には現在の `--address-revision`（`ab1`）と正確な正規対象を示す `--confirm-target` が必要です。reselect/remove は revision を検査し、add/reselect のたびに新しい binding ID を作ります。Claude は `tg1` を維持します。Codex の `aw1` は再検査される writer の観測値であり、世代の識別は未対応で、ストレージ・実行インスタンスの原子的な一貫性も保証しません。SSH は実際の選択接続で検証した鍵を関連付け、送信時に固定します。discover は明示的に選択した最大 16 件のアドレスを検査し、同一の経路・ホーム・鍵の条件をまとめ、一部の失敗も保持します。ネットワークスキャン・ブロードキャスト・自動再選択は追加しません。ラベルや revision は人を認証せず、権限や ACK の証明にもなりません。非公開ストレージ・ACL・マウントの検査で拒否されたら運用者の確認のために中止し、権限の修復や自動的な別経路への切り替えはしません。
@@ -100,7 +100,7 @@ Node Control の Better Auth/core 1.7.7 の変更は Python 配布物の外に�
 
 ## Python 1.4 MCP 利用手順
 
-以下のオプション MCP ツールと構造化 CLI プレビューは、[公開済みランタイム 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0)、ソース `476c67e636ef02cb93797dd2f42252dfe577625f` に対応しています。利用前に、選択した CLI のバージョン・ヘルプを確認し、MCP 呼び出しでは実行中のサーバーのパッケージ環境も確認してください。以前のバージョンの開発用ヘルプは、公開機能への対応を証明しません。基本 CLI の互換性下限は 0.9.1、受信側 `codexBin` の個別の下限は 1.0.1 のままです。この改訂は新しいオプション経路を案内するため、公開機能範囲の基準は 1.4.0 です。従来の 1.3.0・1.3.2 の機能要件とリンクは引き続き有効です。
+以下のオプション MCP ツールと構造化 CLI プレビューは、[公開済みランタイム 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0)、ソース `476c67e636ef02cb93797dd2f42252dfe577625f` に対応しています。利用前に、選択した CLI のバージョン・ヘルプを確認し、MCP 呼び出しでは実行中のサーバーのパッケージ環境も確認してください。以前のバージョンの開発用ヘルプは、公開機能への対応を証明しません。基本 CLI の互換性下限は 0.9.1、受信側 `codexBin` の個別の下限は 1.0.1 のままです。この改訂は新しいオプション経路を案内するため、公開機能範囲の基準は 1.6.0 です。従来の 1.3.0・1.3.2 の機能要件とリンクは引き続き有効です。
 
 ランタイムの公開で、別途管理されるこのスキルが公開・インストールされるわけではありません。記録されたソース・ハッシュを検証し、別途承認された公開済みスキルリリースのみ採用してください。スキルの PR・マージ・タグ・公開と、正確な公開済みスキルソースに基づく Python 互換コピーの更新は別々の操作です。
 
@@ -139,13 +139,25 @@ Node Control の Better Auth/core 1.7.7 の変更は Python 配布物の外に�
 
 SDK 2 を使うには、実行中の MCP サーバーのパッケージ環境にランタイム 1.5.0 以降が必要です。無関係な standalone CLI のバージョン確認だけでは不十分です。既存の安定版 SDK 1 環境は引き続き対応するため、新しい major があるという理由だけで移行する必要はありません。依頼されたアップグレードでも、運用者の管理ツール・インタープリター・選択済み extra を維持します。manifest の変更、standalone スクリプトの更新、サーバーの再起動だけでは、導入済み SDK は更新されません。[固定 SDK 契約](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate)を参照してください。
 
-公開ツール 6 個、プロジェクト結果 payload の `schemaVersion:1`、ポリシーバージョン 1/2、権限、ホスト承認、unknown・自動再試行禁止の動作は変わりません。SDK 2 でも subscriptions は無効で、subscription/listen、status、wait のインターフェースは追加されません。SDK major はポリシー schema やスキルバージョンとは別です。この保守プロファイルは新しい CLI・ツール経路を追加しないため、full coverage は 1.4.0 を維持し、SDK 2 のランタイム 1.5.0 要件を別途示します。上記の 1.3.2 の SDK 制約と日付付き CI 件数は過去の事実であり、SDK 2 の受け入れ検証記録ではありません。
+ランタイム 1.5.0 では既存のツール 6 個、プロジェクト結果 payload の `schemaVersion:1`、ポリシーバージョン 1/2、権限、ホスト承認、unknown・自動再試行禁止の動作は変わりません。SDK 2 でも subscriptions は無効で、subscription/listen、status、wait のインターフェースは追加されません。SDK major はポリシー schema やスキルバージョンとは別です。この保守プロファイルは新しい CLI・ツール経路を追加しないため、スキル 0.5.2 では full coverage を 1.4.0 に維持し、SDK 2 のランタイム 1.5.0 要件を別途示します。上記の 1.3.2 の SDK 制約と日付付き CI 件数は過去の事実であり、SDK 2 の受け入れ検証記録ではありません。
 
 SDK 2 の Python 属性と camelCase の wire 別名は内部で調整します。交渉されたプロトコルバージョン間で、SDK が生成する結果 envelope や capability フィールドのバイトが同一とは仮定しないでください。内部のプロジェクト結果 JSON は変わりません。サイズ制限のある metadata/preflight/diagnostic 結果の 64 KiB は上限であり、それ未満の全 payload を受け入れる保証ではありません。SDK 2 は legacy 接続でも新しいサーバー識別 metadata をサイズ計算に含めるため、SDK 1 が受け入れる上限付近の結果を保守的に拒否する場合があります。これを再試行の権限と解釈せず、拒否・unknown の根拠と既存の再送禁止ルールを維持します。成功した既存の legacy list/send payload 全体に新たなサイズ上限が加わるわけではありません。
 
 1.5.0 のソースは、SDK プロファイル 4 個（最小 1.30.0、最新の互換 1.x、最小 2.3.0、最新の互換 2.x）を macOS・Linux、Python 3.10/3.13/3.14 と組み合わせた CI セル 24 個を定義します。各バージョン・監査レポートとプロトコル fixture は別の根拠であり、このスキルで実行したテストではありません。全推移的依存をそれぞれの最小バージョンで試験したり、新しい native/SSH/ACK/live OAuth 動作を検証したりしたものでもありません。[検証範囲](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation)を参照してください。
 
 基本ランタイムは必須の外部依存なしで Python 3.9 に引き続き対応し、オプション MCP は Python 3.10+、Relay は Python 3.11+ が必要です。ビルドツールの下限は別です。Hatchling 1.32.4 と 1.33.0 はいずれも Python 3.10+ のビルドインタープリターを必要とします。Python 3.9 の基本 CLI には universal wheel または standalone 経路を使い、同じインタープリターで sdist を直接ビルドできると推測したり、運用者の環境を黙って置き換えたりしないでください。[ビルド・ランタイム境界](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries)を参照してください。Node Control の依存は Python 配布物の外部にあり、別途承認されたサービス更新が必要です。以前の 1.3.2 セッションポリシーの説明を機械的に新しい番号へ置き換えません。
+
+## Python 1.6 セッション検索
+
+ページ単位で検索するには、実行中の MCP サーバーが 1.6.0 以降で、`tools/list` に `list_sessions_page` があることを確認します。macOS/Linux で、既存のポリシーの `list` 権限で許可されている宛先とエージェントを一つずつ指定します。収集時に CLI や運用者が設定した SSH が実行されることがあるため、ホストの承認も必要です。`include_inactive` には真偽値、`limit` には 1～50 の整数（既定値 50）を使います。プリセット、デバイス、アドレス帳、任意の経路の上書きには対応しません。
+
+`nextCursor` を次の呼び出しの `cursor` に渡し、宛先、エージェント、非アクティブのフィルター、件数上限をそのまま維持します。null なら終了します。カーソルは実行中のサーバーのスナップショットに紐づく不透明な値です。使われない状態が 30 秒続くと期限切れになり、スナップショットの寿命は最大 10 分です。再起動、キャッシュからの削除、ポリシー変更でも無効になることがあります。拒否で新しい検索が始まることはなく、自動再試行の許可にもなりません。エンコード済み結果の上限は 64 KiB なので、要求件数より少ない行が返る場合があります。
+
+- 通常の CLI 検索では、一部の Claude レコードを読めなくても正常な行を保持し、検索が不完全なら終了コード 1 を返します。
+- 従来の MCP `list_sessions` は部分的な行を `isError=true` とともに返します。
+- 有効な `list_sessions_page` の結果が `ok:true`、`complete:false`、`isError=false` になることがあります。不完全な理由を確認し、有効なカーソルでのみ続行します。拒否では `ok:false`、`isError=true`、`retryAllowed=false` が返ります。検索は準備、送信処理への投入、消費、ACK の証拠になりません。
+
+[MCP ページ検索の仕様](https://github.com/abruption/session-peer/blob/v1.6.2/docs/mcp.md#bounded-session-listing-393)を参照してください。standalone の検証プログラムの起動時保護を適用するには、認証済みの 1.6.1 以降の `install.sh` アセットを使います。Control 1.6.2 の修正には、タグ付きソースと lockfile からの別途のサービスビルドとデプロイが必要です。[インストーラーのリリース](https://github.com/abruption/session-peer/releases/tag/v1.6.1) · [Control のリリース](https://github.com/abruption/session-peer/releases/tag/v1.6.2)
 
 ## スキルのインストール
 
@@ -172,11 +184,11 @@ npx -y skills@latest update session-peer --global --yes
 
 update コマンドはインストール時に記録されたソース ref を確認します。タグで固定している場合、最新との表示はそのタグの内容が変わっていないという意味であり、GitHub の最新リリースへ移る意味ではありません。`skills@latest` が選ぶのはスキルではなく Skills CLI のバージョンです。新しい公開スキルを採用するには、既存の管理ツール・エージェント・コピー/リンク方式を維持して、承認された新しいタグを明示的に再追加します。lock ファイルを直接編集したり、開発 `main` に切り替えたりして固定を迂回しないでください。[Skills CLI の固定 ref 更新実装](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701)を参照してください。
 
-特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.5.2`）。
+特定のリリースに固定して導入する場合は、そのタグを使用します（例: `v0.6.0`）。
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.6.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

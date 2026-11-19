@@ -15,7 +15,7 @@ See the [session-peer installation options](https://github.com/abruption/session
 
 The skill documents basic commands shared by session-peer 0.9.1 and newer. `--allow-inactive-codex-home` and `--relay-login` require session-peer 1.0.0 or newer. macOS/Linux receiver policy `codexBin` and Relay diagnostics correlated by `attemptId` require session-peer 1.0.1 or newer. The optional paired-device transport requires the `session-peer[relay]` extra (Unix, Python 3.11+).
 
-The published Python CLI coverage reference is session-peer 1.4.0.
+The published Python CLI coverage reference is session-peer 1.6.0.
 
 ## Existing Relay runtime and paired discovery
 
@@ -59,7 +59,7 @@ The separate [experimental handoff workflow](https://github.com/abruption/sessio
 
 ## Python 1.3 workflows
 
-The following optional workflows require Python runtime 1.3.0 or newer. The basic CLI compatibility floor remains 0.9.1, and the published CLI coverage reference is 1.4.0. Check the resolved runtime version and affirmative command help, along with each feature's platform and permission requirements. Receiver `codexBin` retains its independent 1.0.1 floor. Experimental handoff is excluded from the command coverage represented by `runtime-min-version` and `runtime-full-version`. See the [published runtime release](https://github.com/abruption/session-peer/releases/tag/v1.3.0).
+The following optional workflows require Python runtime 1.3.0 or newer. The basic CLI compatibility floor remains 0.9.1, and the published CLI coverage reference is 1.6.0. Check the resolved runtime version and affirmative command help, along with each feature's platform and permission requirements. Receiver `codexBin` retains its independent 1.0.1 floor. Experimental handoff is excluded from the command coverage represented by `runtime-min-version` and `runtime-full-version`. See the [published runtime release](https://github.com/abruption/session-peer/releases/tag/v1.3.0).
 
 - [Explanation](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation): text-only `send --dry-run --explain` covers local, SSH and paired routes with normal message input. `doctor --explain` describes a diagnostic snapshot, not a selected target's readiness; `handoff status --explain` describes stored read-only evidence. JSON combinations and handoff SEND correlation/ACK/observe/wait combinations are refused. Explanations reuse existing results without extra probes, activation, submission or receipt authority; existing dry-run version checks are separate. Paired context is negotiated by the existing probe, allowlisted and bounded to 8 KiB; older receivers retain known native facts and leave missing context unknown. A preview grants no permission, reserves no target and provides no ACK evidence. Exit zero alone does not prove non-submission; unknown or unexpected submission never permits automatic resend. Wake still requires an explicit user request.
 - [Route presets](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets) and the separate [recipient addressbook](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130) support macOS/Linux local/SSH Claude/Codex only. Manage entries only on user request. `preset show` reads stored route/revision data; `list --preset` discovers current sessions. Actual preset send requires `--to` and `--preset-revision`; replace/remove use `--expect-revision`. The `dp1` value hash repeats when identical name/route values are restored, and later changes do not cancel an already expanded invocation. For addresses, review `address resolve` before add/reselect, using its `as1` observation revision; actual send requires current `--address-revision` (`ab1`) and exact canonical `--confirm-target`. Reselect/remove use revision checks, and each add/reselect creates a new binding ID. Claude retains `tg1`; Codex `aw1` is a rechecked writer observation, with generation unsupported and no atomic storage/incarnation guarantee. SSH binds the verified key from the actual selection connection and pins it for send. Discover inspects at most 16 explicitly selected addresses, groups identical route/home/key contexts and preserves partial failures; it adds no network scan, broadcast or automatic reselection. Labels/revisions do not authenticate people, grant permission or prove ACK. Stop for operator review on private-storage/ACL/mount refusals; do not repair permissions or fall back automatically.
@@ -100,7 +100,7 @@ Node Control's Better Auth/core 1.7.7 changes are outside Python artifacts and r
 
 ## Python 1.4 MCP workflows
 
-The following optional MCP tools and structured CLI preview are supported by [published runtime 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0), source `476c67e636ef02cb93797dd2f42252dfe577625f`. Check the selected CLI's version/help and, for MCP calls, the running server's package environment; development help from an older version is not proof of published feature support. Basic CLI compatibility stays 0.9.1, and receiver `codexBin` retains its separate 1.0.1 floor. The published coverage reference is 1.4.0 because this skill revision guides the new optional paths. Historical 1.3.0 and 1.3.2 feature requirements and links remain valid.
+The following optional MCP tools and structured CLI preview are supported by [published runtime 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0), source `476c67e636ef02cb93797dd2f42252dfe577625f`. Check the selected CLI's version/help and, for MCP calls, the running server's package environment; development help from an older version is not proof of published feature support. Basic CLI compatibility stays 0.9.1, and receiver `codexBin` retains its separate 1.0.1 floor. The published coverage reference is 1.6.0 because this skill revision guides the new optional paths. Historical 1.3.0 and 1.3.2 feature requirements and links remain valid.
 
 Runtime publication does not publish or install this independently managed skill. Adopt only a separately approved published skill release after verifying its recorded source/hash. Skill PR/merge/tag/release and a Python compatibility snapshot from the exact published skill source remain separate actions.
 
@@ -139,13 +139,25 @@ Any separately approved Python compatibility snapshot uses the exact published s
 
 SDK 2 use requires runtime 1.5.0+ in the actual running MCP server's package environment; verifying an unrelated standalone CLI is insufficient. Existing stable SDK 1 environments remain supported and need not migrate merely because another major is available. Any requested upgrade must retain the operator's manager, interpreter and selected extras. Changing a manifest, updating a standalone script or restarting a server does not upgrade its installed SDK. See the [fixed SDK contract](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate).
 
-The six public tools, project result payload `schemaVersion:1`, policy versions 1/2, permissions, host approvals and unknown/no-automatic-retry behavior are unchanged. SDK 2 subscriptions remain disabled; it adds no subscription/listen, status or wait interface. SDK-major versions are not policy-schema or skill versions. This maintenance profile adds no new CLI/tool path, so full coverage remains 1.4.0, with the separate SDK 2 runtime requirement of 1.5.0. The 1.3.2 SDK constraint and dated CI counts above remain historical facts, not SDK 2 acceptance records.
+In runtime 1.5.0, the six existing tools, project result payload `schemaVersion:1`, policy versions 1/2, permissions, host approvals and unknown/no-automatic-retry behavior are unchanged. SDK 2 subscriptions remain disabled; it adds no subscription/listen, status or wait interface. SDK-major versions are not policy-schema or skill versions. This maintenance profile adds no new CLI/tool path, so skill 0.5.2 kept full coverage at 1.4.0, with the separate SDK 2 runtime requirement of 1.5.0. The 1.3.2 SDK constraint and dated CI counts above remain historical facts, not SDK 2 acceptance records.
 
 SDK 2 Python attributes and camelCase wire aliases are adapted internally. Do not assume byte-identical SDK-generated result envelopes or capability fields across negotiated protocol versions; inner project result JSON is unchanged. For bounded metadata/preflight/diagnostic results, 64 KiB remains an upper bound, not guaranteed acceptance of every smaller payload. SDK 2 sizing includes modern server-identity metadata even for legacy connections and can conservatively reject near-limit results accepted by SDK 1. Preserve refusals/unknown evidence and existing no-resend rules rather than treating this as authority to retry. Existing successful legacy list/send payloads do not gain a new global size limit.
 
 The 1.5.0 source defines four SDK profiles (minimum 1.30.0, latest compatible 1.x, minimum 2.3.0 and latest compatible 2.x) across macOS/Linux with Python 3.10/3.13/3.14: 24 configured cells. Their version/audit reports and protocol fixtures are separate evidence, not tests run by this skill. They do not test every transitive dependency at its own minimum or establish new native/SSH/ACK/live OAuth qualification. See the [validation scope](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation).
 
 The core runtime still supports Python 3.9 without mandatory external dependencies; optional MCP still requires Python 3.10+ and Relay Python 3.11+. Build tools have a separate floor: both Hatchling 1.32.4 and 1.33.0 require a Python 3.10+ build interpreter. Use the universal wheel or standalone route for Python 3.9 core CLI use; do not infer that a direct sdist build works on that interpreter or silently replace an operator's environment. See the [build/runtime boundary](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries). Node Control dependencies remain outside Python artifacts and require a separately authorized service update; earlier 1.3.2 session-policy guidance is not mechanically renumbered.
+
+## Python 1.6 session discovery
+
+For an explicit paged lookup, check that the running MCP server is 1.6.0+ and advertises `list_sessions_page` in `tools/list`. On macOS/Linux, select one destination and one agent already covered by policy `list` permission. Host approvals still apply because collection can run the CLI and operator-configured SSH. Use a Boolean `include_inactive` and an integer `limit` from 1 to 50 (default 50). This tool does not take preset, device, address-book or arbitrary route overrides.
+
+Pass `nextCursor` back as `cursor` with exactly the same destination, agent, inactive filter and limit. Stop when it is null. The cursor is opaque and tied to the running server’s snapshot. It expires after 30 seconds of inactivity and has a fixed 10-minute snapshot lifetime. Restart, eviction or policy changes can invalidate it. A refusal does not start fresh discovery or authorize an automatic retry. Pages can contain fewer rows than requested because the encoded result has a 64 KiB budget.
+
+- Ordinary CLI listing preserves healthy rows when some Claude records cannot be read and exits with code 1 when discovery is incomplete.
+- Legacy MCP `list_sessions` preserves partial rows with `isError=true`.
+- A valid `list_sessions_page` result can have `ok:true`, `complete:false` and `isError=false`. Inspect incomplete evidence and continue only via a valid cursor. Refusals return `ok:false`, `isError=true` and `retryAllowed=false`. Discovery provides no readiness, submission, consumption or ACK evidence.
+
+See the [MCP paging contract](https://github.com/abruption/session-peer/blob/v1.6.2/docs/mcp.md#bounded-session-listing-393). Use the authenticated 1.6.1 or newer `install.sh` asset for the standalone verifier startup hardening. The 1.6.2 Control hotfix requires a separate service build and deployment from the tagged source and lockfile. [Installer release](https://github.com/abruption/session-peer/releases/tag/v1.6.1) · [Control release](https://github.com/abruption/session-peer/releases/tag/v1.6.2)
 
 ## Install the skill
 
@@ -172,11 +184,11 @@ npx -y skills@latest update session-peer --global --yes
 
 The update command checks the source ref recorded at installation. If it is pinned to a tag, a report that the skill is up to date means that tag's content is unchanged; it does not move to GitHub's latest release. `skills@latest` selects the Skills CLI version, not the skill version. To adopt a later published skill, explicitly re-add the new approved tag using the existing manager, agents and copy/link mode. Do not manually edit lock files or switch to development `main` as a workaround. See the [Skills CLI pinned-ref update implementation](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701).
 
-To pin a release exactly, install its tag, for example `v0.5.2`:
+To pin a release exactly, install its tag, for example `v0.6.0`:
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.6.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes

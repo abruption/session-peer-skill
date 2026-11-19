@@ -15,7 +15,7 @@ uv、pip、POSIX 独立安装程序以及 Windows 原生环境的安装方式，
 
 本技能介绍的基本命令由 session-peer 0.9.1 及更高版本共同支持。`--allow-inactive-codex-home` 和 `--relay-login` 需要 session-peer 1.0.0 或更高版本。macOS/Linux 接收端策略中的 `codexBin`，以及使用 `attemptId` 关联连接尝试的 Relay 诊断，需要 session-peer 1.0.1 或更高版本。可选的配对设备传输需要 `session-peer[relay]` 附加依赖项（extra）（Unix、Python 3.11 或更高版本）。
 
-已发布 Python CLI 功能的覆盖基准为 session-peer 1.4.0。
+已发布 Python CLI 功能的覆盖基准为 session-peer 1.6.0。
 
 ## 选择现有 Relay 运行时并发现配对设备
 
@@ -57,7 +57,7 @@ Python 1.1.0 及更高版本会引用外部消息正文的每一行，并将有�
 
 ## Python 1.3 使用流程
 
-以下可选流程需要 Python 运行时 1.3.0 或更高版本。基本 CLI 兼容性下限仍为 0.9.1，已发布 CLI 功能的覆盖基准为 1.4.0。应检查实际选用的运行时版本及命令帮助中明确的支持信息，同时核对各功能的平台和权限要求。接收器 `codexBin` 的独立最低版本仍为 1.0.1。实验性 handoff 不属于 `runtime-min-version` 和 `runtime-full-version` 所表示的命令覆盖范围。请参阅[已发布的运行时版本](https://github.com/abruption/session-peer/releases/tag/v1.3.0)。
+以下可选流程需要 Python 运行时 1.3.0 或更高版本。基本 CLI 兼容性下限仍为 0.9.1，已发布 CLI 功能的覆盖基准为 1.6.0。应检查实际选用的运行时版本及命令帮助中明确的支持信息，同时核对各功能的平台和权限要求。接收器 `codexBin` 的独立最低版本仍为 1.0.1。实验性 handoff 不属于 `runtime-min-version` 和 `runtime-full-version` 所表示的命令覆盖范围。请参阅[已发布的运行时版本](https://github.com/abruption/session-peer/releases/tag/v1.3.0)。
 
 - [发送说明](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#delivery-explanation)：`send --dry-run --explain` 使用常规消息输入，支持本地、SSH 和配对路由，仅输出文本。`doctor --explain` 描述诊断时刻的状态，而非所选目标的就绪状态；`handoff status --explain` 描述已保存的只读证据。与 JSON 以及 handoff SEND 的 correlation、ACK、observe、wait 组合均被拒绝。说明复用现有结果，不增加探测、激活、提交或收据权限；原有 dry-run 版本检查另行执行。配对上下文由现有探测协商，受允许列表和 8 KiB 上限约束；较旧接收器保留已知的原生事实，缺失信息保持 unknown。预览不授予权限、不预留目标，也不证明 ACK。退出码 0 本身不能证明没有提交；unknown 或意外提交均不允许自动重发。wake 仍需用户明确要求。
 - [路由预设](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#route-presets)和独立的[接收者地址簿](https://github.com/abruption/session-peer/blob/v1.3.0/docs/cli-reference.md#recipient-addressbook-v130)仅支持 macOS、Linux 的本地或 SSH Claude、Codex。仅按用户请求管理条目。`preset show` 读取已存路由及修订值，`list --preset` 搜索当前会话。实际预设发送要求 `--to` 和 `--preset-revision`；replace/remove 使用 `--expect-revision`。`dp1` 是值的哈希，恢复相同名称和路由会得到相同值；后续修改不会取消已完成路由展开的调用。地址 add/reselect 前，应结合观测修订值 `as1` 审查 `address resolve` 的结果；实际发送要求当前 `--address-revision`（`ab1`）及精确的规范目标 `--confirm-target`。reselect/remove 检查修订值，每次 add/reselect 都创建新的 binding ID。Claude 保留 `tg1`；Codex 的 `aw1` 是重新检查的 writer 观测值，不支持代次识别，也不保证存储或运行实例的原子一致性。SSH 绑定实际选择连接中验证的密钥，并在发送时固定使用。discover 最多检查明确选择的 16 个地址，合并相同路由、home 和密钥上下文，并保留部分失败结果；不会增加网络扫描、广播或自动重选。标签和修订值不认证人员、不授予权限，也不证明 ACK。私有存储、ACL 或挂载检查拒绝时，应停止并交由操作人员审查，不得修复权限或自动改走其他路由。
@@ -98,7 +98,7 @@ Node Control 的 Better Auth/core 1.7.7 修改不属于 Python 制品，需要�
 
 ## Python 1.4 MCP 使用流程
 
-以下可选 MCP 工具及结构化 CLI 预览由[已发布运行时 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0)、源码 `476c67e636ef02cb93797dd2f42252dfe577625f` 支持。使用前应检查所选 CLI 的版本和帮助信息；调用 MCP 时，还应检查运行中服务器的包环境；旧版本的开发版帮助并不证明公开功能支持。基本 CLI 兼容性下限仍为 0.9.1，接收器 `codexBin` 的独立下限仍为 1.0.1。本技能修订版介绍了新的可选路径，因此公开覆盖基准为 1.4.0。历史上的 1.3.0、1.3.2 功能要求与链接继续有效。
+以下可选 MCP 工具及结构化 CLI 预览由[已发布运行时 1.4.0](https://github.com/abruption/session-peer/releases/tag/v1.4.0)、源码 `476c67e636ef02cb93797dd2f42252dfe577625f` 支持。使用前应检查所选 CLI 的版本和帮助信息；调用 MCP 时，还应检查运行中服务器的包环境；旧版本的开发版帮助并不证明公开功能支持。基本 CLI 兼容性下限仍为 0.9.1，接收器 `codexBin` 的独立下限仍为 1.0.1。本技能修订版介绍了新的可选路径，因此公开覆盖基准为 1.6.0。历史上的 1.3.0、1.3.2 功能要求与链接继续有效。
 
 运行时发布不会发布或安装此独立管理的技能。须核对记录的源码和哈希后，才可采用另行批准的已发布技能版本。技能 PR、合并、标签、发布，以及依据准确的已发布技能源码更新 Python 兼容副本，都是独立操作。
 
@@ -137,13 +137,25 @@ Node Control 的 Better Auth/core 1.7.7 修改不属于 Python 制品，需要�
 
 使用 SDK 2 时，实际运行的 MCP 服务器包环境中必须有运行时 1.5.0+；仅检查无关的 standalone CLI 版本并不足够。现有稳定版 SDK 1 环境仍受支持，无须仅因存在新 major 而迁移。进行所请求的升级时，须保留运维人员原有的管理器、解释器和已选 extra。修改 manifest、更新 standalone 脚本或重启服务器均不会升级已安装的 SDK。参见[固定 SDK 契约](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#sdk2-compatibility-candidate)。
 
-六个公开工具、项目结果 payload 的 `schemaVersion:1`、策略版本 1/2、权限、主机审批以及 unknown/禁止自动重试的行为均不变。SDK 2 的 subscriptions 仍禁用，不新增 subscription/listen、status 或 wait 接口。SDK major 与策略 schema、技能版本不同。此维护配置不新增 CLI/工具路径，因此 full coverage 保持 1.4.0，并单独注明 SDK 2 需要运行时 1.5.0。上文 1.3.2 的 SDK 约束及带日期的 CI 数量仍是历史事实，而非 SDK 2 的验收记录。
+在运行时 1.5.0 中，原有的六个工具、项目结果 payload 的 `schemaVersion:1`、策略版本 1/2、权限、主机审批以及 unknown/禁止自动重试的行为均不变。SDK 2 的 subscriptions 仍禁用，不新增 subscription/listen、status 或 wait 接口。SDK major 与策略 schema、技能版本不同。此维护配置不新增 CLI/工具路径，因此 技能 0.5.2 将 full coverage 保持在 1.4.0，并单独注明 SDK 2 需要运行时 1.5.0。上文 1.3.2 的 SDK 约束及带日期的 CI 数量仍是历史事实，而非 SDK 2 的验收记录。
 
 SDK 2 的 Python 属性与 camelCase wire 别名在内部适配。不要假定不同协商协议版本中，由 SDK 生成的结果 envelope 或 capability 字段具有完全相同的字节；内部项目结果 JSON 不变。对于受限的 metadata/preflight/diagnostic 结果，64 KiB 是上限，并不保证接受所有更小的 payload。SDK 2 即使在 legacy 连接中，也会将现代服务器身份 metadata 计入大小，因此可能保守地拒绝 SDK 1 能接受的临界结果。应保留拒绝/unknown 证据及现有禁止重发规则，不得据此推定重试权限。成功的既有 legacy list/send payload 不会获得新的全局大小限制。
 
 1.5.0 源码定义四个 SDK 配置（最低 1.30.0、最新兼容 1.x、最低 2.3.0、最新兼容 2.x），与 macOS/Linux、Python 3.10/3.13/3.14 组合，共 24 个 CI 单元。各配置的版本/审计报告及协议 fixture 是独立证据，不是本技能执行的测试；它们没有测试每个传递依赖各自的最低版本，也不构成新增 native/SSH/ACK/live OAuth 验证。参见[验证范围](https://github.com/abruption/session-peer/blob/v1.5.0/docs/mcp.md#validation)。
 
 基础运行时仍支持无必需外部依赖的 Python 3.9；可选 MCP 仍需 Python 3.10+，Relay 需 Python 3.11+。构建工具有独立下限：Hatchling 1.32.4 和 1.33.0 均需 Python 3.10+ 构建解释器。Python 3.9 的基础 CLI 应使用 universal wheel 或 standalone 路径；不要推定同一解释器可以直接构建 sdist，也不要擅自替换运维环境。参见[构建/运行时边界](https://github.com/abruption/session-peer/blob/v1.5.0/docs/releases/v1.5.0.md#compatibility-and-validation-boundaries)。Node Control 依赖不属于 Python 制品，需要另行批准的服务更新；不要机械地替换此前 1.3.2 会话策略说明中的版本号。
+
+## Python 1.6 会话查询
+
+需要分页查询时，确认运行中的 MCP 服务器为 1.6.0 或更新版本，并在 `tools/list` 中提供 `list_sessions_page`。在 macOS/Linux 上，明确选择现有策略已授予 `list` 权限的一个目标和一个代理。收集可以运行 CLI 或运维人员配置的 SSH，因此仍需主机审批。`include_inactive` 使用布尔值，`limit` 使用 1 到 50 的整数（默认 50）。此工具不接受预设、设备、地址簿或任意路由覆盖。
+
+将 `nextCursor` 作为下次调用的 `cursor`，保持目标、代理、非活动会话筛选和数量上限完全一致。值为 null 时停止。游标是不透明的，绑定于运行中服务器的快照。闲置 30 秒后过期，快照最多保留 10 分钟。重启、缓存淘汰或策略变更也可能使其失效。拒绝不会触发新查询，也不授权自动重试。编码后结果的上限为 64 KiB，因此返回的行数可能少于请求数量。
+
+- 普通 CLI 查询在部分 Claude 记录无法读取时保留正常行。查询不完整时，退出码为 1。
+- 原有 MCP `list_sessions` 保留部分结果，并返回 `isError=true`。
+- 有效的 `list_sessions_page` 结果可能同时为 `ok:true`、`complete:false` 和 `isError=false`。请检查不完整的原因，仅通过有效游标继续。拒绝时返回 `ok:false`、`isError=true` 和 `retryAllowed=false`。查询不能证明目标就绪、消息提交、消费或 ACK。
+
+参见 [MCP 分页查询契约](https://github.com/abruption/session-peer/blob/v1.6.2/docs/mcp.md#bounded-session-listing-393)。要采用 standalone 验证程序的启动保护，请使用经过验证的 1.6.1 或更新版本的 `install.sh` 资产。Control 1.6.2 补丁需要使用标签对应的源码和 lockfile 单独构建和部署服务。[安装程序发布](https://github.com/abruption/session-peer/releases/tag/v1.6.1) · [Control 发布](https://github.com/abruption/session-peer/releases/tag/v1.6.2)
 
 ## 安装技能
 
@@ -170,11 +182,11 @@ npx -y skills@latest update session-peer --global --yes
 
 update 命令检查安装时记录的源码 ref。若已固定标签，显示已是最新仅表示该标签内容未变，并不表示切换到 GitHub 最新发布。`skills@latest` 选择的是 Skills CLI 版本，而非技能版本。采用更新的公开技能时，应保留原管理器、代理及复制/链接方式，显式重新添加获准的新标签。不要手动编辑 lock 文件或切换到开发 `main` 来绕过固定。参见[Skills CLI 固定 ref 更新实现](https://github.com/vercel-labs/skills/blob/e781cb4d07433dfe1d19e924ed45cc61738c55ec/src/update.ts#L701)。
 
-需要固定某个版本时，请安装对应标签，例如 `v0.5.2`：
+需要固定某个版本时，请安装对应标签，例如 `v0.6.0`：
 
 ```bash
 npx -y skills@latest add \
-  https://github.com/abruption/session-peer-skill/tree/v0.5.2/session-peer \
+  https://github.com/abruption/session-peer-skill/tree/v0.6.0/session-peer \
   --skill session-peer --global \
   --agent claude-code --agent codex --agent antigravity \
   --copy --yes
